@@ -100,4 +100,3 @@ public static void onExit() {
 }
 }
 // Static list of users, acting as a database
-}
