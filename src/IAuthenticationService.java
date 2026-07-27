@@ -3,5 +3,3 @@ public interface IAuthenticationService {
     User logIn(String username, String password);
 }
 // USER BRYN
-
-// slay
