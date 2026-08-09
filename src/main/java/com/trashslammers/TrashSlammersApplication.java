@@ -1,4 +1,4 @@
-package main.java.com.trashslammers;
+package com.trashslammers;
 
 public class TrashSlammersApplication {
 }
