@@ -17,10 +17,9 @@ public class AuthenticationService implements IAuthenticationService{
     }
 
     @Override
-    public void logIn(String username, String password) {
+    public boolean logIn(String username, String password) {
         // Compare entered values against static User constants
-        if (username.equals(User.ADMIN_USERNAME) && password.equals(User.ADMIN_PASSWORD)) {
-            return;
-        }
+        return username.equals(User.ADMIN_USERNAME) && password.equals(User.ADMIN_PASSWORD);
+        // returns true or false
     }
 }
