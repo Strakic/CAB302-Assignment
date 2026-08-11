@@ -1,15 +1,13 @@
 com\trashslammers\controller\AdminController.class
-com\trashslammers\controller\AnimalShopController.class
 com\trashslammers\controller\EnclosureController.class
 App.class
 Main.class
+com\trashslammers\controller\AnimcalShopController.class
 com\trashslammers\controller\MainMenuController.class
-com\trashslammers\model\Bin.class
 com\trashslammers\model\User.class
 com\trashslammers\model\Animal.class
 com\trashslammers\TrashSlammersApplication.class
 com\trashslammers\util\ScreenManager.class
-com\trashslammers\model\TrashItem$WasteType.class
 com\trashslammers\model\GameSession.class
 com\trashslammers\database\DatabaseManager.class
 com\trashslammers\service\AuthenticationService.class
