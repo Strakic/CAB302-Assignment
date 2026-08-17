@@ -22,7 +22,7 @@ public class Main extends Application {
 
         // Set up the window and show it
         primaryStage.setTitle("Trash Slammers");
-        primaryStage.setScene(new Scene(root, 800, 600));
+            primaryStage.setScene(new Scene(root, 800, 600));
         primaryStage.show();
     }
 
