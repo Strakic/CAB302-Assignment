@@ -29,7 +29,27 @@ public class MainMenuController {
 
         } catch (IOException e) {
             e.printStackTrace();
-            System.err.println("Could not load");
+            System.err.println("Couldn't load");
+        }
+    }
+
+    @FXML
+    private void handlePlayButtonClick(ActionEvent event) {
+        try {
+            //Locate the login FXML view
+            URL fxmlUrl = getClass().getResource("/com/trashslammers/views/game-view.fxml");
+            Parent GameRoot = FXMLLoader.load(fxmlUrl);
+
+            //Get the current Stage (window) from the clicked button
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+            //Swap the scene on the current stage
+            stage.setScene(new Scene(GameRoot, 600, 500));
+            stage.setTitle("TrashSlammers");
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.err.println("Couldn't load");
         }
     }
 }
