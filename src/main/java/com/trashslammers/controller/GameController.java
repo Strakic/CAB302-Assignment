@@ -16,7 +16,6 @@ public class GameController {
 
     DraggableMaker draggableMaker = new DraggableMaker();
 
-    @Override
     public void App(URL url, ResourceBundle resourceBundle) {
         draggableMaker.makeDraggable(circle);
         draggableMaker.makeDraggable(anchorPane);
