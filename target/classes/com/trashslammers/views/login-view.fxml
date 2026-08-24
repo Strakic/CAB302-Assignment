@@ -12,7 +12,7 @@
 
 <VBox alignment="CENTER" spacing="10.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.trashslammers.controller.LoginController">
    <children>
-      <AnchorPane prefHeight="305.0" prefWidth="600.0" style="-fx-background-color: #a8dcf0;">
+      <AnchorPane prefHeight="513.0" prefWidth="800.0" style="-fx-background-color: #a8dcf0;">
          <children>
             <Text layoutX="177.0" layoutY="60.0" strokeType="OUTSIDE" strokeWidth="0.0" text="TRASH SLAMMERS">
                <font>
