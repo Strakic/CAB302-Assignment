@@ -10,13 +10,14 @@ public class Score {
 
     private int value;
 
+    /** Creates a new score starting at 0, like for a new account. */
     public Score() {
         this(0);
     }
 
     /**
      *
-     * @param value - saved score for this account. Must be 0 or greater
+     * @param value - saved score for an account. Must be 0 or greater
      */
 
     public Score(int value) {
