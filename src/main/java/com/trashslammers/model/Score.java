@@ -33,13 +33,19 @@ public class Score {
     }
 
 
-
+    /** Adds points for placing trash in the correct bin */
     public void addForCorrectSort() {
         this.value += CORRECT_SORT_POINTS;
     }
 
 
-
+    /**
+     * Attempts to pay for an animal
+     *
+     * @param cost - the points to subtract, can't be negative
+     * @return true if the purchase happened, false if the score was too low
+     * (score is left unchanged when false)
+     */
     public boolean spendOnAnimal(int cost) {
         if (cost < 0) {
             throw new IllegalArgumentException("Cost cannot be negative");
