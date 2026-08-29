@@ -11,21 +11,23 @@
 
 <VBox alignment="CENTER" spacing="10.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.trashslammers.controller.LoginController">
    <children>
-      <AnchorPane prefHeight="513.0" prefWidth="800.0" style="-fx-background-color: #a8dcf0;">
+      <AnchorPane prefHeight="305.0" prefWidth="600.0" style="-fx-background-color: #a8dcf0;">
          <children>
-            <Text layoutX="279.0" layoutY="119.0" strokeType="OUTSIDE" strokeWidth="0.0" text="TRASH SLAMMERS">
+            <Text layoutX="177.0" layoutY="60.0" strokeType="OUTSIDE" strokeWidth="0.0" text="TRASH SLAMMERS">
                <font>
                   <Font name="Trebuchet MS" size="31.0" />
                </font>
             </Text>
-             <PasswordField fx:id="passwordField" layoutX="325.0" layoutY="283.0" promptText="Enter password" />
+             <PasswordField fx:id="passwordField" layoutX="235.0" layoutY="191.0" promptText="Enter password" />
          
-                                  <Label layoutX="373.0" layoutY="265.0" text="Password:" />
-             <TextField fx:id="usernameField" layoutX="325.0" layoutY="231.0" promptText="Enter username" />
+                                  <Label layoutX="283.0" layoutY="174.0" text="Password:" />
+             <TextField fx:id="usernameField" layoutX="235.0" layoutY="140.0" promptText="Enter username" />
          
-                                  <Label layoutX="372.0" layoutY="213.0" text="Username:" />
+                                  <Label layoutX="281.0" layoutY="123.0" text="Email:" />
+
+             <Label fx:id="errorLabel" layoutX="235.0" layoutY="230.0" style="-fx-text-fill: #cc0000;" text="" />
          
-                <Button fx:id="loginButton" layoutX="373.0" layoutY="354.0" onAction="#logIn" text="Submit" />
+                <Button fx:id="loginButton" layoutX="283.0" layoutY="266.0" onAction="#logIn" text="Submit" />
          </children>
       </AnchorPane>
       <AnchorPane prefHeight="95.0" prefWidth="600.0" style="-fx-background-color: #aed581;" />
