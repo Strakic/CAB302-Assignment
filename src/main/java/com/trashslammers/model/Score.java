@@ -16,6 +16,7 @@ public class Score {
     }
 
     /**
+     * Restores a score loaded from an account
      *
      * @param value - saved score for an account. Must be 0 or greater
      */
