@@ -1,3 +1,4 @@
+import com.trashslammers.database.DatabaseConnection;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -8,7 +9,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-
+import java.sql.Connection;
 import java.io.IOException;
 import java.net.URL;
 
@@ -27,6 +28,7 @@ public class Main extends Application {
     }
 
     public static void main(String[] args) {
+        Connection connection = DatabaseConnection.getInstance();
         launch(args);
     }
 }
