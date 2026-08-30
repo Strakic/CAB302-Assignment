@@ -1,4 +1,4 @@
-package com.trashslammers.servies;
+package com.trashslammers.services;
 
 import com.trashslammers.database.InMemoryUserRepository;
 import com.trashslammers.database.UserRepository;
@@ -28,37 +28,37 @@ public class AuthenticationServiceTest {
 
     @Test
     void signUpStoresAHashedPasswordNotThePlaintext() {
-        User user = authenticationService.signUp("arran", "password123");
+        User user = authenticationService.signUp("arran@gmail.com", "password123");
 
         assertNotNull(user);
-        assertEquals("arran", user.getUsername());
+        assertEquals("arran@gmail.com", user.getUsername());
         assertNotEquals("password123", user.getPasswordHash());
     }
 
     @Test
     void logInSucceedsWithCorrectCredentials() {
-        authenticationService.signUp("arran", "password123");
+        authenticationService.signUp("arran@gmail.com", "password123");
 
-        assertTrue(authenticationService.logIn("arran", "password123"));
+        assertTrue(authenticationService.logIn("arran@gmail.com", "password123"));
     }
 
     @Test
     void logInFailsWithWrongPassword() {
-        authenticationService.signUp("arran", "password123");
+        authenticationService.signUp("arran@gmail.com", "password123");
 
-        assertFalse(authenticationService.logIn("arran", "wrong-password"));
+        assertFalse(authenticationService.logIn("arran@gmail.com", "wrong-password"));
     }
 
     @Test
     void logInFailsForUnknownUsername() {
-        assertFalse(authenticationService.logIn("nobody", "whatever"));
+        assertFalse(authenticationService.logIn("unregisteredperson", "nothing"));
     }
 
     @Test
     void signUpRejectsADuplicateUsername() {
-        authenticationService.signUp("arran", "first-pw");
+        authenticationService.signUp("arran@gmail.com", "first-pw");
 
         assertThrows(IllegalArgumentException.class,
-                () -> authenticationService.signUp("arran", "second-pw"));
+                () -> authenticationService.signUp("arran@gmail.com", "second-pw"));
     }
 }

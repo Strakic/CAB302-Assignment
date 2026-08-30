@@ -1,3 +1,10 @@
+### Maven ###
+target/
+
+### Project-specific ###
+.idea/workspace*.xml
+
+
 ### IntelliJ IDEA ###
 out/
 !**/src/main/**/out/
