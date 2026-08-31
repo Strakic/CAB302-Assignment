@@ -34,33 +34,73 @@ public class MainMenuController {
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
             //Swap the scene on the current stage
-            stage.setScene(new Scene(loginRoot, 800, 513));
+            stage.setScene(new Scene(loginRoot, 400, 300));
             stage.setTitle("TrashSlammers Login");
 
         } catch (IOException e) {
             e.printStackTrace();
-            System.err.println("Couldn't load");
+            System.err.println("Could not load");
         }
     }
 
     @FXML
-    private void handlePlayButtonClick(ActionEvent event) {
-        try {
-            //Locate the login FXML view
-            URL fxmlUrl = getClass().getResource("/com/trashslammers/views/game-view.fxml");
-            Parent GameRoot = FXMLLoader.load(fxmlUrl);
+    private Button playButton;
 
-            //Get the current Stage (window) from the clicked button
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+    @FXML
+    public void initialize(){
+        pulse(playButton);
+        shimmer(titleText);
+    }
 
-            //Swap the scene on the current stage
-            stage.setScene(new Scene(GameRoot, 600, 500));
-            stage.setTitle("TrashSlammers");
+    private void pulse(Button button) {
+        ScaleTransition st = new ScaleTransition(Duration.millis(600), button);
+        st.setFromX(1);
+        st.setFromY(1.0);
+        st.setToX(1.08);
+        st.setToY(1.08);
+        st.setCycleCount(Animation.INDEFINITE);
+        st.setAutoReverse(true);
+        st.play();
+    }
 
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.err.println("Couldn't load");
-        }
+    @FXML
+    private Text titleText;
+
+    private void shimmer(Text title) {
+        Color baseColor = Color.BLACK; // normal title colour
+        Color shimmerColor = Color.WHITE; // colour shimmering
+
+
+        AnimationTimer timer = new AnimationTimer() {
+            long startTime = -1;
+
+            @Override
+            public void handle(long now) {
+                if (startTime < 0) startTime = now;
+
+                double elapsedSeconds = (now - startTime) / 1_000_000_000.0; // convert nanosecond to seconds
+
+                // positioning
+                double cycle = 2.0;
+                double t = (elapsedSeconds % cycle) / cycle; // 0..1
+                double bandCenter = -0.3 + t * 1.6; // ensures it comes from off the screen on the left to off the screen on the right
+
+                Stop[] stops = new Stop[]{
+                        new Stop(clamp(bandCenter - 0.15), baseColor),
+                        new Stop(clamp(bandCenter), shimmerColor),
+                        new Stop(clamp(bandCenter + 0.15), baseColor)
+                };
+
+                title.setFill(new LinearGradient(0, 0, 1, 0, true, CycleMethod.NO_CYCLE, stops));
+            }
+
+            private double clamp(double v) {
+                return Math.max(0, Math.min(1, v));
+            }
+        };
+
+        timer.start();
+
     }
 
     @FXML

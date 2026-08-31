@@ -12,93 +12,64 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
 
-<GridPane xmlns:fx="http://javafx.com/fxml"
-          fx:controller="com.trashslammers.controller.GameController"
-          prefWidth="1000" prefHeight="600">
-
-    <columnConstraints>
-
-        <ColumnConstraints percentWidth="40" hgrow="ALWAYS"/>
-
-        <ColumnConstraints percentWidth="30" hgrow="ALWAYS"/>
-
-        <ColumnConstraints percentWidth="30" hgrow="ALWAYS"/>
-    </columnConstraints>
-
-
-    <VBox fx:id="mainGameContainer" GridPane.columnIndex="0" GridPane.rowIndex="0">
-        <BorderPane id="gameRoot" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0">
-            <top>
-                <HBox id="hudBar" prefHeight="40.0" prefWidth="200.0" spacing="10.0" style="-fx-background-color: c7935f;" BorderPane.alignment="CENTER">
-                    <padding>
-                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                    </padding>
+<BorderPane id="gameRoot" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.trashslammers.GameController">
+    <top>
+        <HBox id="hudBar" prefHeight="40.0" prefWidth="200.0" spacing="10.0" style="-fx-background-color: c7935f;" BorderPane.alignment="CENTER">
+            <padding>
+                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+            </padding>
+            <children>
+                <Label id="scoreLabel" text="Score: 0" translateY="2.0">
+                    <font>
+                        <Font name="PIXY" size="20.0" />
+                    </font>
+                </Label>
+                <Region prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
+                <ProgressBar id="tierProgressBar" prefWidth="100.0" progress="0.4" translateY="4.0" />
+                <Label id="difficultyLabel" text="Difficulty: 1" translateY="2.0">
+                    <font>
+                        <Font name="PIXY" size="20.0" />
+                    </font>
+                </Label>
+                <Button id="menuButton" mnemonicParsing="false" prefHeight="0.0" prefWidth="28.0" text="☰" />
+            </children>
+        </HBox>
+    </top>
+    <bottom>
+        <HBox id="bucketRow" alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="30.0" style="-fx-background-color: linear-gradient(to bottom, #E0E0E0, #6CBB3C);" BorderPane.alignment="CENTER">
+            <children>
+                <VBox id="bucketOrganic" alignment="CENTER" prefHeight="200.0" prefWidth="75.0" style="-fx-background-color: lightgreen; -fx-border-width: 1; -fx-border-color: black;">
                     <children>
-                        <Label id="scoreLabel" text="Score: 0" translateY="2.0">
-                            <font>
-                                <Font size="15.0" />
-                            </font>
-                        </Label>
-                        <Region prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
-                        <ProgressBar id="tierProgressBar" prefWidth="100.0" progress="0.4" translateY="4.0" />
-                        <Label id="difficultyLabel" text="Difficulty: 1" translateY="2.0">
-                            <font>
-                                <Font size="15.0" />
-                            </font>
-                        </Label>
-                        <Button id="menuButton" mnemonicParsing="false" prefHeight="0.0" prefWidth="28.0" text="☰" />
+                        <Rectangle id="organicSymbol" arcHeight="5.0" arcWidth="5.0" fill="#8dc63f" height="60.0" stroke="BLACK" strokeType="INSIDE" width="50.0" />
+                        <Label id="organicLabel" text="Organic" />
                     </children>
-                </HBox>
-            </top>
-            <bottom>
-                <HBox id="bucketRow" alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="30.0" style="-fx-background-color: linear-gradient(to bottom, #E0E0E0, #6CBB3C);" BorderPane.alignment="CENTER">
+                </VBox>
+                <VBox id="bucketGeneral" alignment="CENTER" prefHeight="200.0" prefWidth="75.0" style="-fx-background-color: #EF4136; -fx-border-width: 1; -fx-border-color: black;">
                     <children>
-                        <VBox id="bucketOrganic" alignment="CENTER" prefHeight="200.0" prefWidth="75.0" style="-fx-background-color: lightgreen; -fx-border-width: 1; -fx-border-color: black;">
-                            <children>
-                                <Rectangle id="organicSymbol" arcHeight="5.0" arcWidth="5.0" fill="#8dc63f" height="60.0" stroke="BLACK" strokeType="INSIDE" width="50.0" />
-                                <Label id="organicLabel" text="Organic" />
-                            </children>
-                        </VBox>
-                        <VBox id="bucketGeneral" alignment="CENTER" prefHeight="200.0" prefWidth="75.0" style="-fx-background-color: #EF4136; -fx-border-width: 1; -fx-border-color: black;">
-                            <children>
-                                <Rectangle id="generalSymbol" arcHeight="5.0" arcWidth="5.0" fill="#ef5b3b" height="60.0" stroke="BLACK" strokeType="INSIDE" width="50.0" />
-                                <Label id="generalLabel" text="General" />
-                            </children>
-                        </VBox>
-                        <VBox id="bucketRecycle" alignment="CENTER" prefHeight="200.0" prefWidth="75.0" style="-fx-background-color: #FFD500; -fx-border-width: 1; -fx-border-color: black;">
-                            <children>
-                                <Rectangle id="recycleSymbol" arcHeight="5.0" arcWidth="5.0" fill="#ffc71f" height="60.0" stroke="BLACK" strokeType="INSIDE" width="50.0" />
-                                <Label id="recycleLabel" text="Recycle" />
-                            </children>
-                        </VBox>
+                        <Rectangle id="generalSymbol" arcHeight="5.0" arcWidth="5.0" fill="#ef5b3b" height="60.0" stroke="BLACK" strokeType="INSIDE" width="50.0" />
+                        <Label id="generalLabel" text="General" />
                     </children>
-                    <padding>
-                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                    </padding>
-                </HBox>
-            </bottom>
-            <center>
-                <Pane id="fallZone" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: linear-gradient(to bottom, #29ABE2, #E0E0E0);" BorderPane.alignment="CENTER">
+                </VBox>
+                <VBox id="bucketRecycle" alignment="CENTER" prefHeight="200.0" prefWidth="75.0" style="-fx-background-color: #FFD500; -fx-border-width: 1; -fx-border-color: black;">
                     <children>
-                        <Circle id="trashItem3" fill="#43a047" layoutX="490.0" layoutY="53.0" radius="17.0" stroke="BLACK" strokeType="INSIDE" />
-                        <Rectangle id="trashItem2" arcHeight="5.0" arcWidth="5.0" fill="#ffd500" height="20.0" layoutX="280.0" layoutY="182.0" rotate="40.0" stroke="BLACK" strokeType="INSIDE" width="40.0" />
-                        <Rectangle id="trashItem1" arcHeight="5.0" arcWidth="5.0" fill="#ef4136" height="35.0" layoutX="85.0" layoutY="117.0" rotate="45.0" stroke="BLACK" strokeType="INSIDE" width="30.0" />
+                        <Rectangle id="recycleSymbol" arcHeight="5.0" arcWidth="5.0" fill="#ffc71f" height="60.0" stroke="BLACK" strokeType="INSIDE" width="50.0" />
+                        <Label id="recycleLabel" text="Recycle" />
                     </children>
-                </Pane>
-            </center>
-        </BorderPane>
-    </VBox>
-
-
-    <fx:include fx:id="enclosure" source="enclosure-view.fxml"
-                GridPane.columnIndex="1" GridPane.rowIndex="0" />
-
-
-    <fx:include fx:id="shop" source="animal-shop-view.fxml"
-                GridPane.columnIndex="2" GridPane.rowIndex="0" />
-
-</GridPane>
-
+                </VBox>
+            </children>
+            <padding>
+                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+            </padding>
+        </HBox>
+    </bottom>
+    <center>
+        <Pane id="fallZone" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: linear-gradient(to bottom, #29ABE2, #E0E0E0);" BorderPane.alignment="CENTER">
+            <children>
+                <Circle id="trashItem3" fill="#43a047" layoutX="490.0" layoutY="53.0" radius="17.0" stroke="BLACK" strokeType="INSIDE" />
+                <Rectangle id="trashItem2" arcHeight="5.0" arcWidth="5.0" fill="#ffd500" height="20.0" layoutX="280.0" layoutY="182.0" rotate="40.0" stroke="BLACK" strokeType="INSIDE" width="40.0" />
+                <Rectangle id="trashItem1" arcHeight="5.0" arcWidth="5.0" fill="#ef4136" height="35.0" layoutX="85.0" layoutY="117.0" rotate="45.0" stroke="BLACK" strokeType="INSIDE" width="30.0" />
+            </children>
+        </Pane>
+    </center>
+</BorderPane>

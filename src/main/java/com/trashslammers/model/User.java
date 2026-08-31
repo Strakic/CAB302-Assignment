@@ -9,42 +9,47 @@ import java.util.ArrayList;
  *
  */
 
+
 public class User {
-    // Static admin credentials for testing
-    public static final String ADMIN_USERNAME = "admin";
-    public static final String ADMIN_PASSWORD = "admin";
 
     protected int id = -1; // -1 is when the data is not yet saved to the bd
 
     protected String username;
-    protected String password;
-    private Boolean signedIn;
-    public User(String username, String password) {
+
+    // The salted/hashed password - never the plaintext
+    protected String passwordHash;
+
+    /**
+     * Creates a brand-new user that has not been persisted yet.
+     * The id is assigned later by whatever saves it (see UserRepository).
+     */
+    public User(String username, String passwordHash) {
         this.username = username;
-        this.password = password;
+        this.passwordHash = passwordHash;
     }
 
-    public int getId(){
+    public int getId() {
         return id;
     }
 
-    public void setId(int id){
+    public void setId(int id) {
         this.id = id;
     }
 
-    public String getUsername(){
+    public String getUsername() {
         return username;
     }
 
-    public String getUsername(String username) {
+    public void setUsername(String username) {
         this.username = username;
     }
 
-    public String getPassword() {
-        return password;
+    /** Returns the stored hash value and never the plaintext password. */
+    public String getPasswordHash() {
+        return passwordHash;
     }
 
-    public void setPassword(String password){
-        this.password = password;
+    public void setPasswordHash(String passwordHash) {
+        this.passwordHash = passwordHash;
     }
 }
