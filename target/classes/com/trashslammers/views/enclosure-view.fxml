@@ -71,10 +71,7 @@
 
       <!-- Gate -->
 
-      <Label layoutX="268.0" layoutY="327.0" style="-fx-background-color: #8B5A2B; -fx-text-fill: white; -fx-padding: 8px 14px; -fx-font-weight: bold; -fx-font-family: Pixy;" text="GATE">
-         <font>
-            <Font size="14.0" />
-         </font></Label>
+      <Label layoutX="268.0" layoutY="327.0" style="-fx-background-color: #8B5A2B;                       -fx-text-fill: white;                       -fx-padding: 8px 14px;                       -fx-font-weight: bold;" text="GATE" />
 
 
       <!-- Information sign -->
@@ -98,10 +95,7 @@
 
       <!-- Back button -->
 
-      <Button layoutX="218.0" layoutY="451.0" mnemonicParsing="false" onAction="#goBack" prefHeight="30.0" prefWidth="170.0" style="-fx-background-color: #527A34; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 10px; -fx-font-family: pixy;" text="BACK TO GAME">
-         <font>
-            <Font size="16.0" />
-         </font></Button>
+      <Button layoutX="218.0" layoutY="451.0" mnemonicParsing="false" onAction="#goBack" prefHeight="30.0" prefWidth="170.0" style="-fx-background-color: #527A34;                        -fx-text-fill: white;                        -fx-font-weight: bold;                        -fx-background-radius: 10px;" text="BACK TO GAME" />
       <Text layoutX="181.0" layoutY="39.0" strokeType="OUTSIDE" strokeWidth="0.0" text="TRASH SLAMMERS">
          <font>
             <Font name="PIXY" size="30.0" />
