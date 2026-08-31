@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="500.0" prefWidth="400.0" style="-fx-background-color: #E5C07B;" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.trashslammers.controller.AnimalInfoController">
+<AnchorPane prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: #E5C07B;" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.trashslammers.controller.AnimalInfoController">
 
     <VBox alignment="TOP_CENTER" layoutX="30.0" layoutY="40.0" prefHeight="420.0" prefWidth="340.0" spacing="16.0" style="-fx-background-color: white;
                   -fx-border-color: #704214;
