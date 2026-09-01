@@ -39,20 +39,39 @@ public class EnclosureController {
 
     @FXML
     private void initialize() {
-        setupTooltip(koala1, "Kai", "Australian Koala", "★★★☆☆");
-        setupTooltip(koala2, "Willow", "Australian Koala", "★★★★☆");
+        setupTooltip(koala1, "Kai");
+        setupTooltip(koala2, "Willow");
 
         wander(koala1, 4.0);
         wander(koala2, 5.5);
     }
 
     /**
-     * Attaches a hover tooltip to a koala node showing its name, species, and rating.
+     * Attaches a hover tooltip to a koala node showing just its name.
+     * The tooltip follows the mouse cursor while hovering.
      */
-    private void setupTooltip(VBox koala, String name, String species, String rating) {
-        Tooltip tooltip = new Tooltip(name + " — " + species + " " + rating);
-        tooltip.setShowDelay(Duration.millis(150));
-        Tooltip.install(koala, tooltip);
+    private void setupTooltip(VBox koala, String name) {
+        Tooltip tooltip = new Tooltip(name);
+        tooltip.setStyle(
+                "-fx-background-color: #31572C;" +
+                        "-fx-text-fill: white;" +
+                        "-fx-font-weight: bold;" +
+                        "-fx-font-size: 13px;" +
+                        "-fx-padding: 6px 12px;" +
+                        "-fx-background-radius: 8px;"
+        );
+
+        // Offset so the tooltip appears just below-right of the cursor
+        final double offsetX = 15;
+        final double offsetY = 15;
+
+        koala.setOnMouseEntered(e ->
+                tooltip.show(koala, e.getScreenX() + offsetX, e.getScreenY() + offsetY));
+
+        koala.setOnMouseMoved(e ->
+                tooltip.show(koala, e.getScreenX() + offsetX, e.getScreenY() + offsetY));
+
+        koala.setOnMouseExited(e -> tooltip.hide());
     }
 
     /**
@@ -140,6 +159,5 @@ public class EnclosureController {
             System.err.println("Could not load " + fxmlPath);
         }
     }
-
 
 }

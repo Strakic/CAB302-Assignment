@@ -18,6 +18,7 @@
    <Label layoutX="126.0" layoutY="55.0" style="-fx-font-size: 36px;" text="🌳" />
    <Label layoutX="656.0" layoutY="55.0" style="-fx-font-size: 36px;" text="🌳" />
 
+
    <!-- Main enclosure -->
    <AnchorPane layoutX="232.0" layoutY="90.0" prefHeight="330.0" prefWidth="330.0" style="-fx-background-color: #7DB957;
                          -fx-border-color: #704214;
