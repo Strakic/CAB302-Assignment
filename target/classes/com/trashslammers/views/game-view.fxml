@@ -4,6 +4,8 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
@@ -13,7 +15,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane id="gameRoot" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.trashslammers.GameController">
+<BorderPane id="gameRoot" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.trashslammers.controller.GameController">
     <top>
         <HBox id="hudBar" prefHeight="40.0" prefWidth="200.0" spacing="10.0" style="-fx-background-color: c7935f;" BorderPane.alignment="CENTER">
             <padding>
@@ -64,11 +66,16 @@
         </HBox>
     </bottom>
     <center>
-        <Pane id="fallZone" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: linear-gradient(to bottom, #29ABE2, #E0E0E0);" BorderPane.alignment="CENTER">
+        <Pane fx:id="fallZone" id="fallZone" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: linear-gradient(to bottom, #29ABE2, #E0E0E0);" BorderPane.alignment="CENTER">
             <children>
                 <Circle id="trashItem3" fill="#43a047" layoutX="490.0" layoutY="53.0" radius="17.0" stroke="BLACK" strokeType="INSIDE" />
                 <Rectangle id="trashItem2" arcHeight="5.0" arcWidth="5.0" fill="#ffd500" height="20.0" layoutX="280.0" layoutY="182.0" rotate="40.0" stroke="BLACK" strokeType="INSIDE" width="40.0" />
                 <Rectangle id="trashItem1" arcHeight="5.0" arcWidth="5.0" fill="#ef4136" height="35.0" layoutX="85.0" layoutY="117.0" rotate="45.0" stroke="BLACK" strokeType="INSIDE" width="30.0" />
+            <ImageView layoutX="290.0" layoutY="12.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../Sprites/TrashSoda.png" />
+               </image>
+            </ImageView>
             </children>
         </Pane>
     </center>
