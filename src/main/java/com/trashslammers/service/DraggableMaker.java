@@ -1,9 +1,16 @@
 package com.trashslammers.service;
+
 import javafx.scene.Node;
+
+import java.util.function.Consumer;
 
 public class DraggableMaker {
 
     public static void makeDraggable(Node node) {
+        makeDraggable(node, n -> {});
+    }
+
+    public static void makeDraggable(Node node, Consumer<Node> onRelease) {
         node.setOnMousePressed(event -> {
             node.getProperties().put("anchorX", event.getSceneX() - node.getLayoutX());
             node.getProperties().put("anchorY", event.getSceneY() - node.getLayoutY());
@@ -19,5 +26,7 @@ public class DraggableMaker {
                 node.setLayoutY(event.getSceneY() - anchorY);
             }
         });
+
+        node.setOnMouseReleased(event -> onRelease.accept(node));
     }
 }
