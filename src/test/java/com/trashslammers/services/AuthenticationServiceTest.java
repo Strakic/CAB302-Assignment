@@ -61,4 +61,12 @@ public class AuthenticationServiceTest {
         assertThrows(IllegalArgumentException.class,
                 () -> authenticationService.signUp("arran@gmail.com", "second-pw"));
     }
+
+    // upper and lower bounds testing
+    // upper bounds on more than 20 characters in username
+    @Test
+    void upperBoundsoverUsernameInvalidLengthCap() {
+        assertThrows(IllegalArgumentException.class,
+                () -> authenticationService.signUp("123456789012345678901", "password123"));
+    }
 }
