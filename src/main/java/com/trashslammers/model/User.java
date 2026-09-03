@@ -1,7 +1,5 @@
 package com.trashslammers.model;
 
-import java.util.ArrayList;
-
 /**
  * base representation of an account
  *
@@ -24,6 +22,7 @@ public class User {
      * The id is assigned later by whatever saves it (see UserRepository).
      */
     public User(String username, String passwordHash) {
+
         this.username = username;
         this.passwordHash = passwordHash;
     }
