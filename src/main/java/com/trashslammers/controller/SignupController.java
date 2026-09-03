@@ -16,4 +16,9 @@ import java.io.IOException;
 import java.net.URL;
 
 public class SignupController {
+
+    private static final int min_password_length = 8;
+
+    @FXML
+
 }
