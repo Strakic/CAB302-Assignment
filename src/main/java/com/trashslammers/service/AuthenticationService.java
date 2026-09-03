@@ -1,34 +1,23 @@
 package com.trashslammers.service;
 
-import com.trashslammers.database.InMemoryUserRepository;
-import com.trashslammers.database.UserRepository;
+import com.trashslammers.model.IUserDAO;
 import com.trashslammers.model.User;
+import com.trashslammers.model.UserDAO;
 import com.trashslammers.util.EmailValidator;
 import com.trashslammers.util.PasswordUtil;
-import java.util.Optional;
 
-public class AuthenticationService implements IAuthenticationService{
+public class AuthenticationService implements IAuthenticationService {
 
+    private final IUserDAO userDAO;
 
-
-    /**
-     * Authenticates a user against the hardcoded admin credentials.
-     *
-     * @param username The entered username
-     * @param password The entered password
-     * @return 1 if credentials match, 0 otherwise
-     */
-
-    private static final UserRepository DEFAULT_REPOSITORY = new InMemoryUserRepository();
-
-    private final UserRepository userRepository;
-
+    // Default constructor uses your actual SQLite DAO
     public AuthenticationService() {
-        this(DEFAULT_REPOSITORY);
+        this(new UserDAO());
     }
 
-    public AuthenticationService(UserRepository userRepository) {
-        this.userRepository = userRepository;
+
+    public AuthenticationService(IUserDAO userDAO) {
+        this.userDAO = userDAO;
     }
 
     @Override
@@ -36,22 +25,24 @@ public class AuthenticationService implements IAuthenticationService{
         if (!EmailValidator.isValid(username)) {
             throw new IllegalArgumentException("Username must be a valid email address");
         }
-        if (userRepository.findByUsername(username).isPresent()) {
+
+
+        if (userDAO.getUserByUsername(username) != null) {
             throw new IllegalArgumentException("Username '" + username + "' is already taken");
         }
 
+
         String passwordHash = PasswordUtil.hashPassword(password);
         User newUser = new User(username, passwordHash);
-        return userRepository.save(newUser);
+        userDAO.addUser(newUser);
+
+        return newUser;
     }
-
-
 
     @Override
     public boolean logIn(String username, String password) {
-
-        Optional<User> existingUser = userRepository.findByUsername(username);
-        return existingUser.isPresent()
-                && PasswordUtil.verifyPassword(password, existingUser.get().getPasswordHash());
+        User existingUser = userDAO.getUserByUsername(username);
+        return existingUser != null
+                && PasswordUtil.verifyPassword(password, existingUser.getPasswordHash());
     }
 }

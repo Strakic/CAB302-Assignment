@@ -1,8 +1,8 @@
 package com.trashslammers.services;
 
-import com.trashslammers.database.InMemoryUserRepository;
-import com.trashslammers.database.UserRepository;
+import com.trashslammers.model.IUserDAO;
 import com.trashslammers.model.User;
+import com.trashslammers.model.UserDAO;
 import com.trashslammers.service.AuthenticationService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -14,16 +14,14 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-
 public class AuthenticationServiceTest {
 
     private AuthenticationService authenticationService;
 
     @BeforeEach
     void setUp() {
-        UserRepository repository = new InMemoryUserRepository();
-        authenticationService = new AuthenticationService(repository);
-
+        IUserDAO userDAO = new UserDAO();
+        authenticationService = new AuthenticationService(userDAO);
     }
 
     @Test

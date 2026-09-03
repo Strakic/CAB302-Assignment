@@ -4,6 +4,8 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+
+// may be totally superfluous
 public class UserTest {
     private IUserDAO userDAO;
 

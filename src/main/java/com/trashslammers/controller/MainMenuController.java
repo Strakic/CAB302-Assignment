@@ -27,7 +27,7 @@ public class MainMenuController {
     private void handleLoginButtonClick(ActionEvent event) {
         try {
             //Locate the login FXML view
-            URL fxmlUrl = getClass().getResource("/com/trashslammers/views/login-view.fxml");
+            URL fxmlUrl = getClass().getResource("/com/trashslammers/views/signup-view.fxml");
             Parent loginRoot = FXMLLoader.load(fxmlUrl);
 
             //Get the current Stage (window) from the clicked button
@@ -35,7 +35,7 @@ public class MainMenuController {
 
             //Swap the scene on the current stage
             stage.setScene(new Scene(loginRoot, 400, 300));
-            stage.setTitle("TrashSlammers Login");
+            stage.setTitle("TrashSlammers signup");
 
         } catch (IOException e) {
             e.printStackTrace();
