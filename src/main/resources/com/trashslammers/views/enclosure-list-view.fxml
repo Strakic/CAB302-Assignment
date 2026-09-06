@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.FlowPane?>
+
+<AnchorPane prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: #E8F5D8;" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.trashslammers.controller.EnclosureListController">
+
+    <Label layoutX="290.0" layoutY="20.0" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #31572C;" text="YOUR ENCLOSURES" />
+
+    <ScrollPane fitToWidth="true" layoutX="20.0" layoutY="70.0" prefHeight="470.0" prefWidth="760.0" style="-fx-background-color: transparent; -fx-background: transparent;">
+        <FlowPane fx:id="enclosureGrid" hgap="20.0" vgap="20.0" prefWrapLength="760.0" style="-fx-padding: 10px;" />
+    </ScrollPane>
+
+    <Button layoutX="318.0" layoutY="555.0" mnemonicParsing="false" onAction="#goBack" prefHeight="30.0" prefWidth="170.0" style="-fx-background-color: #527A34; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 10px;" text="BACK TO MENU" />
+
+</AnchorPane>

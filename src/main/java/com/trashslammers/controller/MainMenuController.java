@@ -14,6 +14,23 @@ import java.net.URL;
 public class MainMenuController {
 
     @FXML
+    private void handlePlayButtonClick(ActionEvent event) {
+        try {
+            URL fxmlUrl = getClass().getResource("/com/trashslammers/views/game-view.fxml");
+            Parent gameRoot = FXMLLoader.load(fxmlUrl);
+
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+            stage.setScene(new Scene(gameRoot, 600, 400));
+            stage.setTitle("Trash Slammers - Play");
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.err.println("Could not load game-view.fxml");
+        }
+    }
+
+    @FXML
     private void handleLoginButtonClick(ActionEvent event) {
         try {
             URL fxmlUrl = getClass().getResource("/com/trashslammers/views/login-view.fxml");
@@ -33,17 +50,17 @@ public class MainMenuController {
     @FXML
     private void handleEnclosureButtonClick(ActionEvent event) {
         try {
-            URL fxmlUrl = getClass().getResource("/com/trashslammers/views/enclosure-view.fxml");
-            Parent enclosureRoot = FXMLLoader.load(fxmlUrl);
+            URL fxmlUrl = getClass().getResource("/com/trashslammers/views/enclosure-list-view.fxml");
+            Parent enclosureListRoot = FXMLLoader.load(fxmlUrl);
 
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
-            stage.setScene(new Scene(enclosureRoot, 600, 500));
-            stage.setTitle("Trash Slammers - Enclosure");
+            stage.setScene(new Scene(enclosureListRoot, 800, 600));
+            stage.setTitle("Trash Slammers - Enclosures");
 
         } catch (IOException e) {
             e.printStackTrace();
-            System.err.println("Could not load enclosure-view.fxml");
+            System.err.println("Could not load enclosure-list-view.fxml");
         }
     }
 }
