@@ -1,0 +1,33 @@
+package com.trashslammers.controller;
+
+import javafx.animation.Animation;
+import javafx.animation.PauseTransition;
+import javafx.application.Platform;
+import javafx.beans.property.ReadOnlyStringProperty;
+import javafx.beans.property.ReadOnlyStringWrapper;
+import javafx.beans.value.ObservableValue;
+import javafx.util.Duration;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.AtomicMoveNotSupportedException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
+import java.util.function.Supplier;
+
+public final class AutoSaveController implements AutoCloseable {
+
+    private static final Duration IDLE_DELAY = Duration.seconds(1.5);
+    private static final Duration MAX_DELAY = Duration.seconds(10);
+    private static final DateTimeFormatter TIME = DateTimeFormatter.ofPattern("HH.mm.ss");
+
+    private static final List<AutoSaveController> ACTIVE = new CopyOnWriteArrayList<>();
+
+}
