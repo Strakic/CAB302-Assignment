@@ -41,5 +41,19 @@ public final class AutoSaveController implements AutoCloseable {
     private String lastQueued;
     private boolean closed;
 
+    public AutoSaveController(Path target, Supplier<String> content) {
+        this.target = target;
+        this.temp = target.resolveSibling(target.getFileName() + ".tmp");
+        this.content = content;
+        this.lastQueued = content.get();
+
+        this.writer = Executors.newSingleThreadExecutor(r -> {
+            Thread t = new Thread(r, "autosave-" + target.getFileName());
+            t.setDaemon(true);
+            return t;
+        });
+
+
+    }
 
 }
