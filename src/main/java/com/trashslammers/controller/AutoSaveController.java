@@ -30,4 +30,16 @@ public final class AutoSaveController implements AutoCloseable {
 
     private static final List<AutoSaveController> ACTIVE = new CopyOnWriteArrayList<>();
 
+    private final Path target;
+    private final Path temp;
+    private final Supplier<String> content;
+    private final ExecutorService writer;
+    private final PauseTransition idleTimer;
+    private final PauseTransition maxTimer;
+    private final ReadOnlyStringWrapper status = new ReadOnlyStringWrapper("Ready");
+
+    private String lastQueued;
+    private boolean closed;
+
+
 }
