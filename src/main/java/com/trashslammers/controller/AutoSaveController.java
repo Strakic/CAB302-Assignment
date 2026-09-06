@@ -118,5 +118,33 @@ public final class AutoSaveController implements AutoCloseable {
         }
     }
 
+    @Override
+    public void close() throws Exception {
+        if (closed) {
+            return;
+        }
+        closed = true;
+        idleTimer.stop();
+        maxTimer.stop();
+
+        writer.shutdown();
+        writer.awaitTermination(3, TimeUnit.SECONDS);
+
+        String pending = content.get();
+        if (!pending.equals(lastQueued)) {
+            writeAtomically(pending);
+        }
+        ACTIVE.remove(this);
+    }
+
+    public static void closeALL() {
+        for (AutoSaveController saver : List.copyOf(ACTIVE)) {
+            try {
+                saver.close();
+            } catch (Exception e) {
+                System.err.print("Final auto-save failed for " + saver.target + ": " + e);
+            }
+        }
+    }
 }
 
