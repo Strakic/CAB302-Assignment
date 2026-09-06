@@ -93,7 +93,7 @@ public final class AutoSaveController implements AutoCloseable {
 
         writer.submit(() -> {
             try {
-                writeAutomatically(snapshot);
+                writeAtomically(snapshot);
                 Platform.runLater(() -> status.set("Saved " + LocalTime.now().format(TIME)));
             } catch (IOException ex) {
                 Platform.runLater(() -> {
@@ -104,6 +104,19 @@ public final class AutoSaveController implements AutoCloseable {
         });
     }
 
+    public ReadOnlyStringProperty statusProperty() {
+        return status.getReadOnlyProperty();
+    }
+
+    private void writeAtomically(String text) throws IOException {
+        Files.createDirectories(target.getParent());
+        Files.writeString(temp, text, StandardCharsets.UTF_8);
+        try {
+            Files.move(temp, target, StandardCopyOption.REPLACE_EXISTING, StandardCopyOption.ATOMIC_MOVE);
+        } catch (AtomicMoveNotSupportedException e) {
+            Files.move(temp, target, StandardCopyOption.REPLACE_EXISTING);
+        }
+    }
 
 }
 
