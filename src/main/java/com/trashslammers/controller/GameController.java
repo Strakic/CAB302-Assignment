@@ -4,7 +4,6 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.geometry.Bounds;
-import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.layout.Pane;
@@ -75,7 +74,7 @@ public class GameController {
         for (int i = 0; i < trashList.size(); i++) {
             Shape s = trashList.get(i);
 
-            // if its being dragged dont move it automatically
+            // if its being dragged don't move it automatically
             if (s.getProperties().get("dragging") == Boolean.TRUE) {
                 continue;
             }
@@ -127,7 +126,7 @@ public class GameController {
 
         double zoneWidth = fallZone.getWidth();
         if (zoneWidth <= 0) {
-            zoneWidth = 600; // fallback in case the pane hasnt loaded its size yet
+            zoneWidth = 600; // fallback in case the pane hasn't loaded its size yet
         }
 
         double startX = 20 + rand.nextDouble() * (zoneWidth - 60);
