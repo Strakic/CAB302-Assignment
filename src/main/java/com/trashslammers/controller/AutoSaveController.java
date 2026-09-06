@@ -53,7 +53,14 @@ public final class AutoSaveController implements AutoCloseable {
             return t;
         });
 
+        this.idleTimer = new PauseTransition(IDLE_DELAY);
+        this.idleTimer.setOnFinished(e -> saveNow());
+        this.maxTimer = new PauseTransition(MAX_DELAY);
+        this.maxTimer.setOnFinished(e -> saveNow());
 
+        ACTIVE.add(this);
     }
 
 }
+
+
