@@ -61,23 +61,49 @@ public final class AutoSaveController implements AutoCloseable {
         ACTIVE.add(this);
     }
 
-}
+    public AutoSaveController watch(ObservableValue<?>... properties) {
+        for (ObservableValue<?> p : properties) {
+            p.addListener((obs, oldVal, newVal) -> touch());
+        }
+        return this;
+    }
 
-public AutoSaveController watch(ObservableValue<?>... properties) {
-    for (ObservableValue<?> p : properties) {
-        p.addListener((obs, oldVal, newVal) -> touch());
+    public void touch() {
+        if (closed) {
+            return;
+        }
+        idleTimer.playFromStart();
+        if (maxTimer.getStatus() != Animation.Status.RUNNING) {
+            maxTimer.playFromStart();
+        }
+        status.set("Unsaved changes\u2026");
     }
-    return this;
-}
 
-public void touch() {
-    if (closed) {
-        return;
+    public void saveNow() {
+        idleTimer.stop();
+        maxTimer.stop();
+        if (closed) {
+            return;
+        }
+        String snapshot = content.get();
+        if (snapshot.equals(lastQueued)) {
+            return;
+        }
+        lastQueued = snapshot;
+
+        writer.submit(() -> {
+            try {
+                writeAutomatically(snapshot);
+                Platform.runLater(() -> status.set("Saved " + LocalTime.now().format(TIME)));
+            } catch (IOException ex) {
+                Platform.runLater(() -> {
+                    lastQueued = null;
+                    status.set("Auto-save FAILED: " + ex.getMessage());
+                });
+            }
+        });
     }
-    idleTimer.playFromStart();
-    if (maxTimer.getStatus() != Animation.Status.RUNNING) {
-        maxTimer.playFromStart();
-    }
-    status,set("Unsaved changes\u2026");
+
+
 }
 
