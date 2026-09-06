@@ -70,4 +70,14 @@ public AutoSaveController watch(ObservableValue<?>... properties) {
     return this;
 }
 
+public void touch() {
+    if (closed) {
+        return;
+    }
+    idleTimer.playFromStart();
+    if (maxTimer.getStatus() != Animation.Status.RUNNING) {
+        maxTimer.playFromStart();
+    }
+    status,set("Unsaved changes\u2026");
+}
 
