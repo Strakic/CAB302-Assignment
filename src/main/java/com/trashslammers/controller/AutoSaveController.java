@@ -63,4 +63,11 @@ public final class AutoSaveController implements AutoCloseable {
 
 }
 
+public AutoSaveController watch(ObservableValue<?>... properties) {
+    for (ObservableValue<?> p : properties) {
+        p.addListener((obs, oldVal, newVal) -> touch());
+    }
+    return this;
+}
+
 
