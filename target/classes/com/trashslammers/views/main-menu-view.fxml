@@ -31,7 +31,7 @@
                <font>
                   <Font name="PIXY" size="20.0" />
                </font></Button>
-            <Text fx:id="messageText" layoutX="389.0" layoutY="150.0" strokeType="OUTSIDE" strokeWidth="0.0" />
+            <Text fx:id="messageText" layoutX="380.0" layoutY="145.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="38.0" />
          </children>
       </AnchorPane>
       <AnchorPane prefHeight="95.0" prefWidth="597.0" style="-fx-background-color: #aed581;" />

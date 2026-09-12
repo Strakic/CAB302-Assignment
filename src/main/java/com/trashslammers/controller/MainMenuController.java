@@ -37,7 +37,7 @@ public class MainMenuController {
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
             //Swap the scene on the current stage
-            stage.setScene(new Scene(loginRoot, 400, 300));
+            stage.setScene(new Scene(loginRoot, 800, 600));
             stage.setTitle("TrashSlammers - login");
 
         } catch (IOException e) {

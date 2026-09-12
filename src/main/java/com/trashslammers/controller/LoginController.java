@@ -86,7 +86,7 @@ public class LoginController {
             Parent mainMenuRoot = FXMLLoader.load(fxmlUrl);
 
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(new Scene(mainMenuRoot, 400, 300));
+            stage.setScene(new Scene(mainMenuRoot, 800, 600));
             stage.setTitle("TrashSlammers");
         } catch (IOException e) {
             e.printStackTrace();
@@ -101,7 +101,7 @@ public class LoginController {
             Parent mainMenuRoot = FXMLLoader.load(fxmlUrl);
 
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(new Scene(mainMenuRoot, 400, 300));
+            stage.setScene(new Scene(mainMenuRoot, 800, 600));
             stage.setTitle("TrashSlammers");
         } catch (IOException e) {
             e.printStackTrace();
