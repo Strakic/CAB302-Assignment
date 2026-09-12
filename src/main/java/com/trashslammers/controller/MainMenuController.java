@@ -65,6 +65,31 @@ public class MainMenuController {
     }
 
     @FXML
+    private void handleOptionsButtonClick(ActionEvent event) {
+        try {
+            URL fxmlUrl = getClass().getResource("/com/trashslammers/views/options-view.fxml");
+
+            if (fxmlUrl == null) {
+                return;
+            }
+
+            Parent gameRoot = FXMLLoader.load(fxmlUrl);
+
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(gameRoot, 800, 600));
+            stage.setTitle("TrashSlammers");
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.err.println("Failed to load game view: " + e.getMessage());
+        }
+    }
+
+
+
+
+
+    @FXML
     private Button playButton;
 
     @FXML

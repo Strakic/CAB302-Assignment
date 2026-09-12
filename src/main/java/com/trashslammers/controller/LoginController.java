@@ -68,6 +68,7 @@ public class LoginController {
         }
     }
 
+    @FXML
     private void goToMainMenu(ActionEvent event) {
         try {
             URL fxmlUrl = getClass().getResource("/com/trashslammers/views/main-menu-view.fxml");
@@ -81,4 +82,21 @@ public class LoginController {
             System.err.println("Could not load main menu");
         }
     }
+
+    @FXML
+    private void goToSignup(ActionEvent event) {
+        try {
+            URL fxmlUrl = getClass().getResource("/com/trashslammers/views/sign-up-view.fxml");
+            Parent mainMenuRoot = FXMLLoader.load(fxmlUrl);
+
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(mainMenuRoot, 400, 300));
+            stage.setTitle("TrashSlammers");
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.err.println("Could not load main menu");
+        }
+    }
+
+
 }
