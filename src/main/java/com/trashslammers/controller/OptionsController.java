@@ -26,7 +26,8 @@ import java.net.URL;
 public class OptionsController {
 
     @FXML private Button addAnimalButton;
-    @FXML private CheckBox activatePremiumCheckBox;
+    @FXML private CheckBox premiumCheckbox;
+    @FXML private Button backButton;
 
     private final IAuthenticationService authenticationService = new AuthenticationService();
 
@@ -40,24 +41,24 @@ public class OptionsController {
         addAnimalButton.setManaged(canManageAnimals);
 
         boolean isStandard = user != null && user.getRole() == Role.STANDARD;
-        activatePremiumCheckBox.setSelected(user != null && user.getRole() == Role.PREMIUM);
+        premiumCheckbox.setSelected(user != null && user.getRole() == Role.PREMIUM);
 
-        activatePremiumCheckBox.setDisable(!isStandard);
+        premiumCheckbox.setDisable(!isStandard);
     }
 
     @FXML
     private void handleActivatePremium(ActionEvent event) {
-        if (!activatePremiumCheckBox.isSelected()) {
+        if (!premiumCheckbox.isSelected()) {
             return;
         }
 
         try {
             User upgraded = authenticationService.upgradeToPremium(Session.getCurrentUser());
             Session.setCurrentUser(upgraded);
-            activatePremiumCheckBox.setDisable(true);
+            premiumCheckbox.setDisable(true);
         } catch (RuntimeException ex) {
             ex.printStackTrace();
-            activatePremiumCheckBox.setSelected(false);
+            premiumCheckbox.setSelected(false);
         }
     }
 
@@ -72,9 +73,26 @@ public class OptionsController {
             return;
         }
 
-        navigateTo(event, "/com/trashslammers/views/add-animal-view.fxml",
-                "Trash Slammers - Add Animal");
+        try {
+            //Locate the login FXML view
+            URL fxmlUrl = getClass().getResource("/com/trashslammers/views/admin-view.fxml");
+            Parent loginRoot = FXMLLoader.load(fxmlUrl);
+
+            //Get the current Stage (window) from the clicked button
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+            //Swap the scene on the current stage
+            stage.setScene(new Scene(loginRoot, 800, 600));
+            stage.setTitle("TrashSlammers - add animal");
+
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+            System.err.println("Could not load");
+        }
     }
+
+
 
     @FXML
     private void handleBack(ActionEvent event) {
