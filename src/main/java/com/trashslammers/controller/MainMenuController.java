@@ -1,5 +1,6 @@
 package com.trashslammers.controller;
 
+import com.trashslammers.service.Session;
 import javafx.animation.ScaleTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -17,6 +18,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.CycleMethod;
 import javafx.scene.paint.LinearGradient;
 import javafx.scene.paint.Stop;
+import com.trashslammers.model.User;
+import com.trashslammers.service.Session;
 
 import java.io.IOException;
 import java.net.URL;
@@ -35,7 +38,7 @@ public class MainMenuController {
 
             //Swap the scene on the current stage
             stage.setScene(new Scene(loginRoot, 400, 300));
-            stage.setTitle("TrashSlammers signup");
+            stage.setTitle("TrashSlammers - login");
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -77,7 +80,7 @@ public class MainMenuController {
 
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(new Scene(gameRoot, 800, 600));
-            stage.setTitle("TrashSlammers");
+            stage.setTitle("TrashSlammers - Options");
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -93,6 +96,9 @@ public class MainMenuController {
     private Button playButton;
 
     @FXML
+    private Text messageText;
+
+    @FXML
     public void initialize() {
         if (playButton != null) {
             pulse(playButton);
@@ -102,6 +108,17 @@ public class MainMenuController {
         } else {
             System.err.println("Warning: titleText is null. Check fx:id=\"titleText\" in FXML.");
         }
+        showWelcomeMessage();
+    }
+
+    private void showWelcomeMessage() {
+        if (messageText == null) {
+            System.err.println("Warning: messageText is null");
+            return;
+        }
+
+        User user = Session.getCurrentUser();
+        messageText.setText(user == null ? "" : "Hello " + user.getDisplayName());
     }
 
     private void pulse(Button button) {

@@ -6,9 +6,19 @@ import com.trashslammers.service.IAuthenticationService;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
+import com.trashslammers.model.User;
+import com.trashslammers.service.Session;
+import java.io.IOException;
+import java.net.URL;
+
 
 public class SignupController {
 
@@ -29,6 +39,21 @@ public class SignupController {
     public void initialize() {
         if (errorLabel != null) {
             errorLabel.setText("");
+        }
+    }
+
+    @FXML
+    private void goToMainMenu(ActionEvent event) {
+        try {
+            URL fxmlUrl = getClass().getResource("/com/trashslammers/views/main-menu-view.fxml");
+            Parent mainMenuRoot = FXMLLoader.load(fxmlUrl);
+
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(mainMenuRoot, 400, 300));
+            stage.setTitle("TrashSlammers");
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.err.println("Could not load main menu");
         }
     }
 
@@ -56,8 +81,9 @@ public class SignupController {
         try {
 
 
-            authenticationService.signUp(username, rawPassword);
-            errorLabel.setText("Sign up worked!");
+            User newUser = authenticationService.signUp(username, rawPassword);
+            Session.setCurrentUser(newUser);
+            goToMainMenu(event);
 
         } catch (IllegalArgumentException ex) {
             errorLabel.setText(ex.getMessage());

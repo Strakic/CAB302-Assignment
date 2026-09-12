@@ -41,7 +41,13 @@ public class LoginController {
             return;
         }
 
-        User user = authenticationService.logIn(username.trim(), password);
+        User user;
+        try {
+            user = authenticationService.logIn(username.trim(), password);
+        } catch (IllegalArgumentException ex) {
+            showError(ex.getMessage());
+            return;
+        }
 
         if (user == null) {
             showError("Incorrect username or password.");
@@ -53,6 +59,11 @@ public class LoginController {
 
         clearError();
         goToMainMenu(event);
+
+
+
+
+
     }
 
     private void showError(String message) {
@@ -86,7 +97,7 @@ public class LoginController {
     @FXML
     private void goToSignup(ActionEvent event) {
         try {
-            URL fxmlUrl = getClass().getResource("/com/trashslammers/views/sign-up-view.fxml");
+            URL fxmlUrl = getClass().getResource("/com/trashslammers/views/signup-view.fxml");
             Parent mainMenuRoot = FXMLLoader.load(fxmlUrl);
 
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();

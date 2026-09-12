@@ -43,21 +43,18 @@ public class AuthenticationService implements IAuthenticationService {
 
     @Override
     public User logIn(String username, String password) {
-        if (!EmailValidator.isValid(username)) {
-            throw new IllegalArgumentException("Username must be a valid email address");
+        User existingUser = userDAO.getUserByUsername(username);
+
+        if (existingUser == null) {
+            return null;
         }
 
-        if (userDAO.getUserByUsername(username) != null) {
-            throw new IllegalArgumentException("Username '" + username + "' is already taken");
+        if (!PasswordUtil.verifyPassword(password, existingUser.getPasswordHash())) {
+            return null;
         }
 
-        String passwordHash = PasswordUtil.hashPassword(password);
-        User newUser = new User(username, passwordHash);
-        userDAO.addUser(newUser);
-
-        return newUser;
+        return existingUser;
     }
-
 
     @Override
     public User upgradeToPremium(User user) {

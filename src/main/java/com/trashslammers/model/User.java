@@ -62,4 +62,9 @@ public class User {
     public void setPasswordHash(String passwordHash) {
         this.passwordHash = passwordHash;
     }
+
+    public String getDisplayName() {
+        int at = username.indexOf('@');
+        return at > 0 ? username.substring(0, at) : username;
+    }
 }
