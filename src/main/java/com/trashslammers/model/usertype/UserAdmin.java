@@ -10,7 +10,21 @@ public class UserAdmin extends User {
      * @param username
      * @param passwordHash
      */
+
     public UserAdmin(String username, String passwordHash) {
         super(username, passwordHash);
     }
+
+    @Override
+    public Role getRole(){
+        return Role.ADMIN;
+    }
+
+    @Override
+    public boolean canManageAnimals() {
+        return true;
+    }
+
+
+
 }
