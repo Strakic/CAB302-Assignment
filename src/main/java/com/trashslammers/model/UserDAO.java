@@ -5,7 +5,6 @@ import com.trashslammers.model.usertype.Role;
 import com.trashslammers.model.usertype.UserFactory;
 import com.trashslammers.util.PasswordUtil;
 
-import javax.swing.plaf.nimbus.State;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +30,7 @@ public class UserDAO implements IUserDAO {
                     "CREATE TABLE IF NOT EXISTS users ("
                             + "id INTEGER PRIMARY KEY AUTOINCREMENT, "
                             + "username VARCHAR NOT NULL UNIQUE, "
-                            + "passwordHash VARCHAR NOT NULL"
+                            + "passwordHash VARCHAR NOT NULL,"
                             + "role VARCHAR NOT NULL DEFAULT 'STANDARD'"
                             + ")"
             );
@@ -41,19 +40,6 @@ public class UserDAO implements IUserDAO {
 
     }
 
-    private void addRoleColumnIfMissing() {
-        if (hasRoleColumn()) {
-            return;
-        }
-
-        try (Statement statement = connection.createStatement()) {
-            statement.execute(
-                    "ALTER TABLE users ADD COLUMN role VARCHAR NOT NULL DEFAULT 'STANDARD'");
-
-        } catch (SQLException ex) {
-            System.err.println("Could not add role column: " + ex);
-        }
-    }
 
     private void addRoleColumnIfMissing() {
         if (hasRoleColumn()) {
@@ -107,11 +93,12 @@ public class UserDAO implements IUserDAO {
     // dont forget to use ? to parameterise SQL queries
     @Override
     public void addUser(User user) {
-        String query = "INSERT INTO users (username, passwordHash) VALUES (?, ?)";
+        String query = "INSERT INTO users (username, passwordHash, role) VALUES (?, ?, ?)";
         try {
-            PreparedStatement statement = connection.prepareStatement(query.toLowerCase(), Statement.RETURN_GENERATED_KEYS);
+            PreparedStatement statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
             statement.setString(1, user.getUsername());
             statement.setString(2, user.getPasswordHash());
+            statement.setString(3, user.getRole().name());
             statement.executeUpdate();
 
             ResultSet generateadKeys = statement.getGeneratedKeys();
@@ -127,11 +114,27 @@ public class UserDAO implements IUserDAO {
     @Override
     public void updateUser(User user) {
 
+        String query = "UPDATE users SET username = ?, passwordHash = ?, role = ? WHERE id = ?";
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setString(1, user.getUsername());
+            statement.setString(2, user.getPasswordHash());
+            statement.setString(3, user.getRole().name());
+            statement.setInt(4, user.getId());
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException("Could not update user " + user.getUsername(), e);
+        }
     }
 
     @Override
     public void deleteUser(int id) {
-
+        String query = "DELETE FROM users WHERE id = ?";
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setInt(1, id);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException("Could not delete user with id " + id, e);
+        }
     }
 
     @Override
@@ -154,7 +157,17 @@ public class UserDAO implements IUserDAO {
 
     @Override
     public List<User> getAllUsers() {
-        return List.of();
+        List<User> users = new ArrayList<>();
+        String query = "SELECT id, username, passwordHash, role FROM users ORDER BY id";
+        try (Statement statement = connection.createStatement();
+             ResultSet rs = statement.executeQuery(query)) {
+            while (rs.next()) {
+                users.add(mapRow(rs));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Could not list users", e);
+        }
+        return users;
     }
 
     public void close() {
@@ -163,5 +176,14 @@ public class UserDAO implements IUserDAO {
         } catch (SQLException ex) {
             System.err.println(ex);
         }
+    }
+
+    /** Makes one row into the user subclass that its role column names */
+    private User mapRow(ResultSet rs) throws SQLException {
+        return UserFactory.create(
+                Role.fromDb(rs.getString("role")),
+                rs.getInt("id"),
+                rs.getString("username"),
+                rs.getString("passwordHash"));
     }
 }

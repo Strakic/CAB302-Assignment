@@ -2,6 +2,8 @@ package com.trashslammers.controller;
 
 import com.trashslammers.service.AuthenticationService;
 import com.trashslammers.service.IAuthenticationService;
+import com.trashslammers.model.User;
+import com.trashslammers.service.Session;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -39,12 +41,15 @@ public class LoginController {
             return;
         }
 
-        boolean success = authenticationService.logIn(username, password);
+        User user = authenticationService.logIn(username.trim(), password);
 
-        if (!success) {
+        if (user == null) {
             showError("Incorrect username or password.");
             return;
         }
+
+        // every screen reads the logged in user from here
+        Session.setCurrentUser(user);
 
         clearError();
         goToMainMenu(event);

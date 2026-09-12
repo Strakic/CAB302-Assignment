@@ -1,6 +1,5 @@
 package com.trashslammers.controller;
 
-import org.mindrot.jbcrypt.BCrypt;
 
 import com.trashslammers.service.AuthenticationService;
 import com.trashslammers.service.IAuthenticationService;
@@ -56,9 +55,8 @@ public class SignupController {
 
         try {
 
-            String hashedPassword = BCrypt.hashpw(rawPassword, BCrypt.gensalt());
 
-            authenticationService.signUp(username, hashedPassword);
+            authenticationService.signUp(username, rawPassword);
             errorLabel.setText("Sign up worked!");
 
         } catch (IllegalArgumentException ex) {

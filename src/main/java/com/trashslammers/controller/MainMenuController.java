@@ -27,7 +27,7 @@ public class MainMenuController {
     private void handleLoginButtonClick(ActionEvent event) {
         try {
             //Locate the login FXML view
-            URL fxmlUrl = getClass().getResource("/com/trashslammers/views/signup-view.fxml");
+            URL fxmlUrl = getClass().getResource("/com/trashslammers/views/login-view.fxml");
             Parent loginRoot = FXMLLoader.load(fxmlUrl);
 
             //Get the current Stage (window) from the clicked button
