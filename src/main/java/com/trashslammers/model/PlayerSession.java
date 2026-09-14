@@ -5,7 +5,7 @@ import com.trashslammers.database.InMemoryAnimalRepository;
 import com.trashslammers.service.AnimalShopService;
 
 /**
- * The score and animal collection belonging to whoever is playing right now.
+ * The score and animal collection belonging to whoever is playing  now.
  * Screens share one instance so points earned in the game can be spent in the shop.
  */
 public final class PlayerSession {

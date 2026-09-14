@@ -1,7 +1,7 @@
 package com.trashslammers.model;
 
 /**
- * An animal the player has bought. The enclosure is recorded here rather than on
+ * An animal the player has bought. The enclosure is recorded in this file rather than on
  * the enclosure itself, so the enclosure screen can ask which animals it houses.
  */
 public class OwnedAnimal {
