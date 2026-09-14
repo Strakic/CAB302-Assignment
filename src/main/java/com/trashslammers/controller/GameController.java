@@ -1,17 +1,29 @@
 package com.trashslammers.controller;
 
+import com.trashslammers.model.PlayerSession;
 import com.trashslammers.model.Score;
 import com.trashslammers.service.DraggableMaker;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Bounds;
+import javafx.geometry.Side;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.List;
@@ -26,9 +38,13 @@ public class GameController implements Initializable {
     @FXML private VBox bucketGeneral;
     @FXML private VBox bucketRecycle;
     @FXML private Label scoreLabel;
+    @FXML private Button menuButton;
 
-    private final Score score = new Score();
+    // the shop spends the same score, so it lives on the session instead of here
+    private final Score score = PlayerSession.getInstance().getScore();
+
     private List<Node> buckets;
+    private ContextMenu gameMenu;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -92,5 +108,70 @@ public class GameController implements Initializable {
 
     private void updateScoreLabel() {
         scoreLabel.setText("Score: " + score.getValue());
+    }
+
+    @FXML
+    private void handleMenuButtonClick(ActionEvent event) {
+        if (gameMenu == null) {
+            gameMenu = buildGameMenu();
+        }
+
+        if (gameMenu.isShowing()) {
+            gameMenu.hide();
+        } else {
+            gameMenu.show(menuButton, Side.BOTTOM, 0, 0);
+        }
+    }
+
+    private ContextMenu buildGameMenu() {
+        MenuItem shop = new MenuItem("Animal Shop");
+        shop.setOnAction(event -> openAnimalShop());
+
+        MenuItem enclosure = new MenuItem("Enclosure");
+        enclosure.setOnAction(event -> openEnclosure());
+
+        MenuItem resume = new MenuItem("Resume");
+
+        return new ContextMenu(shop, enclosure, resume);
+    }
+
+    // open the shop as a modal so the game screen underneath stays as it was
+    private void openAnimalShop() {
+        try {
+            URL fxmlUrl = getClass().getResource("/com/trashslammers/views/animal-shop-view.fxml");
+            Parent shopRoot = FXMLLoader.load(fxmlUrl);
+
+            Stage shop = new Stage();
+            shop.initOwner(menuButton.getScene().getWindow());
+            shop.initModality(Modality.APPLICATION_MODAL);
+            shop.setTitle("Trash Slammers - Animal Shop");
+            shop.setScene(new Scene(shopRoot, 800, 600));
+            shop.setResizable(false);
+            shop.showAndWait();
+
+            updateScoreLabel();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.err.println("Could not load animal-shop-view.fxml");
+        }
+    }
+
+    private void openEnclosure() {
+        try {
+            URL fxmlUrl = getClass().getResource("/com/trashslammers/views/enclosure-view.fxml");
+            Parent enclosureRoot = FXMLLoader.load(fxmlUrl);
+
+            Stage stage = (Stage) menuButton.getScene().getWindow();
+            stage.setScene(new Scene(enclosureRoot, 800, 600));
+            stage.setWidth(800);
+            stage.setHeight(600);
+            stage.centerOnScreen();
+            stage.setTitle("Trash Slammers - Enclosure");
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.err.println("Could not load enclosure-view.fxml");
+        }
     }
 }
