@@ -127,7 +127,7 @@ public class AnimalShopController {
         return card;
     }
 
-    // stays empty until there is a sprite for the animal in the Animal Sprites folder
+    // (PLACEHOLDER) stays empty until there is a sprite for the animalS
     private ImageView createArtwork(Animal animal) {
         ImageView artwork = new ImageView();
         artwork.setFitWidth(80);

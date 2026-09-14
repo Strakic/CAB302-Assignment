@@ -21,6 +21,9 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+/**
+ * Animal shop behaviour tests
+ */
 public class AnimalShopServiceTest {
 
     private static final Animal KOALA = new Animal("koala", "Koala", "Phascolarctos cinereus",
