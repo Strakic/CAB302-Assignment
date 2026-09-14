@@ -1,4 +1,4 @@
-package com.trashslammers.controller;
+package com.trashslammers.service;
 
 import javafx.animation.Animation;
 import javafx.animation.PauseTransition;
@@ -22,13 +22,13 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Supplier;
 
-public final class AutoSaveController implements AutoCloseable {
+public final class AutoSaveService implements AutoCloseable {
 
     private static final Duration IDLE_DELAY = Duration.seconds(1.5);
     private static final Duration MAX_DELAY = Duration.seconds(10);
     private static final DateTimeFormatter TIME = DateTimeFormatter.ofPattern("HH.mm.ss");
 
-    private static final List<AutoSaveController> ACTIVE = new CopyOnWriteArrayList<>();
+    private static final List<AutoSaveService> ACTIVE = new CopyOnWriteArrayList<>();
 
     private final Path target;
     private final Path temp;
@@ -41,7 +41,7 @@ public final class AutoSaveController implements AutoCloseable {
     private String lastQueued;
     private boolean closed;
 
-    public AutoSaveController(Path target, Supplier<String> content) {
+    public AutoSaveService(Path target, Supplier<String> content) {
         this.target = target;
         this.temp = target.resolveSibling(target.getFileName() + ".tmp");
         this.content = content;
@@ -61,7 +61,7 @@ public final class AutoSaveController implements AutoCloseable {
         ACTIVE.add(this);
     }
 
-    public AutoSaveController watch(ObservableValue<?>... properties) {
+    public AutoSaveService watch(ObservableValue<?>... properties) {
         for (ObservableValue<?> p : properties) {
             p.addListener((obs, oldVal, newVal) -> touch());
         }
@@ -138,7 +138,7 @@ public final class AutoSaveController implements AutoCloseable {
     }
 
     public static void closeALL() {
-        for (AutoSaveController saver : List.copyOf(ACTIVE)) {
+        for (AutoSaveService saver : List.copyOf(ACTIVE)) {
             try {
                 saver.close();
             } catch (Exception e) {
