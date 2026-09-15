@@ -2,7 +2,9 @@ package com.trashslammers.controller;
 
 import com.trashslammers.model.PlayerSession;
 import com.trashslammers.model.Score;
+import com.trashslammers.model.TrashItem;
 import com.trashslammers.service.DraggableMaker;
+import com.trashslammers.service.SpriteService;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -16,7 +18,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
@@ -24,76 +25,96 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
 public class GameController implements Initializable {
 
-    @FXML
-    private Pane fallZone;
-
+    @FXML private Pane fallZone;
     @FXML private VBox bucketOrganic;
     @FXML private VBox bucketGeneral;
     @FXML private VBox bucketRecycle;
     @FXML private Label scoreLabel;
     @FXML private Button menuButton;
 
-    // the shop spends the same score, so it lives on the session instead of here
     private final Score score = PlayerSession.getInstance().getScore();
+    private final SpriteService spriteService = new SpriteService();
 
     private List<Node> buckets;
+    private List<TrashItem> trashPool;
     private ContextMenu gameMenu;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        // collect the buckets once so collision checks can loop over them
         buckets = List.of(bucketOrganic, bucketGeneral, bucketRecycle);
 
-        // make sprite and immediately attach drag using spawn trash sprite method
-        spawnTrashSprite("/com/trashslammers/Sprites/TrashSoda.png", 100, 100);
+        // Define pool mapping items to WasteType enum
+        trashPool = List.of(
+                new TrashItem("Soda Can", TrashItem.WasteType.RECYCLING),
+                new TrashItem("Apple Core", TrashItem.WasteType.GREEN),
+                new TrashItem("Wrapper", TrashItem.WasteType.GENERAL)
+        );
 
+        spawnRandomTrashSprite(100, 100);
         updateScoreLabel();
     }
 
-    private void spawnTrashSprite(String path, double x, double y) {
-        // use create sprite method to make a sprite.
-        ImageView sprite = createSprite(path, x, y, 120, 120);
-        // connect DraggableMaker directly to the new sprite, and tell us when it's dropped
+    private void spawnRandomTrashSprite(double x, double y) {
+        TrashItem randomItem = spriteService.getRandomTrashItem(trashPool);
+
+        ImageView sprite = spriteService.createSprite(
+                randomItem.getCorrectBin().getFileName(),
+                x,
+                y,
+                120,
+                120
+        );
+
+        sprite.getProperties().put("startX", x);
+        sprite.getProperties().put("startY", y);
+        sprite.getProperties().put("targetWasteType", randomItem.getCorrectBin());
+
         DraggableMaker.makeDraggable(sprite, this::onDropped);
-        // add new sprite as child to fallzone
         fallZone.getChildren().add(sprite);
     }
 
-    // find the image at image path and build up sprite
-    private ImageView createSprite(String path, double x, double y, double width, double height) {
-        InputStream stream = getClass().getResourceAsStream(path);
-        if (stream == null) {
-            System.err.println("Resource not found: " + path);
-            return new ImageView();
+    private void onDropped(Node trash) {
+        Node droppedBucket = bucketUnder(trash);
+
+        if (droppedBucket == null) {
+            resetTrashPosition(trash);
+            return;
         }
 
-        ImageView imageView = new ImageView(new Image(stream));
-        imageView.setFitWidth(width);
-        imageView.setFitHeight(height);
-        imageView.setPreserveRatio(true);
-        imageView.setLayoutX(x);
-        imageView.setLayoutY(y);
+        TrashItem.WasteType targetType = (TrashItem.WasteType) trash.getProperties().get("targetWasteType");
 
-        return imageView;
+        if (isCorrectBucket(droppedBucket, targetType)) {
+            fallZone.getChildren().remove(trash);
+            score.addForCorrectSort();
+            updateScoreLabel();
+            spawnRandomTrashSprite(100, 100);
+        } else {
+            resetTrashPosition(trash);
+        }
     }
 
-    // called by DraggableMaker when the user lets go of a sprite
-    private void onDropped(Node trash) {
-        if (bucketUnder(trash) == null) return;
-
-        fallZone.getChildren().remove(trash);
-        score.addForCorrectSort();
-        updateScoreLabel();
+    private boolean isCorrectBucket(Node bucketNode, TrashItem.WasteType type) {
+        if (bucketNode == bucketOrganic && type == TrashItem.WasteType.GREEN) return true;
+        if (bucketNode == bucketRecycle && type == TrashItem.WasteType.RECYCLING) return true;
+        if (bucketNode == bucketGeneral && type == TrashItem.WasteType.GENERAL) return true;
+        return false;
     }
 
-    // returns the bucket the sprite's centre is sitting in, or null if none
+    private void resetTrashPosition(Node trash) {
+        Double startX = (Double) trash.getProperties().get("startX");
+        Double startY = (Double) trash.getProperties().get("startY");
+        if (startX != null && startY != null) {
+            trash.setLayoutX(startX);
+            trash.setLayoutY(startY);
+        }
+    }
+
     private Node bucketUnder(Node trash) {
         Bounds t = trash.localToScene(trash.getBoundsInLocal());
         double cx = t.getCenterX();
@@ -135,7 +156,6 @@ public class GameController implements Initializable {
         return new ContextMenu(shop, enclosure, resume);
     }
 
-    // open the shop as a modal so the game screen underneath stays as it was
     private void openAnimalShop() {
         try {
             URL fxmlUrl = getClass().getResource("/com/trashslammers/views/animal-shop-view.fxml");
