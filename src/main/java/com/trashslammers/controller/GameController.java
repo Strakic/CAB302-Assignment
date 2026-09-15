@@ -5,6 +5,8 @@ import com.trashslammers.model.Score;
 import com.trashslammers.model.TrashItem;
 import com.trashslammers.service.DraggableMaker;
 import com.trashslammers.service.SpriteService;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -23,10 +25,13 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.ResourceBundle;
 
 public class GameController implements Initializable {
@@ -40,78 +45,99 @@ public class GameController implements Initializable {
 
     private final Score score = PlayerSession.getInstance().getScore();
     private final SpriteService spriteService = new SpriteService();
+    private final Random rand = new Random();
 
     private List<Node> buckets;
     private List<TrashItem> trashPool;
+    private final List<Node> activeTrash = new ArrayList<>();
+
     private ContextMenu gameMenu;
+    private Timeline gameLoop;
+    private Timeline spawner;
+    private final double fallSpeed = 2.0;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        buckets = List.of(bucketOrganic, bucketGeneral, bucketRecycle);
+        buckets = List.of(bucketOrganic, bucketGeneral, bucketRescycle);
 
-        // Define pool mapping items to WasteType enum
         trashPool = List.of(
-                new TrashItem("Soda Can", TrashItem.WasteType.RECYCLING),
-                new TrashItem("Apple Core", TrashItem.WasteType.GREEN),
-                new TrashItem("Wrapper", TrashItem.WasteType.GENERAL)
+                new TrashItem("TrashSoda.png", TrashItem.WasteType.RECYCLING)
         );
 
-        spawnRandomTrashSprite(100, 100);
         updateScoreLabel();
+
+        spawner = new Timeline(new KeyFrame(Duration.seconds(1.5), e -> spawnRandomTrashSprite()));
+        spawner.setCycleCount(Timeline.INDEFINITE);
+        spawner.play();
+
+        gameLoop = new Timeline(new KeyFrame(Duration.millis(20), e -> moveTrashDown()));
+        gameLoop.setCycleCount(Timeline.INDEFINITE);
+        gameLoop.play();
     }
 
-    private void spawnRandomTrashSprite(double x, double y) {
+    private void spawnRandomTrashSprite() {
         TrashItem randomItem = spriteService.getRandomTrashItem(trashPool);
 
-        ImageView sprite = spriteService.createSprite(
-                randomItem.getCorrectBin().getFileName(),
-                x,
-                y,
-                120,
-                120
-        );
+        double zoneWidth = fallZone.getWidth() > 0 ? fallZone.getWidth() : 600;
+        double startX = 20 + rand.nextDouble() * (zoneWidth - 140);
+        double startY = -100; // Spawns above visible area
 
-        sprite.getProperties().put("startX", x);
-        sprite.getProperties().put("startY", y);
-        sprite.getProperties().put("targetWasteType", randomItem.getCorrectBin());
+        ImageView sprite = spriteService.createSprite(randomItem.getName(), startX, startY, 120, 120);
+        sprite.getProperties().put("correctBin", randomItem.getCorrectBin());
 
+        // Pass direct drop callback without extra event filters
         DraggableMaker.makeDraggable(sprite, this::onDropped);
+
+        activeTrash.add(sprite);
         fallZone.getChildren().add(sprite);
+    }
+
+    private void moveTrashDown() {
+        List<Node> toRemove = new ArrayList<>();
+
+        for (Node trash : activeTrash) {
+            // Move item downward
+            trash.setLayoutY(trash.getLayoutY() + fallSpeed);
+
+            // Check if item hit a bin during movement
+            Node collidedBucket = bucketUnder(trash);
+            if (collidedBucket != null) {
+                processBinCollision(trash, collidedBucket);
+                toRemove.add(trash);
+                continue;
+            }
+
+            // Remove only when sprite completely passes the bottom of the screen
+            if (trash.getLayoutY() > fallZone.getHeight() + 120) {
+                toRemove.add(trash);
+            }
+        }
+
+        for (Node trash : toRemove) {
+            activeTrash.remove(trash);
+            fallZone.getChildren().remove(trash);
+        }
     }
 
     private void onDropped(Node trash) {
         Node droppedBucket = bucketUnder(trash);
+        if (droppedBucket == null) return;
 
-        if (droppedBucket == null) {
-            resetTrashPosition(trash);
-            return;
-        }
+        processBinCollision(trash, droppedBucket);
+        activeTrash.remove(trash);
+        fallZone.getChildren().remove(trash);
+    }
 
-        TrashItem.WasteType targetType = (TrashItem.WasteType) trash.getProperties().get("targetWasteType");
+    private void processBinCollision(Node trash, Node bucket) {
+        TrashItem.WasteType itemBin = (TrashItem.WasteType) trash.getProperties().get("correctBin");
 
-        if (isCorrectBucket(droppedBucket, targetType)) {
-            fallZone.getChildren().remove(trash);
+        boolean isCorrect = (bucket == bucketOrganic && itemBin == TrashItem.WasteType.GREEN)
+                || (bucket == bucketGeneral && itemBin == TrashItem.WasteType.GENERAL)
+                || (bucket == bucketRecycle && itemBin == TrashItem.WasteType.RECYCLING);
+
+        if (isCorrect) {
             score.addForCorrectSort();
             updateScoreLabel();
-            spawnRandomTrashSprite(100, 100);
-        } else {
-            resetTrashPosition(trash);
-        }
-    }
-
-    private boolean isCorrectBucket(Node bucketNode, TrashItem.WasteType type) {
-        if (bucketNode == bucketOrganic && type == TrashItem.WasteType.GREEN) return true;
-        if (bucketNode == bucketRecycle && type == TrashItem.WasteType.RECYCLING) return true;
-        if (bucketNode == bucketGeneral && type == TrashItem.WasteType.GENERAL) return true;
-        return false;
-    }
-
-    private void resetTrashPosition(Node trash) {
-        Double startX = (Double) trash.getProperties().get("startX");
-        Double startY = (Double) trash.getProperties().get("startY");
-        if (startX != null && startY != null) {
-            trash.setLayoutX(startX);
-            trash.setLayoutY(startY);
         }
     }
 
