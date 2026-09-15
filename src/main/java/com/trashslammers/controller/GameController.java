@@ -1,5 +1,8 @@
 package com.trashslammers.controller;
 
+import Save.CsvSaveManager;
+import Save.GameState;
+import Save.GameSession;
 import com.trashslammers.model.PlayerSession;
 import com.trashslammers.model.Score;
 import com.trashslammers.service.DraggableMaker;
@@ -12,16 +15,14 @@ import javafx.geometry.Side;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ContextMenu;
-import javafx.scene.control.Label;
-import javafx.scene.control.MenuItem;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.scene.control.Alert;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -132,7 +133,11 @@ public class GameController implements Initializable {
 
         MenuItem resume = new MenuItem("Resume");
 
-        return new ContextMenu(shop, enclosure, resume);
+        MenuItem save = new MenuItem("Save");
+        save.setOnAction(event -> saveGame());
+
+
+        return new ContextMenu(shop, enclosure, resume, save);
     }
 
     // open the shop as a modal so the game screen underneath stays as it was
@@ -172,6 +177,21 @@ public class GameController implements Initializable {
         } catch (IOException e) {
             e.printStackTrace();
             System.err.println("Could not load enclosure-view.fxml");
+        }
+    }
+
+    private final CsvSaveManager saveManager = new CsvSaveManager();
+
+    private void saveGame() {
+        GameState state = GameSession.get();
+        try {
+            saveManager.save(state);
+            new Alert(Alert.AlertType.INFORMATION,
+                    "Your game has been saved, " + state.getUsername() + "!").showAndWait();
+        } catch (IOException e) {
+            e.printStackTrace();
+            new Alert(Alert.AlertType.ERROR,
+                    "The game could not be saved. TRY AGAIN!").showAndWait();
         }
     }
 }
