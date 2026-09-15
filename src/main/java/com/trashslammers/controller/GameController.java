@@ -58,7 +58,7 @@ public class GameController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        buckets = List.of(bucketOrganic, bucketGeneral, bucketRescycle);
+        buckets = List.of(bucketOrganic, bucketGeneral, bucketRecycle);
 
         trashPool = List.of(
                 new TrashItem("TrashSoda.png", TrashItem.WasteType.RECYCLING)
