@@ -10,7 +10,14 @@ public class UserPremium extends User {
      * @param username
      * @param passwordHash
      */
+
     public UserPremium(String username, String passwordHash) {
         super(username, passwordHash);
     }
+
+    @Override
+    public Role getRole() {
+        return Role.PREMIUM;
+    }
+
 }

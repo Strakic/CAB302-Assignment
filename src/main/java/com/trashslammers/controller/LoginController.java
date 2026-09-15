@@ -2,6 +2,8 @@ package com.trashslammers.controller;
 
 import com.trashslammers.service.AuthenticationService;
 import com.trashslammers.service.IAuthenticationService;
+import com.trashslammers.model.User;
+import com.trashslammers.service.Session;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -39,15 +41,29 @@ public class LoginController {
             return;
         }
 
-        boolean success = authenticationService.logIn(username, password);
+        User user;
+        try {
+            user = authenticationService.logIn(username.trim(), password);
+        } catch (IllegalArgumentException ex) {
+            showError(ex.getMessage());
+            return;
+        }
 
-        if (!success) {
+        if (user == null) {
             showError("Incorrect username or password.");
             return;
         }
 
+        // every screen reads the logged in user from here
+        Session.setCurrentUser(user);
+
         clearError();
         goToMainMenu(event);
+
+
+
+
+
     }
 
     private void showError(String message) {
@@ -63,17 +79,35 @@ public class LoginController {
         }
     }
 
+    @FXML
     private void goToMainMenu(ActionEvent event) {
         try {
             URL fxmlUrl = getClass().getResource("/com/trashslammers/views/main-menu-view.fxml");
             Parent mainMenuRoot = FXMLLoader.load(fxmlUrl);
 
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(new Scene(mainMenuRoot, 400, 300));
+            stage.setScene(new Scene(mainMenuRoot, 800, 600));
             stage.setTitle("TrashSlammers");
         } catch (IOException e) {
             e.printStackTrace();
             System.err.println("Could not load main menu");
         }
     }
+
+    @FXML
+    private void goToSignup(ActionEvent event) {
+        try {
+            URL fxmlUrl = getClass().getResource("/com/trashslammers/views/signup-view.fxml");
+            Parent mainMenuRoot = FXMLLoader.load(fxmlUrl);
+
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(mainMenuRoot, 800, 600));
+            stage.setTitle("TrashSlammers");
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.err.println("Could not load main menu");
+        }
+    }
+
+
 }

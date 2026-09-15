@@ -1,5 +1,6 @@
 package com.trashslammers.controller;
 
+import com.trashslammers.service.Session;
 import javafx.animation.ScaleTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -17,6 +18,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.CycleMethod;
 import javafx.scene.paint.LinearGradient;
 import javafx.scene.paint.Stop;
+import com.trashslammers.model.User;
+import com.trashslammers.service.Session;
 
 import java.io.IOException;
 import java.net.URL;
@@ -27,15 +30,15 @@ public class MainMenuController {
     private void handleLoginButtonClick(ActionEvent event) {
         try {
             //Locate the login FXML view
-            URL fxmlUrl = getClass().getResource("/com/trashslammers/views/signup-view.fxml");
+            URL fxmlUrl = getClass().getResource("/com/trashslammers/views/login-view.fxml");
             Parent loginRoot = FXMLLoader.load(fxmlUrl);
 
             //Get the current Stage (window) from the clicked button
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
             //Swap the scene on the current stage
-            stage.setScene(new Scene(loginRoot, 400, 300));
-            stage.setTitle("TrashSlammers signup");
+            stage.setScene(new Scene(loginRoot, 800, 600));
+            stage.setTitle("TrashSlammers - login");
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -65,7 +68,35 @@ public class MainMenuController {
     }
 
     @FXML
+    private void handleOptionsButtonClick(ActionEvent event) {
+        try {
+            URL fxmlUrl = getClass().getResource("/com/trashslammers/views/options-view.fxml");
+
+            if (fxmlUrl == null) {
+                return;
+            }
+
+            Parent gameRoot = FXMLLoader.load(fxmlUrl);
+
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(gameRoot, 800, 600));
+            stage.setTitle("TrashSlammers - Options");
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.err.println("Failed to load game view: " + e.getMessage());
+        }
+    }
+
+
+
+
+
+    @FXML
     private Button playButton;
+
+    @FXML
+    private Text messageText;
 
     @FXML
     public void initialize() {
@@ -77,6 +108,17 @@ public class MainMenuController {
         } else {
             System.err.println("Warning: titleText is null. Check fx:id=\"titleText\" in FXML.");
         }
+        showWelcomeMessage();
+    }
+
+    private void showWelcomeMessage() {
+        if (messageText == null) {
+            System.err.println("Warning: messageText is null");
+            return;
+        }
+
+        User user = Session.getCurrentUser();
+        messageText.setText(user == null ? "" : "Hello " + user.getDisplayName());
     }
 
     private void pulse(Button button) {

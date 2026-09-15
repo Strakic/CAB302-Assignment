@@ -1,5 +1,7 @@
 package com.trashslammers.model;
 
+import com.trashslammers.model.usertype.Role;
+
 /**
  * base representation of an account
  *
@@ -27,6 +29,15 @@ public class User {
         this.passwordHash = passwordHash;
     }
 
+
+    public Role getRole() {
+        return Role.STANDARD;
+    }
+
+    public boolean canManageAnimals() {
+        return false;
+    }
+
     public int getId() {
         return id;
     }
@@ -50,5 +61,10 @@ public class User {
 
     public void setPasswordHash(String passwordHash) {
         this.passwordHash = passwordHash;
+    }
+
+    public String getDisplayName() {
+        int at = username.indexOf('@');
+        return at > 0 ? username.substring(0, at) : username;
     }
 }
