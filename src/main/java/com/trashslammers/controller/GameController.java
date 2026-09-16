@@ -1,8 +1,5 @@
 package com.trashslammers.controller;
 
-import Save.CsvSaveManager;
-import Save.GameState;
-import Save.GameSession;
 import com.trashslammers.model.PlayerSession;
 import com.trashslammers.model.Score;
 import com.trashslammers.service.DraggableMaker;
@@ -134,8 +131,6 @@ public class GameController implements Initializable {
         MenuItem resume = new MenuItem("Resume");
 
         MenuItem save = new MenuItem("Save");
-        save.setOnAction(event -> saveGame());
-
 
         return new ContextMenu(shop, enclosure, resume, save);
     }
@@ -177,21 +172,6 @@ public class GameController implements Initializable {
         } catch (IOException e) {
             e.printStackTrace();
             System.err.println("Could not load enclosure-view.fxml");
-        }
-    }
-
-    private final CsvSaveManager saveManager = new CsvSaveManager();
-
-    private void saveGame() {
-        GameState state = GameSession.get();
-        try {
-            saveManager.save(state);
-            new Alert(Alert.AlertType.INFORMATION,
-                    "Your game has been saved, " + state.getUsername() + "!").showAndWait();
-        } catch (IOException e) {
-            e.printStackTrace();
-            new Alert(Alert.AlertType.ERROR,
-                    "The game could not be saved. TRY AGAIN!").showAndWait();
         }
     }
 }
