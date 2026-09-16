@@ -23,6 +23,7 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -60,6 +61,12 @@ public class GameController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         buckets = List.of(bucketOrganic, bucketGeneral, bucketRecycle);
 
+        // stop sprites painting outside the play area and over the HUD
+        Rectangle clip = new Rectangle();
+        clip.widthProperty().bind(fallZone.widthProperty());
+        clip.heightProperty().bind(fallZone.heightProperty().add(200));
+        fallZone.setClip(clip);
+
         trashPool = List.of(
                 new TrashItem("TrashSoda.png", TrashItem.WasteType.RECYCLING)
         );
@@ -80,7 +87,7 @@ public class GameController implements Initializable {
 
         double zoneWidth = fallZone.getWidth() > 0 ? fallZone.getWidth() : 600;
         double startX = 20 + rand.nextDouble() * (zoneWidth - 140);
-        double startY = -100; // Spawns above visible area
+        double startY = -50; // Spawns above visible area
 
         ImageView sprite = spriteService.createSprite(randomItem.getName(), startX, startY, 120, 120);
         sprite.getProperties().put("correctBin", randomItem.getCorrectBin());
