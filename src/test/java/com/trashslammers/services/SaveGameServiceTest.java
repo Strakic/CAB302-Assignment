@@ -3,6 +3,7 @@ package com.trashslammers.services;
 import com.trashslammers.model.Animal;
 import com.trashslammers.model.OwnedAnimal;
 import com.trashslammers.model.Rarity;
+import com.trashslammers.model.gamestates.AnimalCatalog;
 import com.trashslammers.model.gamestates.GameState;
 import com.trashslammers.service.SaveGameService;
 import org.junit.jupiter.api.AfterEach;
@@ -56,22 +57,24 @@ public class SaveGameServiceTest {
         Path saveFilePath = tempDir.resolve("save_user_1.csv");
         int userId = 1;
         int score = 250;
+
+        Animal penguin = AnimalCatalog.findById("galapagos-penguin").orElseThrow();
+        Animal orangutan = AnimalCatalog.findById("orangutan").orElseThrow();
+
         List<OwnedAnimal> animals = List.of(
-                new OwnedAnimal(new Animal("koala", "Koala", "Phascolarctos cinereus", Rarity.COMMON, 100, null, "Eucalypt Forest", "Fact 1")),
-                new OwnedAnimal(new Animal("orangutan", "Orangutan", "Pongo pygmaeus", Rarity.RARE, 700, null, "Lowland Forest", "Fact 2"))
+                new OwnedAnimal(penguin),
+                new OwnedAnimal(orangutan)
         );
 
         saveGameService.saveGame(userId, saveFilePath, score, animals);
 
-        // Verify CSV file exists and content matches
         assertTrue(Files.exists(saveFilePath));
         List<String> lines = Files.readAllLines(saveFilePath);
         assertEquals("SCORE,250", lines.get(0));
         assertEquals("TOTAL_ANIMALS,2", lines.get(1));
-        assertTrue(lines.contains("ANIMAL,koala"));
-        assertTrue(lines.contains("ANIMAL,orangutan"));
+        assertTrue(lines.contains("ANIMAL,galapagos-penguin,"));
+        assertTrue(lines.contains("ANIMAL,orangutan,"));
 
-        // Verify database path entry
         try (Statement stmt = connection.createStatement();
              ResultSet rs = stmt.executeQuery("SELECT file_path FROM save_files WHERE user_id = 1")) {
             assertTrue(rs.next());
@@ -127,14 +130,13 @@ public class SaveGameServiceTest {
     void upperBoundLargeScoreAndDuplicateAnimalsHandledCorrectly(@TempDir Path tempDir) throws IOException, SQLException {
         Path saveFilePath = tempDir.resolve("save_large.csv");
         int userId = 999;
-        int maxScore = Integer.MAX_VALUE; // Upper bound for score
+        int maxScore = Integer.MAX_VALUE;
 
-        Animal koala = new Animal("koala", "Koala", "Phascolarctos cinereus", Rarity.COMMON, 100, null, "Forest", "Fact");
-        // Upper bound check: user owns multiple instances of the same animal type
+        Animal turtle = AnimalCatalog.findById("hawksbill-turtle").orElseThrow();
         List<OwnedAnimal> largeCollection = List.of(
-                new OwnedAnimal(koala),
-                new OwnedAnimal(koala),
-                new OwnedAnimal(koala)
+                new OwnedAnimal(turtle),
+                new OwnedAnimal(turtle),
+                new OwnedAnimal(turtle)
         );
 
         saveGameService.saveGame(userId, saveFilePath, maxScore, largeCollection);
