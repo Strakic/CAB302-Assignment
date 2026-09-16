@@ -12,12 +12,12 @@ import com.trashslammers.model.usertype.Role;
 
 public class User {
 
-    protected int id = -1; // -1 is when the data is not yet saved to the bd
+    private int id = -1; // -1 is when the data is not yet saved to the bd
 
-    protected String username;
+    private String username;
 
     // The salted/hashed password - never the plaintext
-    protected String passwordHash;
+    private String passwordHash;
 
     /**
      * Creates a brand-new user that has not been persisted yet.
