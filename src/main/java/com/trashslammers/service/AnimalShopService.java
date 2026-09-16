@@ -2,7 +2,7 @@ package com.trashslammers.service;
 
 import com.trashslammers.database.AnimalRepository;
 import com.trashslammers.model.Animal;
-import com.trashslammers.model.AnimalCatalog;
+import com.trashslammers.model.gamestates.AnimalCatalog;
 import com.trashslammers.model.OwnedAnimal;
 import com.trashslammers.model.Score;
 
