@@ -1,8 +1,10 @@
-package com.trashslammers.service;
+package com.trashslammers.services;
 
 import com.trashslammers.model.Animal;
 import com.trashslammers.model.OwnedAnimal;
 import com.trashslammers.model.Rarity;
+import com.trashslammers.model.gamestates.GameState;
+import com.trashslammers.service.SaveGameService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
