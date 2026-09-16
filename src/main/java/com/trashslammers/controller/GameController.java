@@ -1,10 +1,15 @@
 package com.trashslammers.controller;
 
+import com.trashslammers.database.DatabaseConnection;
+import com.trashslammers.model.*;
+import com.trashslammers.model.OwnedAnimal;
 import com.trashslammers.model.PlayerSession;
 import com.trashslammers.model.Score;
 import com.trashslammers.model.TrashItem;
 import com.trashslammers.service.DraggableMaker;
+import com.trashslammers.service.SaveGameService;
 import com.trashslammers.service.SpriteService;
+import com.trashslammers.model.gamestates.*;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
@@ -16,8 +21,6 @@ import javafx.geometry.Side;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
-import javafx.scene.image.Image;
 import javafx.scene.control.Button;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
@@ -25,11 +28,14 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.Window;
 import javafx.scene.control.Alert;
 import javafx.util.Duration;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -83,12 +89,11 @@ public class GameController implements Initializable {
 
         double zoneWidth = fallZone.getWidth() > 0 ? fallZone.getWidth() : 600;
         double startX = 20 + rand.nextDouble() * (zoneWidth - 140);
-        double startY = -100; // Spawns above visible area
+        double startY = -100;
 
         ImageView sprite = spriteService.createSprite(randomItem.getName(), startX, startY, 120, 120);
         sprite.getProperties().put("correctBin", randomItem.getCorrectBin());
 
-        // Pass direct drop callback without extra event filters
         DraggableMaker.makeDraggable(sprite, this::onDropped);
 
         activeTrash.add(sprite);
@@ -99,10 +104,8 @@ public class GameController implements Initializable {
         List<Node> toRemove = new ArrayList<>();
 
         for (Node trash : activeTrash) {
-            // Move item downward
             trash.setLayoutY(trash.getLayoutY() + fallSpeed);
 
-            // Check if item hit a bin during movement
             Node collidedBucket = bucketUnder(trash);
             if (collidedBucket != null) {
                 processBinCollision(trash, collidedBucket);
@@ -110,7 +113,6 @@ public class GameController implements Initializable {
                 continue;
             }
 
-            // Remove only when sprite completely passes the bottom of the screen
             if (trash.getLayoutY() > fallZone.getHeight() + 120) {
                 toRemove.add(trash);
             }
@@ -183,13 +185,58 @@ public class GameController implements Initializable {
         MenuItem resume = new MenuItem("Resume");
 
         MenuItem save = new MenuItem("Save");
+        save.setOnAction(event -> saveGame());
 
         return new ContextMenu(shop, enclosure, resume, save);
+    }
+
+    private void saveGame() {
+        try {
+            // Open JavaFX FileChooser so user can select location
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Save Game Progress");
+            fileChooser.setInitialFileName("trash_slammers_save.csv");
+            fileChooser.getExtensionFilters().add(
+                    new FileChooser.ExtensionFilter("CSV Files (*.csv)", "*.csv")
+            );
+
+            Window window = menuButton.getScene().getWindow();
+            File selectedFile = fileChooser.showSaveDialog(window);
+
+            // Exit cleanly if user cancels file picker
+            if (selectedFile == null) {
+                return;
+            }
+
+            GameStateDAO gameStateDAO = new GameStateDAO();
+            SaveGameService saveService = new SaveGameService(DatabaseConnection.getInstance(), gameStateDAO);
+
+            int userId = 1;
+            int currentScore = PlayerSession.getInstance().getScore().getValue();
+            List<OwnedAnimal> animals = PlayerSession.getInstance().getShopService().ownedAnimals();
+
+            saveService.saveGame(userId, selectedFile.toPath(), currentScore, animals);
+
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Game Saved");
+            alert.setHeaderText(null);
+            alert.setContentText("Game saved successfully to " + selectedFile.getName() + "!");
+            alert.showAndWait();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Save Failed");
+            alert.setHeaderText(null);
+            alert.setContentText("Could not save the game: " + e.getMessage());
+            alert.showAndWait();
+        }
     }
 
     private void openAnimalShop() {
         try {
             URL fxmlUrl = getClass().getResource("/com/trashslammers/views/animal-shop-view.fxml");
+            if (fxmlUrl == null) return;
             Parent shopRoot = FXMLLoader.load(fxmlUrl);
 
             Stage shop = new Stage();
@@ -211,6 +258,7 @@ public class GameController implements Initializable {
     private void openEnclosure() {
         try {
             URL fxmlUrl = getClass().getResource("/com/trashslammers/views/enclosure-view.fxml");
+            if (fxmlUrl == null) return;
             Parent enclosureRoot = FXMLLoader.load(fxmlUrl);
 
             Stage stage = (Stage) menuButton.getScene().getWindow();
