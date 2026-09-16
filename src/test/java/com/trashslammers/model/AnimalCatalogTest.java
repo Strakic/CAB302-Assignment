@@ -1,7 +1,7 @@
 package com.trashslammers.model;
 
 import org.junit.jupiter.api.Test;
-
+import com.trashslammers.model.gamestates.AnimalCatalog;
 import java.util.HashSet;
 import java.util.Set;
 

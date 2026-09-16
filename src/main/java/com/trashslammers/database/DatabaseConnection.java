@@ -1,31 +1,25 @@
 package com.trashslammers.database;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DatabaseConnection {
+    private static final String URL = "jdbc:sqlite:database.db";
     private static Connection instance = null;
 
-    /*
-    explanation from canvas:
-    "Even though this code doesn't seem to do anything,
-    it will actually create a new SQLite database file named database.db in
-    the root directory of the project (but if the file already exists,
-    it will simply connect to it"
-     */
+    // Private constructor prevents direct instantiation
+    private DatabaseConnection() {}
 
-    private DatabaseConnection() {
-        String url = "jdbc:sqlite:database.db";
+    public static synchronized Connection getInstance() {
         try {
-            instance = DriverManager.getConnection(url);
-        } catch (SQLException sqlEx) {
-            System.err.println(sqlEx);
-        }
-    }
-
-    public static Connection getInstance() {
-        if (instance == null) {
-            new DatabaseConnection();
+            // Reopen if instance is null OR if the connection was previously closed
+            if (instance == null || instance.isClosed()) {
+                instance = DriverManager.getConnection(URL);
+            }
+        } catch (SQLException e) {
+            System.err.println("Database connection error: " + e.getMessage());
+            throw new RuntimeException("Failed to connect to SQLite database", e);
         }
         return instance;
     }
