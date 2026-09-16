@@ -1,4 +1,7 @@
-package com.trashslammers.model;
+package com.trashslammers.model.gamestates;
+
+import com.trashslammers.model.Animal;
+import com.trashslammers.model.Rarity;
 
 import java.util.List;
 import java.util.Optional;
