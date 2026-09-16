@@ -16,6 +16,8 @@ import javafx.geometry.Side;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.control.Button;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
@@ -25,6 +27,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.scene.control.Alert;
 import javafx.util.Duration;
 
 import java.io.IOException;
@@ -179,7 +182,9 @@ public class GameController implements Initializable {
 
         MenuItem resume = new MenuItem("Resume");
 
-        return new ContextMenu(shop, enclosure, resume);
+        MenuItem save = new MenuItem("Save");
+
+        return new ContextMenu(shop, enclosure, resume, save);
     }
 
     private void openAnimalShop() {
