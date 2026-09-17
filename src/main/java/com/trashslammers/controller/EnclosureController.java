@@ -104,7 +104,7 @@ public class EnclosureController {
 
     @FXML
     private void goBack(ActionEvent event) {
-        navigateTo(event.getSource(), "/com/trashslammers/views/main-menu-view.fxml", "Trash Slammers", 800, 600);
+        navigateTo(event.getSource(), "/com/trashslammers/views/enclosure-list-view.fxml", "Trash Slammers", 800, 600);
     }
 
     @FXML

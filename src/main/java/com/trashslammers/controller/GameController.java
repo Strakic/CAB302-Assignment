@@ -7,7 +7,7 @@ import com.trashslammers.model.PlayerSession;
 import com.trashslammers.model.Score;
 import com.trashslammers.model.TrashItem;
 import com.trashslammers.service.DraggableMaker;
-import com.trashslammers.service.SaveGameService;
+//import com.trashslammers.service.SaveGameService;
 import com.trashslammers.service.SpriteService;
 import com.trashslammers.model.gamestates.*;
 import javafx.animation.KeyFrame;
@@ -196,54 +196,54 @@ public class GameController implements Initializable {
         MenuItem resume = new MenuItem("Resume");
 
         MenuItem save = new MenuItem("Save");
-        save.setOnAction(event -> saveGame());
+        //save.setOnAction(event -> saveGame());
 
         return new ContextMenu(shop, enclosure, resume, save);
     }
 
-    private void saveGame() {
-        try {
-            // Open JavaFX FileChooser so user can select location
-            FileChooser fileChooser = new FileChooser();
-            fileChooser.setTitle("Save Game Progress");
-            fileChooser.setInitialFileName("trash_slammers_save.csv");
-            fileChooser.getExtensionFilters().add(
-                    new FileChooser.ExtensionFilter("CSV Files (*.csv)", "*.csv")
-            );
+    /*   private void saveGame() {
+           try {
+               // Open JavaFX FileChooser so user can select location
+               FileChooser fileChooser = new FileChooser();
+               fileChooser.setTitle("Save Game Progress");
+               fileChooser.setInitialFileName("trash_slammers_save.csv");
+               fileChooser.getExtensionFilters().add(
+                       new FileChooser.ExtensionFilter("CSV Files (*.csv)", "*.csv")
+               );
 
-            Window window = menuButton.getScene().getWindow();
-            File selectedFile = fileChooser.showSaveDialog(window);
+               Window window = menuButton.getScene().getWindow();
+               File selectedFile = fileChooser.showSaveDialog(window);
 
-            // Exit cleanly if user cancels file picker
-            if (selectedFile == null) {
-                return;
-            }
+               // Exit cleanly if user cancels file picker
+               if (selectedFile == null) {
+                   return;
+               }
 
-            GameStateDAO gameStateDAO = new GameStateDAO();
-            SaveGameService saveService = new SaveGameService(DatabaseConnection.getInstance(), gameStateDAO);
+               GameStateDAO gameStateDAO = new GameStateDAO();
+               SaveGameService saveService = new SaveGameService(DatabaseConnection.getInstance(), gameStateDAO);
 
-            int userId = 1;
-            int currentScore = PlayerSession.getInstance().getScore().getValue();
-            List<OwnedAnimal> animals = PlayerSession.getInstance().getShopService().ownedAnimals();
+               int userId = 1;
+               int currentScore = PlayerSession.getInstance().getScore().getValue();
+               List<OwnedAnimal> animals = PlayerSession.getInstance().getShopService().ownedAnimals();
 
-            saveService.saveGame(userId, selectedFile.toPath(), currentScore, animals);
+               saveService.saveGame(userId, selectedFile.toPath(), currentScore, animals);
 
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Game Saved");
-            alert.setHeaderText(null);
-            alert.setContentText("Game saved successfully to " + selectedFile.getName() + "!");
-            alert.showAndWait();
+               Alert alert = new Alert(Alert.AlertType.INFORMATION);
+               alert.setTitle("Game Saved");
+               alert.setHeaderText(null);
+               alert.setContentText("Game saved successfully to " + selectedFile.getName() + "!");
+               alert.showAndWait();
 
-        } catch (Exception e) {
-            e.printStackTrace();
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Save Failed");
-            alert.setHeaderText(null);
-            alert.setContentText("Could not save the game: " + e.getMessage());
-            alert.showAndWait();
-        }
-    }
-
+           } catch (Exception e) {
+               e.printStackTrace();
+               Alert alert = new Alert(Alert.AlertType.ERROR);
+               alert.setTitle("Save Failed");
+               alert.setHeaderText(null);
+               alert.setContentText("Could not save the game: " + e.getMessage());
+               alert.showAndWait();
+           }
+       }
+   */
     private void openAnimalShop() {
         try {
             URL fxmlUrl = getClass().getResource("/com/trashslammers/views/animal-shop-view.fxml");
@@ -268,7 +268,7 @@ public class GameController implements Initializable {
 
     private void openEnclosure() {
         try {
-            URL fxmlUrl = getClass().getResource("/com/trashslammers/views/enclosure-view.fxml");
+            URL fxmlUrl = getClass().getResource("/com/trashslammers/views/enclosure-list-view.fxml");
             if (fxmlUrl == null) return;
             Parent enclosureRoot = FXMLLoader.load(fxmlUrl);
 
@@ -281,7 +281,7 @@ public class GameController implements Initializable {
 
         } catch (IOException e) {
             e.printStackTrace();
-            System.err.println("Could not load enclosure-view.fxml");
+            System.err.println("Could not load enclosure-list-view.fxml");
         }
     }
 }

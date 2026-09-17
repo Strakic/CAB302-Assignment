@@ -101,7 +101,7 @@ public class EnclosureListController {
     @FXML
     private void goBack(ActionEvent event) {
         try {
-            URL fxmlUrl = getClass().getResource("/com/trashslammers/views/main-menu-view.fxml");
+            URL fxmlUrl = getClass().getResource("/com/trashslammers/views/game-view.fxml");
             Parent root = javafx.fxml.FXMLLoader.load(fxmlUrl);
 
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -111,7 +111,7 @@ public class EnclosureListController {
 
         } catch (Exception e) {
             e.printStackTrace();
-            System.err.println("Could not load main-menu-view.fxml");
+            System.err.println("Could not load game-view.fxml");
         }
     }
 }
