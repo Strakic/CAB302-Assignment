@@ -75,9 +75,10 @@ public class GameController implements Initializable {
         clip.widthProperty().bind(fallZone.widthProperty());
         clip.heightProperty().bind(fallZone.heightProperty().add(200));
         fallZone.setClip(clip);
-
+        // ADD NEW TRASH HERE!!!!!!!
         trashPool = List.of(
-                new TrashItem("TrashSoda.png", TrashItem.WasteType.RECYCLING)
+                new TrashItem("TrashSoda.png", TrashItem.WasteType.RECYCLING),
+                new TrashItem("AppleCore.png", TrashItem.WasteType.GREEN)
         );
 
         updateScoreLabel();

@@ -32,6 +32,34 @@ public class LoginController {
     private final IAuthenticationService authenticationService = new AuthenticationService();
 
     @FXML
+    private void Back(ActionEvent event) {
+        navigateTo(event, "/com/trashslammers/views/main-menu-view.fxml", "Trash Slammers");
+    }
+
+    private void navigateTo(ActionEvent event, String fxmlPath, String title) {
+        try {
+            URL fxmlUrl = getClass().getResource(fxmlPath);
+            if (fxmlUrl == null) {
+                System.err.println("View not found: " + fxmlPath);
+                return;
+            }
+
+            Parent root = FXMLLoader.load(fxmlUrl);
+
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root, 800, 600));
+            stage.setWidth(800);
+            stage.setHeight(600);
+            stage.centerOnScreen();
+            stage.setTitle(title);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.err.println("Could not load " + fxmlPath);
+        }
+    }
+
+    @FXML
     private void logIn(ActionEvent event){
         String username = usernameField.getText();
         String password = passwordField.getText();
