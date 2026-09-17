@@ -78,7 +78,8 @@ public class GameController implements Initializable {
         // ADD NEW TRASH HERE!!!!!!!
         trashPool = List.of(
                 new TrashItem("TrashSoda.png", TrashItem.WasteType.RECYCLING),
-                new TrashItem("AppleCore.png", TrashItem.WasteType.GREEN)
+                new TrashItem("AppleCore.png", TrashItem.WasteType.GREEN),
+                new TrashItem("ChipBag.png", TrashItem.WasteType.GENERAL)
         );
 
         updateScoreLabel();
