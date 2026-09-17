@@ -1,17 +1,70 @@
 package com.trashslammers.model;
 
-import java.util.ArrayList;
+import com.trashslammers.model.usertype.Role;
+
+/**
+ * base representation of an account
+ *
+ * password is only ever stored as a hashed value
+ *
+ */
+
 
 public class User {
-    // Static admin credentials for testing
-    public static final String ADMIN_USERNAME = "admin";
-    public static final String ADMIN_PASSWORD = "admin";
+
+    private int id = -1; // -1 is when the data is not yet saved to the bd
 
     private String username;
-    private String password;
-    private Boolean signedIn;
-    public User(String username, String password) {
+
+    // The salted/hashed password - never the plaintext
+    private String passwordHash;
+
+    /**
+     * Creates a brand-new user that has not been persisted yet.
+     * The id is assigned later by whatever saves it (see UserRepository).
+     */
+    public User(String username, String passwordHash) {
+
         this.username = username;
-        this.password = password;
+        this.passwordHash = passwordHash;
+    }
+
+
+    public Role getRole() {
+        return Role.STANDARD;
+    }
+
+    public boolean canManageAnimals() {
+        return false;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    /** Returns the stored hash value and never the plaintext password. */
+    public String getPasswordHash() {
+        return passwordHash;
+    }
+
+    public void setPasswordHash(String passwordHash) {
+        this.passwordHash = passwordHash;
+    }
+
+    public String getDisplayName() {
+        int at = username.indexOf('@');
+        return at > 0 ? username.substring(0, at) : username;
     }
 }

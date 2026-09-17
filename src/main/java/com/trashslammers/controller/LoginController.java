@@ -1,8 +1,22 @@
 package com.trashslammers.controller;
 
+import com.trashslammers.service.AuthenticationService;
+import com.trashslammers.service.IAuthenticationService;
+import com.trashslammers.model.User;
+import com.trashslammers.service.Session;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Label;
+import javafx.stage.Stage;
+import java.io.IOException;
+import java.net.URL;
+
 
 public class LoginController {
 
@@ -13,10 +27,87 @@ public class LoginController {
     private PasswordField passwordField;
 
     @FXML
-    private void logIn() {
+    private Label errorLabel;
+
+    private final IAuthenticationService authenticationService = new AuthenticationService();
+
+    @FXML
+    private void logIn(ActionEvent event){
         String username = usernameField.getText();
         String password = passwordField.getText();
 
-        // Pass credentials to AuthenticationService here
+        if (username == null || username.trim().isEmpty() || password == null || password.trim().isEmpty()) {
+            showError("Please enter a username and password.");
+            return;
+        }
+
+        User user;
+        try {
+            user = authenticationService.logIn(username.trim(), password);
+        } catch (IllegalArgumentException ex) {
+            showError(ex.getMessage());
+            return;
+        }
+
+        if (user == null) {
+            showError("Incorrect username or password.");
+            return;
+        }
+
+        // every screen reads the logged in user from here
+        Session.setCurrentUser(user);
+
+        clearError();
+        goToMainMenu(event);
+
+
+
+
+
     }
+
+    private void showError(String message) {
+        if (errorLabel != null) {
+            errorLabel.setText(message);
+        }
+
+    }
+
+    private void clearError() {
+        if (errorLabel != null) {
+            errorLabel.setText("");
+        }
+    }
+
+    @FXML
+    private void goToMainMenu(ActionEvent event) {
+        try {
+            URL fxmlUrl = getClass().getResource("/com/trashslammers/views/main-menu-view.fxml");
+            Parent mainMenuRoot = FXMLLoader.load(fxmlUrl);
+
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(mainMenuRoot, 800, 600));
+            stage.setTitle("TrashSlammers");
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.err.println("Could not load main menu");
+        }
+    }
+
+    @FXML
+    private void goToSignup(ActionEvent event) {
+        try {
+            URL fxmlUrl = getClass().getResource("/com/trashslammers/views/signup-view.fxml");
+            Parent mainMenuRoot = FXMLLoader.load(fxmlUrl);
+
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(mainMenuRoot, 800, 600));
+            stage.setTitle("TrashSlammers");
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.err.println("Could not load main menu");
+        }
+    }
+
+
 }

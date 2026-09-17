@@ -1,25 +1,78 @@
 package com.trashslammers.service;
+
+import com.trashslammers.model.IUserDAO;
 import com.trashslammers.model.User;
+import com.trashslammers.model.UserDAO;
+import com.trashslammers.model.usertype.Role;
+import com.trashslammers.model.usertype.UserFactory;
+import com.trashslammers.util.EmailValidator;
+import com.trashslammers.util.PasswordUtil;
 
-public class AuthenticationService implements IAuthenticationService{
+public class AuthenticationService implements IAuthenticationService {
 
-    /**
-     * Authenticates a user against the hardcoded admin credentials.
-     *
-     * @param username The entered username
-     * @param password The entered password
-     * @return 1 if credentials match, 0 otherwise
-     */
+    private final IUserDAO userDAO;
 
-    @Override
-    public User signUp(String username, String password) {
-        return null;
+    // Default constructor uses your actual SQLite DAO
+    public AuthenticationService() {
+        this(new UserDAO());
+    }
+
+
+    public AuthenticationService(IUserDAO userDAO) {
+        this.userDAO = userDAO;
     }
 
     @Override
-    public boolean logIn(String username, String password) {
-        // Compare entered values against static User constants
-        return username.equals(User.ADMIN_USERNAME) && password.equals(User.ADMIN_PASSWORD);
-        // returns true or false
+    public User signUp(String username, String password) {
+        if (!EmailValidator.isValid(username)) {
+            throw new IllegalArgumentException("Username must be a valid email address");
+        }
+
+
+        if (userDAO.getUserByUsername(username) != null) {
+            throw new IllegalArgumentException("Username '" + username + "' is already taken");
+        }
+
+
+        String passwordHash = PasswordUtil.hashPassword(password);
+        User newUser = new User(username, passwordHash);
+        userDAO.addUser(newUser);
+
+        return newUser;
+    }
+
+    @Override
+    public User logIn(String username, String password) {
+        User existingUser = userDAO.getUserByUsername(username);
+
+        if (existingUser == null) {
+            return null;
+        }
+
+        if (!PasswordUtil.verifyPassword(password, existingUser.getPasswordHash())) {
+            return null;
+        }
+
+        return existingUser;
+    }
+
+    @Override
+    public User upgradeToPremium(User user) {
+        if (user == null) {
+            throw new IllegalArgumentException("There is no user to upgrade");
+        }
+
+        // Admins are already outranking premium
+        if (user.getRole() != Role.STANDARD) {
+            return user;
+        }
+        User upgraded = UserFactory.create(
+                Role.PREMIUM,
+                user.getId(),
+                user.getUsername(),
+                user.getPasswordHash());
+
+        userDAO.updateUser(upgraded);
+        return upgraded;
     }
 }
