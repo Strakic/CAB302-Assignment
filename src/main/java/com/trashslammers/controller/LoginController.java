@@ -32,7 +32,7 @@ public class LoginController {
     private final IAuthenticationService authenticationService = new AuthenticationService();
 
     @FXML
-    private void Back(ActionEvent event) {
+    private void handleBack(ActionEvent event) {
         navigateTo(event, "/com/trashslammers/views/main-menu-view.fxml", "Trash Slammers");
     }
 
