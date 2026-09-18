@@ -7,4 +7,7 @@ public class GoldenTrashEvent {
     public boolean isActive() {
         return true;
     }
+
+    public void tick(double deltaSeconds) {
+    }
 }

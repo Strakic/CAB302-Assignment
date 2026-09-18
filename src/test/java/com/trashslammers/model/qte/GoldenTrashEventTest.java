@@ -9,4 +9,11 @@ public class GoldenTrashEventTest {
         GoldenTrashEvent event = new GoldenTrashEvent(3.0);
         assertTrue(event.isActive());
     }
+
+    @Test
+    void eventStillActiveInItsWindow() {
+        GoldenTrashEvent event = new GoldenTrashEvent(3.0);
+        event.tick(2.0);
+        assertTrue(event.isActive());
+    }
 }
