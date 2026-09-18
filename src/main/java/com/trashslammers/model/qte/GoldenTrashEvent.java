@@ -5,6 +5,6 @@ public class GoldenTrashEvent {
     }
 
     public boolean isActive() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return true;
     }
 }
