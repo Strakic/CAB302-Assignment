@@ -65,7 +65,6 @@ public final class AnimalCatalog {
                 .findFirst();
     }
 
-    /** Case-insensitive check across built in and admin added animals. */
     public static boolean nameTaken(String name) {
         return all().stream()
                 .anyMatch(animal -> animal.getName().equalsIgnoreCase(name.trim()));
