@@ -8,6 +8,7 @@ import com.trashslammers.model.Rarity;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Comparator;
 
 /**
  * The animals the shop offers. Kept as data rather than screen layout so animals

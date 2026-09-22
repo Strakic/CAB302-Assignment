@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -8,7 +10,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<VBox alignment="CENTER" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.trashslammers.controller.MainMenuController">
+<VBox alignment="CENTER" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.trashslammers.controller.AddAnimalController">
    <children>
       <AnchorPane prefHeight="513.0" prefWidth="800.0" style="-fx-background-color: #a8dcf0;">
          <children>
@@ -21,35 +23,44 @@
                <font>
                   <Font name="PIXY" size="20.0" />
                </font></Button>
-            <Text layoutX="310.0" layoutY="151.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Animal Information" wrappingWidth="177.13671875">
+            <Text fx:id="statusText" layoutX="318.0" layoutY="134.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="163.13671875">
                <font>
                   <Font size="19.0" />
                </font>
             </Text>
-            <TextField fx:id="usernameField" alignment="TOP_LEFT" layoutX="33.0" layoutY="255.0" prefHeight="116.0" prefWidth="366.0" promptText="ENTER INFO">
+            <TextField fx:id="nameText" layoutX="65.0" layoutY="196.0" prefHeight="37.0" prefWidth="186.0" promptText="ENTER ANIMAL NAME">
                <font>
                   <Font size="11.0" />
                </font>
             </TextField>
-            <TextField fx:id="usernameField1" layoutX="123.0" layoutY="189.0" prefHeight="37.0" prefWidth="186.0" promptText="ENTER ANIMAL NAME">
+            <ImageView fx:id="animalPreview" fitHeight="116.0" fitWidth="141.0" layoutX="572.0" layoutY="255.0" pickOnBounds="true" preserveRatio="true" />
+            <Text fx:id="imageName" layoutX="603.0" layoutY="406.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="79.13671875" />
+            <TextArea fx:id="factArea" layoutX="67.0" layoutY="328.0" prefHeight="116.0" prefWidth="502.0" promptText="ENTER ANIMAL FACTS" />
+            <TextField fx:id="speciesText" layoutX="306.0" layoutY="196.0" prefHeight="37.0" prefWidth="186.0" promptText="ENTER ANIMAL SPECIES">
                <font>
                   <Font size="11.0" />
                </font>
             </TextField>
-            <Button layoutX="296.0" layoutY="435.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="205.0" style="-fx-font-size: 20; -fx-background-radius: 30; -fx-font-weight: bold; -fx-text-fill: black; -fx-background-color: linear-gradient(to bottom, #ffd76b, #f5a623); -fx-border-color: #ffd76b; -fx-border-radius: 30; -fx-border-width: 2; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 4, 0, 0, 2); -fx-font-family: pixy;" text="ADD ANIMAL">
+            <TextField fx:id="costText" layoutX="550.0" layoutY="196.0" prefHeight="37.0" prefWidth="186.0" promptText="ENTER ANIMAL PRICE">
+               <font>
+                  <Font size="11.0" />
+               </font>
+            </TextField>
+            <TextField fx:id="habitatText" layoutX="65.0" layoutY="255.0" prefHeight="37.0" prefWidth="186.0" promptText="ENTER ANIMAL HABITAT">
+               <font>
+                  <Font size="11.0" />
+               </font>
+            </TextField>
+            <ComboBox fx:id="rarityBox" layoutX="324.0" layoutY="261.0" prefWidth="150.0" promptText="Rarity" />
+         </children>
+      </AnchorPane>
+      <AnchorPane prefHeight="95.0" prefWidth="597.0" style="-fx-background-color: #aed581;">
+         <children>
+            <Button fx:id="addButton" layoutX="595.0" layoutY="22.0" mnemonicParsing="false" onAction="#handleAddAnimal" prefHeight="48.0" prefWidth="176.0" style="-fx-font-size: 20; -fx-background-radius: 30; -fx-font-weight: bold; -fx-text-fill: black; -fx-background-color: linear-gradient(to bottom, #ffd76b, #f5a623); -fx-border-color: #ffd76b; -fx-border-radius: 30; -fx-border-width: 2; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 4, 0, 0, 2); -fx-font-family: pixy;" text="ADD ANIMAL">
                <font>
                   <Font name="PIXY" size="20.0" />
                </font>
             </Button>
-            <Button fx:id="chooseImageButton" layoutX="549.0" layoutY="190.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="186.0" text="Add animal image">
-               <font>
-                  <Font size="16.0" />
-               </font>
-            </Button>
-            <ImageView fx:id="animalPreview" fitHeight="116.0" fitWidth="141.0" layoutX="572.0" layoutY="255.0" pickOnBounds="true" preserveRatio="true" />
-            <Text fx:id="imageName" layoutX="603.0" layoutY="406.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="79.13671875" />
-         </children>
-      </AnchorPane>
-      <AnchorPane prefHeight="95.0" prefWidth="597.0" style="-fx-background-color: #aed581;" />
+         </children></AnchorPane>
    </children>
 </VBox>

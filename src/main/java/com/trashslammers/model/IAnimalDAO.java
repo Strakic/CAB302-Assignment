@@ -9,7 +9,7 @@ public interface IAnimalDAO {
 
     boolean nameExists(String name);
 
-    Animal getAnimalByID(String id);
+    Animal getAnimalById(String id);
 
     List<Animal> getAllAnimals();
 

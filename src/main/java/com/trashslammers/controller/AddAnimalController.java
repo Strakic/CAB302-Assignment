@@ -27,19 +27,19 @@ import java.util.UUID;
 public class AddAnimalController {
 
     @FXML
-    private TextField nameField;
+    private TextField nameText;
 
     @FXML
-    private TextField speciesField;
+    private TextField speciesText;
 
     @FXML
     private ComboBox<Rarity> rarityBox;
 
     @FXML
-    private TextField costField;
+    private TextField costText;
 
     @FXML
-    private TextField habitatField;
+    private TextField habitatText;
 
     @FXML
     private TextArea factArea;
@@ -77,9 +77,9 @@ public class AddAnimalController {
             return;
         }
 
-        String name = nameField.getText().trim();
-        String species = speciesField.getText().trim();
-        String habitat = habitatField.getText().trim();
+        String name = nameText.getText().trim();
+        String species = speciesText.getText().trim();
+        String habitat = habitatText.getText().trim();
         String fact = factArea.getText().trim();
         Rarity rarity = rarityBox.getValue();
 
@@ -94,7 +94,7 @@ public class AddAnimalController {
 
         int cost;
         try {
-            cost = Integer.parseInt(costField.getText().trim());
+            cost = Integer.parseInt(costText.getText().trim());
         } catch (NumberFormatException e) {
             showError("Cost must be a whole number");
             return;
@@ -147,10 +147,10 @@ public class AddAnimalController {
 
 
     private void clearForm() {
-        nameField.clear();
-        speciesField.clear();
-        costField.clear();
-        habitatField.clear();
+        nameText.clear();
+        speciesText.clear();
+        costText.clear();
+        habitatText.clear();
         factArea.clear();
         rarityBox.setValue(null);
     }
