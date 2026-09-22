@@ -4,6 +4,7 @@ import com.trashslammers.database.DatabaseConnection;
 import com.trashslammers.model.*;
 import com.trashslammers.model.OwnedAnimal;
 import com.trashslammers.model.PlayerSession;
+import com.trashslammers.service.Session;
 import com.trashslammers.model.Score;
 import com.trashslammers.model.TrashItem;
 import com.trashslammers.service.DraggableMaker;
@@ -154,7 +155,7 @@ public class GameController implements Initializable {
                 || (bucket == bucketRecycle && itemBin == TrashItem.WasteType.RECYCLING);
 
         if (isCorrect) {
-            score.addForCorrectSort();
+            score.addForCorrectSort(Session.getPointMultiplier());
             updateScoreLabel();
         }
     }

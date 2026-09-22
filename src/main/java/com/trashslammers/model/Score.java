@@ -1,5 +1,6 @@
 package com.trashslammers.model;
 
+
 /**
  * A players score. Increases when trash is sorted correctly.
  * Decreases when an animal is purchased. Value can not go below 0.
@@ -36,8 +37,10 @@ public class Score {
 
 
     /** Adds points for placing trash in the correct bin */
-    public void addForCorrectSort() {
-        this.value += CORRECT_SORT_POINTS;
+    public void addForCorrectSort(int multiplier) {
+
+
+        this.value += CORRECT_SORT_POINTS * multiplier;
     }
 
 
