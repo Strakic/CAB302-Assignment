@@ -57,6 +57,7 @@ public final class AnimalCatalog {
     public static List<Animal> all() {
         List<Animal> animals = new ArrayList<>(BUILT_IN);
         animals.addAll(customAnimals().getAllAnimals());
+        animals.sort(Comparator.comparingInt(Animal::getCost).thenComparing(Animal::getName));
         return List.copyOf(animals);
     }
 

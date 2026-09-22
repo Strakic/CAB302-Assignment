@@ -68,6 +68,7 @@ public class AddAnimalController {
     }
 
 
+
     @FXML
     private void handleAddAnimal() {
         // Re-check here, not just when showing the screen, same as OptionsController
@@ -129,8 +130,7 @@ public class AddAnimalController {
     @FXML
     private void handleBack(ActionEvent event) throws IOException {
         // ASSUMPTION: the admin reached this screen from the options view
-        Parent root = FXMLLoader.load(
-                getClass().getResource("/com/trashslammers/views/options-view.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/com/trashslammers/views/options-view.fxml"));
         ((Node) event.getSource()).getScene().setRoot(root);
     }
 

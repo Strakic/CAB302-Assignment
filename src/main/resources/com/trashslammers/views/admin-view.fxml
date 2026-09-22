@@ -19,7 +19,7 @@
                   <Font size="47.0" />
                </font>
             </Text>
-            <Button layoutX="22.0" layoutY="25.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="86.0" style="-fx-font-size: 20; -fx-background-radius: 30; -fx-font-weight: bold; -fx-text-fill: black; -fx-background-color: linear-gradient(to bottom, #ffd76b, #f5a623); -fx-border-color: #ffd76b; -fx-border-radius: 30; -fx-border-width: 2; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 4, 0, 0, 2); -fx-font-family: pixy;" text="Back">
+            <Button fx:id="backButton" layoutX="22.0" layoutY="25.0" mnemonicParsing="false" onAction="#handleBack" prefHeight="24.0" prefWidth="86.0" style="-fx-font-size: 20; -fx-background-radius: 30; -fx-font-weight: bold; -fx-text-fill: black; -fx-background-color: linear-gradient(to bottom, #ffd76b, #f5a623); -fx-border-color: #ffd76b; -fx-border-radius: 30; -fx-border-width: 2; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 4, 0, 0, 2); -fx-font-family: pixy;" text="Back">
                <font>
                   <Font name="PIXY" size="20.0" />
                </font></Button>
