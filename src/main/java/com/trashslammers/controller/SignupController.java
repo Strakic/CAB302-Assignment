@@ -92,4 +92,19 @@ public class SignupController {
             ex.printStackTrace();
         }
     }
+
+    @FXML
+    private void goToLogin(ActionEvent event) {
+        try {
+            URL fxmlUrl = getClass().getResource("/com/trashslammers/views/login-view.fxml");
+            Parent loginRoot = FXMLLoader.load(fxmlUrl);
+
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(loginRoot, 800, 600));
+            stage.setTitle("TrashSlammers");
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.err.println("Could not load login screen");
+        }
+    }
 }
