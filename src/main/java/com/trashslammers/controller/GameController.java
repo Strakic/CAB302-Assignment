@@ -10,6 +10,7 @@ import com.trashslammers.service.DraggableMaker;
 //import com.trashslammers.service.SaveGameService;
 import com.trashslammers.service.SpriteService;
 import com.trashslammers.model.gamestates.*;
+import javafx.animation.AnimationTimer;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
@@ -62,9 +63,10 @@ public class GameController implements Initializable {
     private final List<Node> activeTrash = new ArrayList<>();
 
     private ContextMenu gameMenu;
-    private Timeline gameLoop;
+    private AnimationTimer gameLoop;
+    private long lastFrameTime = -1;
     private Timeline spawner;
-    private final double fallSpeed = 2.0;
+    private final double fallSpeedPxPerSecond = 100.0; // tune to taste; was fallSpeed=2.0 per 20ms tick
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -86,9 +88,19 @@ public class GameController implements Initializable {
         spawner.setCycleCount(Timeline.INDEFINITE);
         spawner.play();
 
-        gameLoop = new Timeline(new KeyFrame(Duration.millis(20), e -> moveTrashDown()));
-        gameLoop.setCycleCount(Timeline.INDEFINITE);
-        gameLoop.play();
+        gameLoop = new AnimationTimer() {
+            @Override
+            public void handle(long now) {
+                if (lastFrameTime < 0) {
+                    lastFrameTime = now;
+                    return;
+                }
+                double deltaSeconds = (now - lastFrameTime) / 1_000_000_000.0;
+                lastFrameTime = now;
+                moveTrashDown(deltaSeconds);
+            }
+        };
+        gameLoop.start();
     }
 
     private void spawnRandomTrashSprite() {
@@ -108,12 +120,12 @@ public class GameController implements Initializable {
         fallZone.getChildren().add(sprite);
     }
 
-    private void moveTrashDown() {
+    private void moveTrashDown(double deltaSeconds) {
         List<Node> toRemove = new ArrayList<>();
 
         for (Node trash : activeTrash) {
-            // Move item downward
-            trash.setLayoutY(trash.getLayoutY() + fallSpeed);
+            // Move item downward, scaled by elapsed time for smooth frame-rate-independent motion
+            trash.setLayoutY(trash.getLayoutY() + fallSpeedPxPerSecond * deltaSeconds);
 
             // Check if item hit a bin during movement
             Node collidedBucket = bucketUnder(trash);
