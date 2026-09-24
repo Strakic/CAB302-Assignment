@@ -28,6 +28,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.FileChooser;
@@ -36,6 +37,7 @@ import javafx.stage.Stage;
 import javafx.stage.Window;
 import javafx.scene.control.Alert;
 import javafx.util.Duration;
+
 
 import java.io.File;
 import java.io.IOException;
@@ -53,6 +55,8 @@ public class GameController implements Initializable {
     @FXML private VBox bucketRecycle;
     @FXML private Label scoreLabel;
     @FXML private Button menuButton;
+    @FXML private StackPane countdownOverlay;
+    @FXML private Label countdownLabel;
 
     private final Score score = PlayerSession.getInstance().getScore();
     private final SpriteService spriteService = new SpriteService();
@@ -84,9 +88,9 @@ public class GameController implements Initializable {
 
         updateScoreLabel();
 
+        // Build the spawner and game loop now, but don't start them until the countdown finishes
         spawner = new Timeline(new KeyFrame(Duration.seconds(1.5), e -> spawnRandomTrashSprite()));
         spawner.setCycleCount(Timeline.INDEFINITE);
-        spawner.play();
 
         gameLoop = new AnimationTimer() {
             @Override
@@ -100,6 +104,36 @@ public class GameController implements Initializable {
                 moveTrashDown(deltaSeconds);
             }
         };
+
+        startCountdown();
+    }
+
+    private void startCountdown() {
+        countdownOverlay.setVisible(true);
+        final int[] count = {3};
+        countdownLabel.setText(String.valueOf(count[0]));
+
+        Timeline countdownTimeline = new Timeline(
+                new KeyFrame(Duration.seconds(1), e -> {
+                    count[0]--;
+                    if (count[0] > 0) {
+                        countdownLabel.setText(String.valueOf(count[0]));
+                    } else {
+                        countdownLabel.setText("GO!");
+                    }
+                })
+        );
+        countdownTimeline.setCycleCount(4); // fires at 3->2, 2->1, 1->GO!, then finishes
+        countdownTimeline.setOnFinished(e -> {
+            countdownOverlay.setVisible(false);
+            startGame();
+        });
+        countdownTimeline.play();
+    }
+
+    private void startGame() {
+        lastFrameTime = -1; // reset so the first frame after countdown doesn't jump
+        spawner.play();
         gameLoop.start();
     }
 

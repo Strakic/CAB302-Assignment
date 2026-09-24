@@ -10,6 +10,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.shape.Rectangle?>
@@ -66,12 +67,25 @@
         </HBox>
     </bottom>
     <center>
-        <Pane fx:id="fallZone" id="fallZone" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: linear-gradient(to bottom, #29ABE2, #E0E0E0);" BorderPane.alignment="CENTER">
+        <StackPane BorderPane.alignment="CENTER">
             <children>
-                <Circle id="trashItem3" fill="#43a047" layoutX="490.0" layoutY="53.0" radius="17.0" stroke="BLACK" strokeType="INSIDE" />
-                <Rectangle id="trashItem2" arcHeight="5.0" arcWidth="5.0" fill="#ffd500" height="20.0" layoutX="280.0" layoutY="182.0" rotate="40.0" stroke="BLACK" strokeType="INSIDE" width="40.0" />
-                <Rectangle id="trashItem1" arcHeight="5.0" arcWidth="5.0" fill="#ef4136" height="35.0" layoutX="85.0" layoutY="117.0" rotate="45.0" stroke="BLACK" strokeType="INSIDE" width="30.0" />
+                <Pane fx:id="fallZone" id="fallZone" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: linear-gradient(to bottom, #29ABE2, #E0E0E0);">
+                    <children>
+                        <Circle id="trashItem3" fill="#43a047" layoutX="490.0" layoutY="53.0" radius="17.0" stroke="BLACK" strokeType="INSIDE" />
+                        <Rectangle id="trashItem2" arcHeight="5.0" arcWidth="5.0" fill="#ffd500" height="20.0" layoutX="280.0" layoutY="182.0" rotate="40.0" stroke="BLACK" strokeType="INSIDE" width="40.0" />
+                        <Rectangle id="trashItem1" arcHeight="5.0" arcWidth="5.0" fill="#ef4136" height="35.0" layoutX="85.0" layoutY="117.0" rotate="45.0" stroke="BLACK" strokeType="INSIDE" width="30.0" />
+                    </children>
+                </Pane>
+                <StackPane fx:id="countdownOverlay" alignment="CENTER" style="-fx-background-color: rgba(0,0,0,0.5);" visible="false">
+                    <children>
+                        <Label fx:id="countdownLabel" text="3" textFill="WHITE">
+                            <font>
+                                <Font name="PIXY" size="80.0" />
+                            </font>
+                        </Label>
+                    </children>
+                </StackPane>
             </children>
-        </Pane>
+        </StackPane>
     </center>
 </BorderPane>
