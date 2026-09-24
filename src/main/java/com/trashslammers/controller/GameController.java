@@ -11,7 +11,11 @@ import com.trashslammers.service.DraggableMaker;
 import com.trashslammers.service.SpriteService;
 import com.trashslammers.model.gamestates.*;
 import javafx.animation.AnimationTimer;
+import javafx.animation.FadeTransition;
+import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
+import javafx.animation.ParallelTransition;
+import javafx.animation.ScaleTransition;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -38,7 +42,6 @@ import javafx.stage.Window;
 import javafx.scene.control.Alert;
 import javafx.util.Duration;
 
-
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -55,8 +58,10 @@ public class GameController implements Initializable {
     @FXML private VBox bucketRecycle;
     @FXML private Label scoreLabel;
     @FXML private Button menuButton;
+    @FXML private Button pauseButton;
     @FXML private StackPane countdownOverlay;
     @FXML private Label countdownLabel;
+    @FXML private StackPane pauseOverlay;
 
     private final Score score = PlayerSession.getInstance().getScore();
     private final SpriteService spriteService = new SpriteService();
@@ -71,6 +76,7 @@ public class GameController implements Initializable {
     private long lastFrameTime = -1;
     private Timeline spawner;
     private final double fallSpeedPxPerSecond = 100.0; // tune to taste; was fallSpeed=2.0 per 20ms tick
+    private boolean isPaused = false;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -105,25 +111,26 @@ public class GameController implements Initializable {
             }
         };
 
+        pauseButton.setDisable(true); // nothing to pause during the countdown
         startCountdown();
     }
 
     private void startCountdown() {
         countdownOverlay.setVisible(true);
         final int[] count = {3};
-        countdownLabel.setText(String.valueOf(count[0]));
+        animateCountdownPop(String.valueOf(count[0]));
 
         Timeline countdownTimeline = new Timeline(
                 new KeyFrame(Duration.seconds(1), e -> {
                     count[0]--;
                     if (count[0] > 0) {
-                        countdownLabel.setText(String.valueOf(count[0]));
+                        animateCountdownPop(String.valueOf(count[0]));
                     } else {
-                        countdownLabel.setText("GO!");
+                        animateCountdownPop("GO!");
                     }
                 })
         );
-        countdownTimeline.setCycleCount(4); // fires at 3->2, 2->1, 1->GO!, then finishes
+        countdownTimeline.setCycleCount(4); // fires at 3->2, 2->1, 1->0(GO!), then the GO! hold
         countdownTimeline.setOnFinished(e -> {
             countdownOverlay.setVisible(false);
             startGame();
@@ -131,10 +138,31 @@ public class GameController implements Initializable {
         countdownTimeline.play();
     }
 
+    /**
+     * Simple pop-and-fade for each countdown number.
+     */
+    private void animateCountdownPop(String text) {
+        countdownLabel.setText(text);
+        countdownLabel.setScaleX(1.5);
+        countdownLabel.setScaleY(1.5);
+        countdownLabel.setOpacity(0);
+
+        ScaleTransition scale = new ScaleTransition(Duration.millis(300), countdownLabel);
+        scale.setToX(1.0);
+        scale.setToY(1.0);
+        scale.setInterpolator(Interpolator.EASE_OUT);
+
+        FadeTransition fade = new FadeTransition(Duration.millis(300), countdownLabel);
+        fade.setToValue(1.0);
+
+        new ParallelTransition(scale, fade).play();
+    }
+
     private void startGame() {
         lastFrameTime = -1; // reset so the first frame after countdown doesn't jump
         spawner.play();
         gameLoop.start();
+        pauseButton.setDisable(false);
     }
 
     private void spawnRandomTrashSprite() {
@@ -220,6 +248,37 @@ public class GameController implements Initializable {
     }
 
     @FXML
+    private void handlePauseButtonClick(ActionEvent event) {
+        if (isPaused) {
+            resumeGame();
+        } else {
+            pauseGame();
+        }
+    }
+
+    @FXML
+    private void handleResumeButtonClick(ActionEvent event) {
+        resumeGame();
+    }
+
+    private void pauseGame() {
+        isPaused = true;
+        spawner.pause();
+        gameLoop.stop();
+        pauseButton.setText("Resume");
+        pauseOverlay.setVisible(true);
+    }
+
+    private void resumeGame() {
+        isPaused = false;
+        lastFrameTime = -1; // reset so the first frame after resuming doesn't jump
+        spawner.play();
+        gameLoop.start();
+        pauseButton.setText("Pause");
+        pauseOverlay.setVisible(false);
+    }
+
+    @FXML
     private void handleMenuButtonClick(ActionEvent event) {
         if (gameMenu == null) {
             gameMenu = buildGameMenu();
@@ -244,7 +303,29 @@ public class GameController implements Initializable {
         MenuItem save = new MenuItem("Save");
         //save.setOnAction(event -> saveGame());
 
-        return new ContextMenu(shop, enclosure, resume, save);
+        MenuItem back = new MenuItem("Back to Main Menu");
+        back.setOnAction(event -> goToMainMenu());
+
+        return new ContextMenu(shop, enclosure, resume, save, back);
+    }
+
+    private void goToMainMenu() {
+        try {
+            isPaused = false;
+            spawner.stop();
+            gameLoop.stop();
+            pauseOverlay.setVisible(false);
+
+            URL fxmlUrl = getClass().getResource("/com/trashslammers/views/main-menu-view.fxml");
+            Parent mainMenuRoot = FXMLLoader.load(fxmlUrl);
+
+            Stage stage = (Stage) menuButton.getScene().getWindow();
+            stage.setScene(new Scene(mainMenuRoot, 800, 600));
+            stage.setTitle("TrashSlammers");
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.err.println("Could not load main menu");
+        }
     }
 
     /*   private void saveGame() {
