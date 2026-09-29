@@ -21,11 +21,15 @@ public class Main extends Application {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/trashslammers/views/main-menu-view.fxml"));
         Parent root = loader.load();
 
+        Scene scene = new Scene(root, 800, 600);
+        scene.getStylesheets().add(
+                getClass().getResource("/com/trashslammers/css/styles.css").toExternalForm());
+
         // Set up the window and show it
         primaryStage.setTitle("Trash Slammers");
-            primaryStage.setScene(new Scene(root, 800, 600));
-            primaryStage.setResizable(false);
-            primaryStage.sizeToScene();
+        primaryStage.setScene(scene);
+        primaryStage.setResizable(false);
+        primaryStage.sizeToScene();
         primaryStage.show();
     }
 
