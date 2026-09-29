@@ -20,6 +20,7 @@ import javafx.scene.paint.LinearGradient;
 import javafx.scene.paint.Stop;
 import com.trashslammers.model.User;
 import com.trashslammers.service.Session;
+import com.trashslammers.util.SceneFactory;
 
 import java.io.IOException;
 import java.net.URL;
@@ -37,7 +38,7 @@ public class MainMenuController {
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
             //Swap the scene on the current stage
-            stage.setScene(new Scene(loginRoot, 800, 600));
+            stage.setScene(SceneFactory.styled(loginRoot));
             stage.setTitle("TrashSlammers - login");
 
         } catch (IOException e) {
@@ -58,7 +59,7 @@ public class MainMenuController {
             Parent gameRoot = FXMLLoader.load(fxmlUrl);
 
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(new Scene(gameRoot, 800, 600));
+            stage.setScene(SceneFactory.styled(gameRoot));
             stage.setTitle("TrashSlammers");
 
         } catch (IOException e) {
@@ -79,7 +80,7 @@ public class MainMenuController {
             Parent gameRoot = FXMLLoader.load(fxmlUrl);
 
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(new Scene(gameRoot, 800, 600));
+            stage.setScene(SceneFactory.styled(gameRoot));
             stage.setTitle("TrashSlammers - Options");
 
         } catch (IOException e) {

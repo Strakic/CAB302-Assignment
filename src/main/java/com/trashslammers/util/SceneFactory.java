@@ -3,14 +3,24 @@ package com.trashslammers.util;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 
+import java.net.URL;
+
 public final class SceneFactory {
 
     private static final String CSS = "/com/trashslammers/css/styles.css";
 
     private SceneFactory() {}
 
-    public static Scene styled(Parent root, double width, double height) {
-        Scene scene = new Scene(root, width, height);
+    public static Scene styled(Parent root, double w, double h) {
+        Scene scene = new Scene(root, w, h);
+        URL url = SceneFactory.class.getResource(CSS);
+        System.out.println("stylesheet url: " + url);
+        scene.getStylesheets().add(url.toExternalForm());
+        return scene;
+    }
+
+    public static Scene styled(Parent root) {
+        Scene scene = new Scene(root);
         scene.getStylesheets().add(
                 SceneFactory.class.getResource(CSS).toExternalForm());
         return scene;
