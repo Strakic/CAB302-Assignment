@@ -11,6 +11,7 @@ import com.trashslammers.service.DraggableMaker;
 import com.trashslammers.service.SaveGameService;
 import com.trashslammers.service.SpriteService;
 import com.trashslammers.model.gamestates.*;
+import com.trashslammers.util.SceneFactory;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
@@ -257,8 +258,8 @@ public class GameController implements Initializable {
             shop.initOwner(menuButton.getScene().getWindow());
             shop.initModality(Modality.APPLICATION_MODAL);
             shop.setTitle("Trash Slammers - Animal Shop");
-            shop.setScene(new Scene(shopRoot, 800, 600));
-            shop.setResizable(false);
+            shop.setScene(SceneFactory.styled(shopRoot));
+            shop.setMaximized(true);
             shop.showAndWait();
 
             updateScoreLabel();
@@ -275,12 +276,7 @@ public class GameController implements Initializable {
             if (fxmlUrl == null) return;
             Parent enclosureRoot = FXMLLoader.load(fxmlUrl);
 
-            Stage stage = (Stage) menuButton.getScene().getWindow();
-            stage.setScene(new Scene(enclosureRoot, 800, 600));
-            stage.setWidth(800);
-            stage.setHeight(600);
-            stage.centerOnScreen();
-            stage.setTitle("Trash Slammers - Enclosure");
+            SceneFactory.swap(menuButton, enclosureRoot, "Trash Slammers - Enclosure");
 
         } catch (IOException e) {
             e.printStackTrace();

@@ -1,5 +1,6 @@
 package com.trashslammers.controller;
 
+import com.trashslammers.util.SceneFactory;
 import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -85,8 +86,7 @@ public class EnclosureController {
 
     @FXML
     private void goBack(ActionEvent event) {
-        navigateTo(event.getSource(), "/com/trashslammers/views/main-menu-view.fxml", "Trash Slammers", 800, 600);
-    }
+        navigateTo(event.getSource(), "/com/trashslammers/views/game-view.fxml", "Trash Slammers", 800, 600);    }
 
     @FXML
     private void handleKoala1Click(MouseEvent event) {
@@ -110,12 +110,7 @@ public class EnclosureController {
             AnimalInfoController controller = loader.getController();
             controller.setAnimalData(name, species, rating, description);
 
-            Stage stage = (Stage) ((Node) source).getScene().getWindow();
-            stage.setScene(new Scene(infoRoot, 800, 600));
-            stage.setWidth(800);
-            stage.setHeight(600);
-            stage.centerOnScreen();
-            stage.setTitle("Trash Slammers - " + name);
+            SceneFactory.swap(source, infoRoot, "Trash Slammers - " + name);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -128,12 +123,7 @@ public class EnclosureController {
             URL fxmlUrl = getClass().getResource(fxmlPath);
             Parent root = FXMLLoader.load(fxmlUrl);
 
-            Stage stage = (Stage) ((Node) source).getScene().getWindow();
-            stage.setScene(new Scene(root, width, height));
-            stage.setWidth(width);
-            stage.setHeight(height);
-            stage.centerOnScreen();
-            stage.setTitle(title);
+            SceneFactory.swap(source, root, title);
 
         } catch (IOException e) {
             e.printStackTrace();
