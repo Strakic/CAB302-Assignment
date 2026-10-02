@@ -12,7 +12,7 @@
    <children>
       <VBox alignment="CENTER" spacing="20.0" styleClass="screen-sky" VBox.vgrow="ALWAYS">
          <children>
-            <Text styleClass="title-label" strokeType="OUTSIDE" strokeWidth="0.0" text="TRASH SLAMMERS" />
+            <Text fx:id="titleText" styleClass="title-label" strokeType="OUTSIDE" strokeWidth="0.0" text="TRASH SLAMMERS" />
 
             <Text fx:id="messageText" styleClass="body-label" strokeType="OUTSIDE" strokeWidth="0.0" />
 
@@ -28,7 +28,7 @@
             <Button onAction="#handleOptionsButtonClick"
                     mnemonicParsing="false" prefWidth="260.0" text="OPTIONS" />
 
-            <Button mnemonicParsing="false" prefWidth="260.0" text="EXIT" />
+            <Button onAction="#handleExitButtonClick" mnemonicParsing="false" prefWidth="260.0" text="EXIT" />
          </children>
       </VBox>
 

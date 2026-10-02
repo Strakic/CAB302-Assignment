@@ -47,9 +47,7 @@ public class LoginController {
 
             Parent root = FXMLLoader.load(fxmlUrl);
 
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(SceneFactory.styled(root));
-            stage.setTitle(title);
+            SceneFactory.swap(event.getSource(), root, title);
 
         } catch (IOException e) {
             e.printStackTrace();
