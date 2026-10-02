@@ -35,11 +35,8 @@ public class MainMenuController {
             Parent loginRoot = FXMLLoader.load(fxmlUrl);
 
             //Get the current Stage (window) from the clicked button
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-
             //Swap the scene on the current stage
-            stage.setScene(SceneFactory.styled(loginRoot));
-            stage.setTitle("TrashSlammers - login");
+            SceneFactory.swap(event.getSource(), loginRoot, "Trash Slammers - Login");
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -58,9 +55,7 @@ public class MainMenuController {
 
             Parent gameRoot = FXMLLoader.load(fxmlUrl);
 
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(SceneFactory.styled(gameRoot));
-            stage.setTitle("TrashSlammers");
+            SceneFactory.swap(event.getSource(), gameRoot, "Trash Slammers");
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -79,9 +74,7 @@ public class MainMenuController {
 
             Parent gameRoot = FXMLLoader.load(fxmlUrl);
 
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(SceneFactory.styled(gameRoot));
-            stage.setTitle("TrashSlammers - Options");
+            SceneFactory.swap(event.getSource(), gameRoot, "Trash Slammers - Options");
 
         } catch (IOException e) {
             e.printStackTrace();

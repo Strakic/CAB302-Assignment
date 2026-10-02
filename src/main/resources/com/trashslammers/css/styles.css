@@ -198,3 +198,37 @@
     -fx-background-color: -ts-button;
     -fx-background-radius: 6;
 }
+/* ---- scroll panes ---- */
+
+.panel-scroll {
+    -fx-background: transparent;
+    -fx-background-color: transparent;
+    -fx-border-color: #704214;
+    -fx-border-width: 3;
+}
+
+.panel-scroll > .viewport {
+    -fx-background-color: transparent;
+}
+
+/* ---- combo boxes ---- */
+
+.combo-box {
+    -fx-background-color: -ts-button;
+    -fx-background-radius: 8;
+}
+.check-box .box {
+    -fx-background-color: -ts-ink-light;
+    -fx-border-color: -ts-ink;
+    -fx-border-width: 2;
+    -fx-border-radius: 4;
+    -fx-background-radius: 4;
+}
+
+.check-box:selected .mark {
+    -fx-background-color: -ts-ink;
+}
+
+.check-box {
+    -fx-text-fill: -ts-ink;
+}

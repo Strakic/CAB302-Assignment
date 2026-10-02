@@ -276,9 +276,7 @@ public class GameController implements Initializable {
             if (fxmlUrl == null) return;
             Parent enclosureRoot = FXMLLoader.load(fxmlUrl);
 
-            Stage stage = (Stage) menuButton.getScene().getWindow();
-            stage.setScene(SceneFactory.styled(enclosureRoot));
-            stage.setTitle("Trash Slammers - Enclosure");
+            SceneFactory.swap(menuButton, enclosureRoot, "Trash Slammers - Enclosure");
 
         } catch (IOException e) {
             e.printStackTrace();

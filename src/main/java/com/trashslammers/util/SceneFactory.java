@@ -1,7 +1,9 @@
 package com.trashslammers.util;
 
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.stage.Stage;
 
 import java.net.URL;
 
@@ -25,4 +27,12 @@ public final class SceneFactory {
                 SceneFactory.class.getResource(CSS).toExternalForm());
         return scene;
     }
+    public static void swap(Object eventSource, Parent root, String title) {
+        Stage stage = (Stage) ((Node) eventSource).getScene().getWindow();
+        stage.setMaximized(false);
+        stage.setScene(styled(root));
+        stage.setTitle(title);
+        stage.setMaximized(true);
+    }
+
 }
