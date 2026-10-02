@@ -2,6 +2,7 @@ package com.trashslammers.controller;
 
 import com.trashslammers.service.Session;
 import javafx.animation.ScaleTransition;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -80,6 +81,10 @@ public class MainMenuController {
             e.printStackTrace();
             System.err.println("Failed to load game view: " + e.getMessage());
         }
+    }
+    @FXML
+    private void handleExitButtonClick(ActionEvent event) {
+        Platform.exit();
     }
 
 
