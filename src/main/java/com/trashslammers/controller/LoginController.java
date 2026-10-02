@@ -111,8 +111,7 @@ public class LoginController {
             URL fxmlUrl = getClass().getResource("/com/trashslammers/views/main-menu-view.fxml");
             Parent mainMenuRoot = FXMLLoader.load(fxmlUrl);
 
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(SceneFactory.styled(mainMenuRoot));
+            SceneFactory.swap(event.getSource(), mainMenuRoot, "Trash Slammers");
         } catch (IOException e) {
             e.printStackTrace();
             System.err.println("Could not load main menu");
@@ -125,8 +124,7 @@ public class LoginController {
             URL fxmlUrl = getClass().getResource("/com/trashslammers/views/signup-view.fxml");
             Parent mainMenuRoot = FXMLLoader.load(fxmlUrl);
 
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(SceneFactory.styled(mainMenuRoot));
+            SceneFactory.swap(event.getSource(), mainMenuRoot, "Trash Slammers - Sign Up");
         } catch (IOException e) {
             e.printStackTrace();
             System.err.println("Could not load main menu");

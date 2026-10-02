@@ -83,7 +83,7 @@
          </children>
       </VBox>
 
-      <Button mnemonicParsing="false" onAction="#goBack" prefWidth="220.0" text="BACK TO MENU" />
+      <Button mnemonicParsing="false" onAction="#goBack" prefWidth="220.0" text="BACK TO GAME" />
 
    </children>
 </VBox>
