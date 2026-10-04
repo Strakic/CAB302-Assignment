@@ -49,6 +49,8 @@ public class AnimalShopController {
 
     @FXML
     private void initialize() {
+        pointsLabel.textProperty().bind(
+                PlayerSession.getInstance().getScore().valueProperty().asString("Points: %d"));
         sortComboBox.getItems().setAll(SortMode.values());
         sortComboBox.setValue(SortMode.CATALOG_ORDER);
 
@@ -67,7 +69,6 @@ public class AnimalShopController {
 
     // redraw the balance and every card, so a purchase shows up straight away
     private void refresh() {
-        pointsLabel.setText("Points: " + shop().getPointBalance());
 
         List<Node> cards = shop()
                 .listCatalog(sortComboBox.getValue(), filterComboBox.getValue())
