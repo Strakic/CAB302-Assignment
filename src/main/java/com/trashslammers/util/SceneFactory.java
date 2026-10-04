@@ -16,7 +16,6 @@ public final class SceneFactory {
     public static Scene styled(Parent root, double w, double h) {
         Scene scene = new Scene(root, w, h);
         URL url = SceneFactory.class.getResource(CSS);
-        System.out.println("stylesheet url: " + url);
         scene.getStylesheets().add(url.toExternalForm());
         return scene;
     }

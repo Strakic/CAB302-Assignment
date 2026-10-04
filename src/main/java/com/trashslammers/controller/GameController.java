@@ -1,16 +1,15 @@
 package com.trashslammers.controller;
 
 import com.trashslammers.database.DatabaseConnection;
-import com.trashslammers.model.*;
 import com.trashslammers.model.OwnedAnimal;
 import com.trashslammers.model.PlayerSession;
-import com.trashslammers.service.Session;
 import com.trashslammers.model.Score;
 import com.trashslammers.model.TrashItem;
+import com.trashslammers.model.gamestates.GameStateDAO;
 import com.trashslammers.service.DraggableMaker;
 import com.trashslammers.service.SaveGameService;
+import com.trashslammers.service.Session;
 import com.trashslammers.service.SpriteService;
-import com.trashslammers.model.gamestates.*;
 import com.trashslammers.util.SceneFactory;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -22,11 +21,7 @@ import javafx.geometry.Bounds;
 import javafx.geometry.Side;
 import javafx.scene.Node;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ContextMenu;
-import javafx.scene.control.Label;
-import javafx.scene.control.MenuItem;
+import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
@@ -36,7 +31,6 @@ import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Window;
-import javafx.scene.control.Alert;
 import javafx.util.Duration;
 
 import java.io.File;
@@ -84,8 +78,7 @@ public class GameController implements Initializable {
                 new TrashItem("AppleCore.png", TrashItem.WasteType.GREEN),
                 new TrashItem("ChipBag.png", TrashItem.WasteType.GENERAL)
         );
-
-        updateScoreLabel();
+        scoreLabel.textProperty().bind(score.valueProperty().asString("Score: %d"));
 
         spawner = new Timeline(new KeyFrame(Duration.seconds(1.5), e -> spawnRandomTrashSprite()));
         spawner.setCycleCount(Timeline.INDEFINITE);
@@ -158,7 +151,6 @@ public class GameController implements Initializable {
 
         if (isCorrect) {
             score.addForCorrectSort(Session.getPointMultiplier());
-            updateScoreLabel();
         }
     }
 
@@ -172,10 +164,6 @@ public class GameController implements Initializable {
             if (b.contains(cx, cy)) return bucket;
         }
         return null;
-    }
-
-    private void updateScoreLabel() {
-        scoreLabel.setText("Score: " + score.getValue());
     }
 
     @FXML
@@ -262,8 +250,6 @@ public class GameController implements Initializable {
             shop.setScene(SceneFactory.styled(shopRoot));
             shop.setMaximized(true);
             shop.showAndWait();
-
-            updateScoreLabel();
 
         } catch (IOException e) {
             e.printStackTrace();

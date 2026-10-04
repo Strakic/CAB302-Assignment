@@ -1,15 +1,19 @@
 package com.trashslammers.model;
 
 
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.ReadOnlyIntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+
 /**
  * A players score. Increases when trash is sorted correctly.
  * Decreases when an animal is purchased. Value can not go below 0.
  */
 
 public class Score {
+    /** Default award for a correct sort, used when no item value is given. */
     public static final int CORRECT_SORT_POINTS = 10;
-
-    private int value;
+    private final IntegerProperty value = new SimpleIntegerProperty();
 
     /** Creates a new score starting at 0, like for a new account. */
     public Score() {
@@ -26,21 +30,32 @@ public class Score {
         if (value < 0) {
             throw new IllegalArgumentException("Value cannot be negative");
         }
-        this.value = value;
+        this.value.set(value);
     }
-
-
-
     public int getValue() {
+        return value.get();
+    }
+    /** Lets the UI bind to the score so it updates by itself. */
+    public ReadOnlyIntegerProperty valueProperty() {
         return value;
     }
 
+    /**
+     * Adds a specific number of points.
+     *
+     * @param points the points to add, can't be negative
+     */
+    public void add(int points) {
+        if (points < 0) {
+            throw new IllegalArgumentException("Points cannot be negative");
+        }
+        value.set(value.get() + points);
+    }
 
-    /** Adds points for placing trash in the correct bin */
+
+    /** Adds points for placing trash in the correct bin with a multiplier*/
     public void addForCorrectSort(int multiplier) {
-
-
-        this.value += CORRECT_SORT_POINTS * multiplier;
+        add(CORRECT_SORT_POINTS * multiplier);
     }
 
 
@@ -55,10 +70,13 @@ public class Score {
         if (cost < 0) {
             throw new IllegalArgumentException("Cost cannot be negative");
         }
-        if (value < cost){
+        if (value.get() < cost) {
             return false;
         }
-        value -= cost;
+        value.set(value.get() - cost);
         return true;
+
     }
 }
+
+
