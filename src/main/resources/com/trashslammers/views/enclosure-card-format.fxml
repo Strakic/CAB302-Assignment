@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<HBox fx:id="cardRoot" alignment="CENTER_LEFT" prefHeight="80.0" spacing="12.0" style="-fx-background-color: #333333; -fx-background-radius: 8px; -fx-border-color: #444444; -fx-border-radius: 8px;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.trashslammers.controller.EnclosureCardController">
+    <padding>
+        <Insets bottom="10.0" left="12.0" right="12.0" top="10.0" />
+    </padding>
+    <children>
+        <VBox alignment="CENTER_LEFT" spacing="4.0" HBox.hgrow="ALWAYS">
+            <children>
+                <Label fx:id="titleLabel" style="-fx-font-weight: bold; -fx-font-size: 15px; -fx-text-fill: white;" text="Enclosure Name" />
+                <Label fx:id="statsLabel" style="-fx-font-size: 12px; -fx-text-fill: #aaaaaa;" text="ScoreMult: " />
+            </children>
+        </VBox>
+        <Button fx:id="viewButton" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-weight: bold;" text="View" />
+
+        <StackPane prefHeight="54.0" prefWidth="54.0" styleClass="bin, bin-recycle">
+            <children>
+                <ImageView fx:id="animalIcon" fitHeight="48.0" fitWidth="48.0" pickOnBounds="true" preserveRatio="true" />
+            </children>
+        </StackPane>
+    </children>
+</HBox>

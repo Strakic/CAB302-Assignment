@@ -5,6 +5,7 @@ import com.trashslammers.model.OwnedAnimal;
 import com.trashslammers.model.Rarity;
 import com.trashslammers.model.gamestates.AnimalCatalog;
 import com.trashslammers.model.gamestates.GameState;
+import com.trashslammers.model.gamestates.IGameStateDAO;
 import com.trashslammers.service.SaveGameService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
