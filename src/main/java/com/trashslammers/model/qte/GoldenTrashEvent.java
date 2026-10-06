@@ -22,4 +22,8 @@ public class GoldenTrashEvent {
     public boolean isActive() {
         return elapsedSeconds < windowSeconds;
     }
+
+    public boolean claim() {
+        throw new UnsupportedOperationException("not implemented");
+    }
 }

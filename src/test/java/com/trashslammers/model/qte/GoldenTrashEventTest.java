@@ -24,4 +24,18 @@ public class GoldenTrashEventTest {
         event.tick(3.5);
         assertFalse(event.isActive());
     }
+
+    @Test
+    void claimInsideWindowSucceeds() {
+        GoldenTrashEvent event = new GoldenTrashEvent(3.0);
+        event.tick(1.0);
+        assertTrue(event.claim());
+    }
+
+    @Test
+    void claimAfterExpiryFails() {
+        GoldenTrashEvent event = new GoldenTrashEvent(3.0);
+        event.tick(3.5);
+        assertFalse(event.claim());
+    }
 }
