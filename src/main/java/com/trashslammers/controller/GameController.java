@@ -53,6 +53,7 @@ public class GameController implements Initializable {
     @FXML private VBox bucketGeneral;
     @FXML private VBox bucketRecycle;
     @FXML private Label scoreLabel;
+    @FXML private Label boostLabel;
     @FXML private Button menuButton;
 
     private final Score score = PlayerSession.getInstance().getScore();
@@ -101,6 +102,7 @@ public class GameController implements Initializable {
         gameLoop = new Timeline(new KeyFrame(Duration.millis(20), e -> {
             moveTrashDown();
             moveGoldenTrash();
+            updateBoost();
         }));
         gameLoop.setCycleCount(Timeline.INDEFINITE);
         gameLoop.play();
@@ -150,9 +152,18 @@ public class GameController implements Initializable {
         }
     }
 
-    private void moveGoldenTrash() {
+    private void updateBoost() {
         boost.tick(0.02);
 
+        // blank while nothing is running, so the HUD only shows a live boost
+        if (boost.currentMultiplier() > 1) {
+            boostLabel.setText(String.format("x%d  %.1fs", boost.currentMultiplier(), boost.remainingSeconds()));
+        } else {
+            boostLabel.setText("");
+        }
+    }
+
+    private void moveGoldenTrash() {
         // the service holds the spawn timer while there is nothing on screen
         if (goldenEvent == null) {
             qteService.tick(0.02).ifPresent(this::showGoldenTrash);

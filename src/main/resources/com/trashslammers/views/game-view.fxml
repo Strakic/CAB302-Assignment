@@ -15,6 +15,7 @@
             </padding>
             <children>
                 <Label fx:id="scoreLabel" styleClass="hud-label" text="Score: 0" />
+                <Label fx:id="boostLabel" styleClass="hud-label" />
                 <Region HBox.hgrow="ALWAYS" />
                 <ProgressBar id="tierProgressBar" prefWidth="100.0" progress="0.4" />
                 <Label id="difficultyLabel" styleClass="hud-label" text="Difficulty: 1" />
