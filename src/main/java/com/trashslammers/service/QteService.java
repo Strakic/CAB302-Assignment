@@ -14,6 +14,7 @@ public class QteService {
     private final Random random;
     private final double spawnDelay = 12.0;
     private final double windowSeconds = 4.0;
+    private double timer = spawnDelay;
 
     public QteService(Random random) {
         this.random = random;
@@ -25,6 +26,12 @@ public class QteService {
      * @return the new event on the tick it spawns, otherwise empty
      */
     public Optional<GoldenTrashEvent> tick(double deltaSeconds) {
-        throw new UnsupportedOperationException("not implemented");
+        timer -= deltaSeconds;
+        if (timer > 0) {
+            return Optional.empty();
+        }
+
+        timer = spawnDelay;
+        return Optional.of(new GoldenTrashEvent(windowSeconds));
     }
 }
