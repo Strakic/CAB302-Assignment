@@ -7,7 +7,7 @@ import java.util.Optional;
 import java.util.Random;
 
 /**
- * Decides when a golden trash quick time event appears and which reward it pays.
+ * Decides when a golden trash QTE appears and which reward it pays.
  * Takes its Random so tests can hand it a seeded one.
  */
 public class QteService {
@@ -26,7 +26,7 @@ public class QteService {
     }
 
     /**
-     * Advances the spawn timer by one game tick.
+     * Advances the spawn timer by one tick.
      *
      * @return the new event on the tick it spawns, otherwise empty
      */
@@ -50,12 +50,12 @@ public class QteService {
         return boostMultiplier;
     }
 
-    /** How long the point multiplier reward lasts. */
+    /** How long the point multiplier lasts. */
     public double boostSeconds() {
         return boostSeconds;
     }
 
-    /** How many extra items the trash burst reward drops. */
+    /** How many extra items the burst reward drops. */
     public int burstSize() {
         return burstSize;
     }

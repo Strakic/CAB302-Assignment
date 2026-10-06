@@ -1,7 +1,7 @@
 package com.trashslammers.model.qte;
 
 /**
- * A single golden trash quick time event. Tracks how long the item has been on
+ * A single golden trash QTE. Tracks how long the item has been on
  * screen so the game can tell whether the player reacted in time.
  */
 public class GoldenTrashEvent {
@@ -14,12 +14,12 @@ public class GoldenTrashEvent {
         this.windowSeconds = windowSeconds;
     }
 
-    /** How long the player has to react, so the sprite can be paced to match. */
+    /** How long the player has to react, sprite can be paced to match. */
     public double windowSeconds() {
         return windowSeconds;
     }
 
-    /** Advances the event by one game tick. */
+    /** Advances by one tick. */
     public void tick(double deltaSeconds) {
         elapsedSeconds += deltaSeconds;
     }
@@ -30,8 +30,7 @@ public class GoldenTrashEvent {
     }
 
     /**
-     * Attempts to collect this event's reward. Only the first call inside the
-     * window succeeds, so a fast double click cannot be paid out twice.
+     * Attempts to collect this event's reward. Only the first call succeeds, so double click cannot be paid out twice.
      *
      * @return true if the player reacted in time
      */

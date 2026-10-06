@@ -152,7 +152,7 @@ public class GameController implements Initializable {
     private void updateBoost() {
         boost.tick(0.02);
 
-        // blank while nothing is running, so the HUD only shows a live boost
+        // blank while nothing is running, so the hud only shows a live boost
         if (boost.currentMultiplier() > 1) {
             boostLabel.setText(String.format("x%d  %.1fs", boost.currentMultiplier(), boost.remainingSeconds()));
         } else {
@@ -161,7 +161,7 @@ public class GameController implements Initializable {
     }
 
     private void moveGoldenTrash() {
-        // the service holds the spawn timer while there is nothing on screen
+        // service holds spawn timer
         if (goldenEvent == null) {
             qteService.tick(0.02).ifPresent(this::showGoldenTrash);
             return;
@@ -180,8 +180,7 @@ public class GameController implements Initializable {
         double zoneWidth = fallZone.getWidth() > 0 ? fallZone.getWidth() : 600;
         double zoneHeight = fallZone.getHeight() > 0 ? fallZone.getHeight() : 400;
 
-        // pace it to clear the full width in exactly the time the player has,
-        // so missing it always looks like the item leaving rather than vanishing
+        // pace it to clear the full width
         double ticks = event.windowSeconds() / 0.02;
         goldenStep = (zoneWidth + 60) / ticks;
 
