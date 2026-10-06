@@ -1,10 +1,7 @@
 package com.trashslammers.controller;
 
 import com.trashslammers.database.DatabaseConnection;
-import com.trashslammers.model.OwnedAnimal;
-import com.trashslammers.model.PlayerSession;
-import com.trashslammers.model.Score;
-import com.trashslammers.model.TrashItem;
+import com.trashslammers.model.*;
 import com.trashslammers.model.gamestates.GameStateDAO;
 import com.trashslammers.service.DraggableMaker;
 import com.trashslammers.service.SaveGameService;
@@ -24,6 +21,7 @@ import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
@@ -49,6 +47,8 @@ public class GameController implements Initializable {
     @FXML private VBox bucketRecycle;
     @FXML private Label scoreLabel;
     @FXML private Button menuButton;
+    @FXML private VBox animalContainer;
+
 
     private final Score score = PlayerSession.getInstance().getScore();
     private final SpriteService spriteService = new SpriteService();
@@ -63,9 +63,13 @@ public class GameController implements Initializable {
     private Timeline spawner;
     private final double fallSpeed = 2.0;
 
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         buckets = List.of(bucketOrganic, bucketGeneral, bucketRecycle);
+
+        // grabs animal list owned
+        refreshAnimalList();
 
         // stop sprites painting outside the play area and over the HUD
         Rectangle clip = new Rectangle();
@@ -249,7 +253,10 @@ public class GameController implements Initializable {
             shop.setTitle("Trash Slammers - Animal Shop");
             shop.setScene(SceneFactory.styled(shopRoot));
             shop.setMaximized(true);
+
             shop.showAndWait();
+            // catch this moment to refresh animal list for game
+            refreshAnimalList();
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -271,15 +278,42 @@ public class GameController implements Initializable {
         }
     }
 
-    public void setAnimalContainer(VBox mockContainer) {
+    void setAnimalContainer(VBox container) {
+        this.animalContainer = container;
     }
 
-    public void refreshAnimalList() {
+    void refreshAnimalList() {
+        if (animalContainer == null) {
+            return;
+        }
+
+        animalContainer.getChildren().clear();
+
+        List<OwnedAnimal> ownedAnimals = PlayerSession.getInstance().getShopService().ownedAnimals();
+
+        for (OwnedAnimal owned : ownedAnimals) {
+            com.trashslammers.model.gamestates.AnimalCatalog.findById(owned.getAnimalId()).ifPresent(animal -> {
+                Node cardNode = loadEnclosureCard(animal, owned);
+                if (cardNode != null) {
+                    animalContainer.getChildren().add(cardNode);
+                }
+            });
+        }
     }
 
-    public void setOnOpenEnclosure(Object o) {
-    }
+    private Node loadEnclosureCard(Animal animal, OwnedAnimal owned) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/trashslammers/views/enclosure-card-format.fxml"));
+            Node cardNode = loader.load();
 
-    public void handleEnclosureClick(OwnedAnimal koala) {
+            EnclosureCardController cardController = loader.getController();
+            cardController.setCardData(animal, owned, target -> openEnclosure());
+
+            return cardNode;
+        } catch (Throwable e) {
+            HBox mockCard = new HBox();
+            mockCard.setUserData(owned);
+            return mockCard;
+        }
     }
 }

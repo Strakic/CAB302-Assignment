@@ -2,12 +2,13 @@ package com.trashslammers.controller;
 
 import com.trashslammers.database.InMemoryAnimalRepository;
 import com.trashslammers.model.Animal;
-import com.trashslammers.model.OwnedAnimal;
 import com.trashslammers.model.PlayerSession;
-import com.trashslammers.model.Rarity;
 import com.trashslammers.model.Score;
+import com.trashslammers.model.gamestates.AnimalCatalog;
 import com.trashslammers.service.AnimalShopService;
+import javafx.application.Platform;
 import javafx.scene.layout.VBox;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -19,17 +20,26 @@ class GameControllerTest {
     private AnimalShopService shopService;
     private VBox mockContainer;
 
-    private static final Animal KOALA = new Animal("koala", "Koala", "Phascolarctos cinereus",
-            Rarity.COMMON, 100, null, "Eucalypt Forest", "Sleeps up to 20 hours a day.");
+    private Animal penguin;
+    private Animal turtle;
 
-    private static final Animal CROC = new Animal("croc", "Saltwater Crocodile", "Crocodylus porosus",
-            Rarity.LEGENDARY, 3000, null, "Mangrove Wetland", "Can go months between meals.");
+    @BeforeAll
+    static void initJavaFX() {
+        try {
+            Platform.startup(() -> {});
+        } catch (IllegalStateException ignored) {
+
+        }
+    }
 
     @BeforeEach
     void setUp() {
         Score score = new Score(5000);
         shopService = new AnimalShopService(score, new InMemoryAnimalRepository());
         PlayerSession.getInstance().setShopService(shopService);
+
+        penguin = AnimalCatalog.findById("galapagos-penguin").orElseThrow();
+        turtle = AnimalCatalog.findById("hawksbill-turtle").orElseThrow();
 
         gameController = new GameController();
         mockContainer = new VBox();
@@ -45,8 +55,8 @@ class GameControllerTest {
 
     @Test
     void sidebarPopulatesCardsFromPlayerSessionOwnedAnimals() {
-        shopService.purchase(KOALA);
-        shopService.purchase(CROC);
+        shopService.purchase(penguin);
+        shopService.purchase(turtle);
 
         gameController.refreshAnimalList();
 
@@ -55,7 +65,7 @@ class GameControllerTest {
 
     @Test
     void refreshAnimalListClearsExistingCardsBeforeRepopulating() {
-        shopService.purchase(KOALA);
+        shopService.purchase(penguin);
         gameController.refreshAnimalList();
         assertEquals(1, mockContainer.getChildren().size());
 

@@ -4,17 +4,13 @@ import com.trashslammers.database.AnimalRepository;
 import com.trashslammers.database.InMemoryAnimalRepository;
 import com.trashslammers.service.AnimalShopService;
 
-/**
- * The score and animal collection belonging to whoever is playing  now.
- * Screens share one instance so points earned in the game can be spent in the shop.
- */
 public final class PlayerSession {
 
     private static PlayerSession instance;
 
     private final Score score;
     private final AnimalRepository collection;
-    private final AnimalShopService shopService;
+    private AnimalShopService shopService;
 
     private PlayerSession() {
         this.score = new Score();
@@ -38,5 +34,6 @@ public final class PlayerSession {
     }
 
     public void setShopService(AnimalShopService shopService) {
+        this.shopService = shopService;
     }
 }
