@@ -34,6 +34,15 @@ public class QteServiceTest {
     }
 
     @Test
+    void rewardValuesAreAllWorthWinning() {
+        QteService service = new QteService(new Random(42));
+        assertTrue(service.cashBonus() > 0);
+        assertTrue(service.boostMultiplier() > 1);
+        assertTrue(service.boostSeconds() > 0);
+        assertTrue(service.burstSize() > 0);
+    }
+
+    @Test
     void rollingRewardsEventuallyGivesAllThreeTypes() {
         QteService service = new QteService(new Random(42));
         Set<QteReward> seen = new HashSet<>();

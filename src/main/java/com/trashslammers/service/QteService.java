@@ -36,6 +36,26 @@ public class QteService {
         return Optional.of(new GoldenTrashEvent(windowSeconds));
     }
 
+    /** Points paid out by the cash bonus reward. */
+    public int cashBonus() {
+        throw new UnsupportedOperationException("not implemented");
+    }
+
+    /** Factor the point multiplier reward applies to correct sorts. */
+    public int boostMultiplier() {
+        throw new UnsupportedOperationException("not implemented");
+    }
+
+    /** How long the point multiplier reward lasts. */
+    public double boostSeconds() {
+        throw new UnsupportedOperationException("not implemented");
+    }
+
+    /** How many extra items the trash burst reward drops. */
+    public int burstSize() {
+        throw new UnsupportedOperationException("not implemented");
+    }
+
     /** Picks the reward a successful claim pays out. */
     public QteReward rollReward() {
         QteReward[] rewards = QteReward.values();
