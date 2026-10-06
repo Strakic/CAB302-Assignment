@@ -38,4 +38,18 @@ public class GoldenTrashEventTest {
         event.tick(3.5);
         assertFalse(event.claim());
     }
+
+    @Test
+    void claimTwiceOnlySucceedsOnce() {
+        GoldenTrashEvent event = new GoldenTrashEvent(3.0);
+        assertTrue(event.claim());
+        assertFalse(event.claim());
+    }
+
+    @Test
+    void claimedEventIsNoLongerActive() {
+        GoldenTrashEvent event = new GoldenTrashEvent(3.0);
+        event.claim();
+        assertFalse(event.isActive());
+    }
 }
