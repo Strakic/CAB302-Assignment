@@ -22,7 +22,7 @@ public class ActiveBoost {
 
     /** How long the current boost has left, for the HUD countdown. */
     public double remainingSeconds() {
-        throw new UnsupportedOperationException("not implemented");
+        return remainingSeconds;
     }
 
     /** Counts the boost down, dropping back to no bonus when it runs out. */
@@ -33,6 +33,7 @@ public class ActiveBoost {
 
         remainingSeconds -= deltaSeconds;
         if (remainingSeconds <= 0) {
+            remainingSeconds = 0;
             multiplier = 1;
         }
     }
