@@ -2,6 +2,7 @@ package com.trashslammers.model.qte;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class GoldenTrashEventTest {
 
@@ -44,6 +45,12 @@ public class GoldenTrashEventTest {
         GoldenTrashEvent event = new GoldenTrashEvent(3.0);
         assertTrue(event.claim());
         assertFalse(event.claim());
+    }
+
+    @Test
+    void reportsTheWindowItWasGiven() {
+        GoldenTrashEvent event = new GoldenTrashEvent(3.0);
+        assertEquals(3.0, event.windowSeconds(), 0.001);
     }
 
     @Test
