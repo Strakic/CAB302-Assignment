@@ -74,9 +74,6 @@ public class GameController implements Initializable {
     private GoldenTrashEvent goldenEvent;
     private Node goldenSprite;
     private double goldenStep;
-    private final int goldenBonus = 250;
-    private final int boostMultiplier = 2;
-    private final double boostSeconds = 10.0;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -208,15 +205,15 @@ public class GameController implements Initializable {
 
     private void giveReward(QteReward reward) {
         switch (reward) {
-            case CASH_BONUS -> score.add(goldenBonus);
-            case POINT_MULTIPLIER -> boost.activate(boostMultiplier, boostSeconds);
+            case CASH_BONUS -> score.add(qteService.cashBonus());
+            case POINT_MULTIPLIER -> boost.activate(qteService.boostMultiplier(), qteService.boostSeconds());
             case TRASH_BURST -> spawnTrashBurst();
         }
     }
 
     private void spawnTrashBurst() {
         Timeline burst = new Timeline(new KeyFrame(Duration.millis(200), e -> spawnRandomTrashSprite()));
-        burst.setCycleCount(5);
+        burst.setCycleCount(qteService.burstSize());
         burst.play();
     }
 
