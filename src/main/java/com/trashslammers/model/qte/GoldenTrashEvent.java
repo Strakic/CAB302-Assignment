@@ -16,7 +16,7 @@ public class GoldenTrashEvent {
 
     /** How long the player has to react, so the sprite can be paced to match. */
     public double windowSeconds() {
-        throw new UnsupportedOperationException("not implemented");
+        return windowSeconds;
     }
 
     /** Advances the event by one game tick. */
