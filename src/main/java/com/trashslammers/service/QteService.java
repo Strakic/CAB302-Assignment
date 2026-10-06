@@ -15,6 +15,10 @@ public class QteService {
     private final Random random;
     private final double spawnDelay = 12.0;
     private final double windowSeconds = 5.0;
+    private final int cashBonus = 250;
+    private final int boostMultiplier = 2;
+    private final double boostSeconds = 10.0;
+    private final int burstSize = 5;
     private double timer = spawnDelay;
 
     public QteService(Random random) {
@@ -38,22 +42,22 @@ public class QteService {
 
     /** Points paid out by the cash bonus reward. */
     public int cashBonus() {
-        throw new UnsupportedOperationException("not implemented");
+        return cashBonus;
     }
 
     /** Factor the point multiplier reward applies to correct sorts. */
     public int boostMultiplier() {
-        throw new UnsupportedOperationException("not implemented");
+        return boostMultiplier;
     }
 
     /** How long the point multiplier reward lasts. */
     public double boostSeconds() {
-        throw new UnsupportedOperationException("not implemented");
+        return boostSeconds;
     }
 
     /** How many extra items the trash burst reward drops. */
     public int burstSize() {
-        throw new UnsupportedOperationException("not implemented");
+        return burstSize;
     }
 
     /** Picks the reward a successful claim pays out. */
