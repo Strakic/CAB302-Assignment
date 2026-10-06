@@ -190,12 +190,31 @@ public class GameController implements Initializable {
         MenuItem enclosure = new MenuItem("Enclosure");
         enclosure.setOnAction(event -> openEnclosure());
 
-        MenuItem resume = new MenuItem("Resume");
+        MenuItem menu = new MenuItem("Main Menu");
+        menu.setOnAction(event -> returnToMainMenu());
 
         MenuItem save = new MenuItem("Save");
         save.setOnAction(event -> saveGame());
 
-        return new ContextMenu(shop, enclosure, resume, save);
+        return new ContextMenu(shop, enclosure, menu, save);
+    }
+
+    private void returnToMainMenu() {
+        stopTimers();
+        try {
+            URL fxmlUrl = getClass().getResource("/com/trashslammers/views/main-menu-view.fxml");
+            if (fxmlUrl == null) return;
+            Parent root = FXMLLoader.load(fxmlUrl);
+            SceneFactory.swap(menuButton, root, "Trash Slammers");
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.err.println("Could not load main-menu-view.fxml");
+        }
+    }
+
+    private void stopTimers() {
+        if (spawner != null) spawner.stop();
+        if (gameLoop != null) gameLoop.stop();
     }
 
     private void saveGame() {
