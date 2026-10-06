@@ -7,6 +7,7 @@ package com.trashslammers.model.qte;
 public class ActiveBoost {
 
     private int multiplier = 1;
+    private double remainingSeconds;
 
     /** The factor to apply to points earned right now. */
     public int currentMultiplier() {
@@ -16,8 +17,18 @@ public class ActiveBoost {
     /** Starts a boost, replacing any that is already running. */
     public void activate(int multiplier, double durationSeconds) {
         this.multiplier = multiplier;
+        this.remainingSeconds = durationSeconds;
     }
 
+    /** Counts the boost down, dropping back to no bonus when it runs out. */
     public void tick(double deltaSeconds) {
+        if (remainingSeconds <= 0) {
+            return;
+        }
+
+        remainingSeconds -= deltaSeconds;
+        if (remainingSeconds <= 0) {
+            multiplier = 1;
+        }
     }
 }
