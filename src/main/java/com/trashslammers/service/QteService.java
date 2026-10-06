@@ -38,6 +38,7 @@ public class QteService {
 
     /** Picks the reward a successful claim pays out. */
     public QteReward rollReward() {
-        throw new UnsupportedOperationException("not implemented");
+        QteReward[] rewards = QteReward.values();
+        return rewards[random.nextInt(rewards.length)];
     }
 }
