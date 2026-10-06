@@ -2,6 +2,7 @@ package com.trashslammers.controller;
 
 import com.trashslammers.service.Session;
 import javafx.animation.ScaleTransition;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -20,6 +21,7 @@ import javafx.scene.paint.LinearGradient;
 import javafx.scene.paint.Stop;
 import com.trashslammers.model.User;
 import com.trashslammers.service.Session;
+import com.trashslammers.util.SceneFactory;
 
 import java.io.IOException;
 import java.net.URL;
@@ -34,11 +36,8 @@ public class MainMenuController {
             Parent loginRoot = FXMLLoader.load(fxmlUrl);
 
             //Get the current Stage (window) from the clicked button
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-
             //Swap the scene on the current stage
-            stage.setScene(new Scene(loginRoot, 800, 600));
-            stage.setTitle("TrashSlammers - login");
+            SceneFactory.swap(event.getSource(), loginRoot, "Trash Slammers - Login");
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -57,9 +56,7 @@ public class MainMenuController {
 
             Parent gameRoot = FXMLLoader.load(fxmlUrl);
 
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(new Scene(gameRoot, 800, 600));
-            stage.setTitle("TrashSlammers");
+            SceneFactory.swap(event.getSource(), gameRoot, "Trash Slammers");
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -78,14 +75,16 @@ public class MainMenuController {
 
             Parent gameRoot = FXMLLoader.load(fxmlUrl);
 
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(new Scene(gameRoot, 800, 600));
-            stage.setTitle("TrashSlammers - Options");
+            SceneFactory.swap(event.getSource(), gameRoot, "Trash Slammers - Options");
 
         } catch (IOException e) {
             e.printStackTrace();
             System.err.println("Failed to load game view: " + e.getMessage());
         }
+    }
+    @FXML
+    private void handleExitButtonClick(ActionEvent event) {
+        Platform.exit();
     }
 
 

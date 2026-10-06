@@ -38,6 +38,10 @@ public class User {
         return false;
     }
 
+    public int getPointMultiplyer() {
+        return 1;
+    }
+
     public int getId() {
         return id;
     }
@@ -59,9 +63,6 @@ public class User {
         return passwordHash;
     }
 
-    public void setPasswordHash(String passwordHash) {
-        this.passwordHash = passwordHash;
-    }
 
     public String getDisplayName() {
         int at = username.indexOf('@');

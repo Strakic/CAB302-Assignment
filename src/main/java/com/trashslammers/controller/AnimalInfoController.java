@@ -1,5 +1,6 @@
 package com.trashslammers.controller;
 
+import com.trashslammers.util.SceneFactory;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -39,9 +40,7 @@ public class AnimalInfoController {
             URL fxmlUrl = getClass().getResource("/com/trashslammers/views/enclosure-view.fxml");
             Parent enclosureRoot = FXMLLoader.load(fxmlUrl);
 
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(new Scene(enclosureRoot, 800, 600));
-            stage.setTitle("Trash Slammers - Enclosure");
+            SceneFactory.swap(event.getSource(), enclosureRoot, "Trash Slammers - Enclosure");
 
         } catch (IOException e) {
             e.printStackTrace();

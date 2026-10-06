@@ -1,0 +1,234 @@
+/*
+ * Trash Slammers - stylesheet
+ * Colours taken from Alessia's palette and screen mockups.
+ */
+
+/* ---- palette ----
+ * Defined on .root so every control can look them up by name.
+ * Change a colour here and it updates everywhere.
+ */
+.root {
+    -ts-sky:          #6cb4c4;
+    -ts-sky-light:    #9fb2bb;
+    -ts-grass:        #5d691f;
+    -ts-grass-light:  #7e8240;
+
+    -ts-button:       #ebc272;
+    -ts-button-hover: #edb75c;
+    -ts-button-press: #d28224;
+
+    -ts-panel:        #257b8c;
+    -ts-panel-light:  #568f90;
+
+    -ts-ink:          #24523d;
+    -ts-ink-light:    #ffffff;
+    -ts-error:        #8a1b0d;
+
+    -ts-bin-organic:  #a5b266;
+    -ts-bin-general:  #8a1b0d;
+    -ts-bin-recycle:  #edb75c;
+    -ts-bin-chemical: #cc512c;
+
+    -fx-font-family: "PIXY";
+    -fx-font-size: 16px;
+}
+
+/* ---- screen backgrounds ---- */
+
+.screen-sky {
+    -fx-background-color: -ts-sky;
+}
+
+.screen-ground {
+    -fx-background-color: linear-gradient(to bottom, -ts-sky, -ts-grass 60%);
+}
+
+/* the falling area in the game view */
+.fall-zone {
+    -fx-background-color: linear-gradient(to bottom, -ts-sky, -ts-sky-light);
+}
+
+/* ---- HUD ---- */
+
+.hud-bar {
+    -fx-background-color: -ts-button;
+    -fx-padding: 10;
+    -fx-spacing: 10;
+}
+
+.hud-label {
+    -fx-font-size: 20px;
+    -fx-text-fill: -ts-ink;
+}
+
+/* ---- titles and text ---- */
+
+.title-label {
+    -fx-font-size: 48px;
+    -fx-text-fill: -ts-ink;
+}
+
+.subtitle-label {
+    -fx-font-size: 24px;
+    -fx-text-fill: -ts-ink;
+}
+
+.body-label {
+    -fx-font-size: 16px;
+    -fx-text-fill: -ts-ink;
+}
+
+.status-label {
+    -fx-font-size: 14px;
+    -fx-text-fill: -ts-error;
+}
+
+.status-label-success {
+    -fx-font-size: 14px;
+    -fx-text-fill: -ts-grass;
+}
+
+/* ---- buttons ---- */
+
+.button {
+    -fx-background-color: -ts-button;
+    -fx-background-radius: 20;
+    -fx-text-fill: -ts-ink;
+    -fx-font-size: 18px;
+    -fx-padding: 8 32 8 32;
+    -fx-cursor: hand;
+}
+
+.button:hover {
+    -fx-background-color: -ts-button-hover;
+}
+
+.button:pressed {
+    -fx-background-color: -ts-button-press;
+}
+
+.button:disabled {
+    -fx-opacity: 0.5;
+}
+
+/* small square button, e.g. the HUD menu toggle */
+.button-icon {
+    -fx-background-radius: 6;
+    -fx-padding: 4 10 4 10;
+    -fx-font-size: 16px;
+}
+
+/* ---- text inputs ---- */
+
+.text-field, .password-field {
+    -fx-background-color: -ts-ink-light;
+    -fx-background-radius: 8;
+    -fx-border-color: -ts-ink;
+    -fx-border-radius: 8;
+    -fx-border-width: 2;
+    -fx-text-fill: -ts-ink;
+    -fx-prompt-text-fill: -ts-sky-light;
+    -fx-padding: 6 10 6 10;
+}
+
+.text-field:focused, .password-field:focused {
+    -fx-border-color: -ts-panel;
+}
+
+/* ---- panels and dialogs ---- */
+
+.panel {
+    -fx-background-color: -ts-panel;
+    -fx-background-radius: 12;
+    -fx-padding: 16;
+}
+
+.panel-inner {
+    -fx-background-color: -ts-panel-light;
+    -fx-background-radius: 8;
+    -fx-padding: 12;
+}
+
+/* ---- bins ---- */
+
+.bin {
+    -fx-border-color: -ts-ink;
+    -fx-border-width: 2;
+    -fx-border-radius: 4;
+    -fx-background-radius: 4;
+    -fx-padding: 4;
+}
+
+.bin-organic  { -fx-background-color: -ts-bin-organic; }
+.bin-general  { -fx-background-color: -ts-bin-general; }
+.bin-recycle  { -fx-background-color: -ts-bin-recycle; }
+.bin-chemical { -fx-background-color: -ts-bin-chemical; }
+
+.bin-label {
+    -fx-font-size: 14px;
+    -fx-text-fill: -ts-ink;
+}
+
+/* ---- progress bar ---- */
+
+.progress-bar > .track {
+    -fx-background-color: -ts-ink-light;
+    -fx-background-radius: 8;
+}
+
+.progress-bar > .bar {
+    -fx-background-color: -ts-grass-light;
+    -fx-background-radius: 8;
+}
+
+/* ---- lists, used by the animal shop ---- */
+
+.list-view {
+    -fx-background-color: -ts-panel-light;
+    -fx-background-radius: 8;
+}
+
+.list-cell {
+    -fx-background-color: transparent;
+    -fx-text-fill: -ts-ink;
+    -fx-padding: 8;
+}
+
+.list-cell:selected {
+    -fx-background-color: -ts-button;
+    -fx-background-radius: 6;
+}
+/* ---- scroll panes ---- */
+
+.panel-scroll {
+    -fx-background: transparent;
+    -fx-background-color: transparent;
+    -fx-border-color: #704214;
+    -fx-border-width: 3;
+}
+
+.panel-scroll > .viewport {
+    -fx-background-color: transparent;
+}
+
+/* ---- combo boxes ---- */
+
+.combo-box {
+    -fx-background-color: -ts-button;
+    -fx-background-radius: 8;
+}
+.check-box .box {
+    -fx-background-color: -ts-ink-light;
+    -fx-border-color: -ts-ink;
+    -fx-border-width: 2;
+    -fx-border-radius: 4;
+    -fx-background-radius: 4;
+}
+
+.check-box:selected .mark {
+    -fx-background-color: -ts-ink;
+}
+
+.check-box {
+    -fx-text-fill: -ts-ink;
+}

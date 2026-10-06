@@ -1,0 +1,138 @@
+abe291a was BrynMcCulloch (brynmcc00@gmail.com), 1789640917, 2 days ago, message: added some files I forgot to add to include in repo
+bd0e0a6 was BrynMcCulloch (brynmcc00@gmail.com), 1789640077, 2 days ago, message: fixed typo on login view
+ac7dd8f was BrynMcCulloch (brynmcc00@gmail.com), 1789633266, 2 days ago, message: Added general waste item CHIP BAG to the game including sprite
+38deea1 was BrynMcCulloch (brynmcc00@gmail.com), 1789632482, 2 days ago, message: Added an appleCore trash to the game
+c21a32b was BrynMcCulloch (brynmcc00@gmail.com), 1789567941, 2 days ago, message: Merge branch 'Bryn_sprint3_SaveStates' of https://github.com/Strakic/CAB302-Assignment
+5f4c6bc was BrynMcCulloch (brynmcc00@gmail.com), 1789567515, 2 days ago, message: Merged with Xaviers work and connected XML components to save function, including a file picker window.
+90d3eaf was Azocado (arranabraham@yahoo.com.au), 1789565867, 2 days ago, message: changed fields from protected to private
+2c8a791 was BrynMcCulloch (brynmcc00@gmail.com), 1789564755, 2 days ago, message: Merge branch 'Xavier_Sprint3_SaveStates' of https://github.com/Strakic/CAB302-Assignment into Bryn_sprint3_SaveStates
+a5e4ed1 was Aldin Aganovic (104433330+Strakic@users.noreply.github.com), 1789555463, 3 days ago, message: Merge pull request #8 from Strakic/ALDIN-DESKTOP-SPRINT3-BUY-ANIMALS
+6b417ad was Strakic (aldin_aganovic1@hotmail.com), 1789555335, 3 days ago, message: Fix sprites rendering over the HUD bar
+dfacb38 was XavierMelville-Git (xaviermelville06@gmail.com), 1789554904, 3 days ago, message: Made window fixed size
+863692d was BrynMcCulloch (brynmcc00@gmail.com), 1789554062, 3 days ago, message: completed red-green refactor loop with cleared test for game state saving.
+c6c4cef was XavierMelville-Git (xaviermelville06@gmail.com), 1789553994, 3 days ago, message: Added save to dropdown menu
+67fe282 was BrynMcCulloch (brynmcc00@gmail.com), 1789553040, 3 days ago, message: missed a import statement
+86ae124 was BrynMcCulloch (brynmcc00@gmail.com), 1789552993, 3 days ago, message: adjusted some fields to refactor the move
+87d2de3 was BrynMcCulloch (brynmcc00@gmail.com), 1789552535, 3 days ago, message: moved contents of animal catalog to its new home in gameStates folder
+0163a34 was BrynMcCulloch (brynmcc00@gmail.com), 1789551148, 3 days ago, message: added 3 new classes to the project, 2 models for storing the game state inside the gamestate folder AND a service for saving the game.
+e465f0b was BrynMcCulloch (brynmcc00@gmail.com), 1789547927, 3 days ago, message: added some test cases for save games
+e09ecef was BrynMcCulloch (brynmcc00@gmail.com), 1789474849, 3 days ago, message: a	modified:   src/main/java/com/trashslammers/controller/GameController.java a a Untracked files: a	database.db a
+d967088 was BrynMcCulloch (brynmcc00@gmail.com), 1789474677, 3 days ago, message: added Alessias code from her branch by hand, as it was too far behind to merge with ease.
+d54f919 was BrynMcCulloch (brynmcc00@gmail.com), 1789473459, 4 days ago, message: Seperated sprite loading from game controller into a service
+5f78a57 was BrynMcCulloch (brynmcc00@gmail.com), 1789472587, 4 days ago, message: fixed pom file bug
+de42b6b was XavierMelville-Git (xaviermelville06@gmail.com), 1789467930, 4 days ago, message: Edited GameController to implement save function to dropdown + added pseudo-code for eventual save state usability
+559c8c7 was XavierMelville-Git (xaviermelville06@gmail.com), 1789466866, 4 days ago, message: CsvSaveManager edits
+a57dcc9 was XavierMelville-Git (xaviermelville06@gmail.com), 1789466432, 4 days ago, message: Merge branch 'main' of https://github.com/Strakic/CAB302-Assignment into Xavier_Sprint3_SaveStates
+aea7eb5 was XavierMelville-Git (xaviermelville06@gmail.com), 1789465961, 4 days ago, message: Added Save package + files for later setup
+c3498d3 was John Purcell (johnwpurcell33@gmail.com), 1789355512, 5 days ago, message: Merge pull request #7 from Strakic/feature/animal-shop
+8d227fc was John Purcell (johnwpurcell33@gmail.com), 1789353310, 5 days ago, message: test documentation improvements
+6e6dfe3 was John Purcell (johnwpurcell33@gmail.com), 1789352765, 5 days ago, message: doc improvements
+7ebe3f5 was John Purcell (johnwpurcell33@gmail.com), 1789352343, 5 days ago, message: Added animal shop from the game menu, buy with sorting points and place into enclosures, plus tests for catalog, animal repo and shop service
+26d4f46 was XavierMelville-Git (xaviermelville06@gmail.com), 1789348109, 5 days ago, message: wip 10
+0749a8d was Azocado (arranabraham@yahoo.com.au), 1789218350, 6 days ago, message: fixed options controller connectivity - ready for merge
+9994cad was Azocado (arranabraham@yahoo.com.au), 1789214408, 7 days ago, message: fixed screen sizing issue
+7d0489f was Azocado (arranabraham@yahoo.com.au), 1789214150, 7 days ago, message: login now works with different ranks and send the user back to the main menu with a success message
+42144c3 was Azocado (arranabraham@yahoo.com.au), 1789209409, 7 days ago, message: working buttons between login, options and sign up
+290c68d was Azocado (arranabraham@yahoo.com.au), 1789207423, 7 days ago, message: added more code for the user ranks
+b42e733 was Azocado (arranabraham@yahoo.com.au), 1789182091, 7 days ago, message: added a session class to hold whoever is currently logged in
+1dcf157 was Azocado (arranabraham@yahoo.com.au), 1789181907, 7 days ago, message: added some queries and roles
+399d63d was XavierMelville-Git (xaviermelville06@gmail.com), 1788738930, 12 days ago, message: wip 9
+7efbe06 was XavierMelville-Git (xaviermelville06@gmail.com), 1788738481, 12 days ago, message: wip 8
+714ecf6 was XavierMelville-Git (xaviermelville06@gmail.com), 1788737722, 12 days ago, message: wip 7
+b36c2b4 was XavierMelville-Git (xaviermelville06@gmail.com), 1788737067, 12 days ago, message: wip 6
+bc70656 was XavierMelville-Git (xaviermelville06@gmail.com), 1788736716, 12 days ago, message: wip 5
+5afafc1 was XavierMelville-Git (xaviermelville06@gmail.com), 1788735947, 12 days ago, message: wip 4
+f1e7b91 was XavierMelville-Git (xaviermelville06@gmail.com), 1788735563, 12 days ago, message: wip 3
+3ed1ede was XavierMelville-Git (xaviermelville06@gmail.com), 1788735228, 12 days ago, message: wip 2
+8cade7f was XavierMelville-Git (xaviermelville06@gmail.com), 1788735019, 12 days ago, message: wip 1
+4b0c16a was BrynMcCulloch (brynmcc00@gmail.com), 1788412701, 2 weeks ago, message: Finished sign up methods, changed authentication service to use UserDAO, updated authentication test to use UserDAO. UserTest may be no longer needed?
+8df8891 was BrynMcCulloch (brynmcc00@gmail.com), 1788410287, 2 weeks ago, message: Merge branch 'ArranAbraham_optionspage' of https://github.com/Strakic/CAB302-Assignment
+39259db was BrynMcCulloch (brynmcc00@gmail.com), 1788410221, 2 weeks ago, message: Added add user test and function to DAO
+587d980 was Azocado (arranabraham@yahoo.com.au), 1788410063, 2 weeks ago, message: bit of code added to controller
+19d9531 was Azocado (arranabraham@yahoo.com.au), 1788409420, 2 weeks ago, message: Merge remote-tracking branch 'origin/main' into ArranAbraham_optionspage
+c2eea65 was Azocado (arranabraham@yahoo.com.au), 1788409377, 2 weeks ago, message: signup controller added (no code yet)
+1ae21e8 was BrynMcCulloch (brynmcc00@gmail.com), 1788407822, 2 weeks ago, message: Merge branch 'ArranAbraham_signuppage' of https://github.com/Strakic/CAB302-Assignment
+2af5310 was BrynMcCulloch (brynmcc00@gmail.com), 1788407811, 2 weeks ago, message: added IuserDAO and User DAO
+7d99575 was Azocado (arranabraham@yahoo.com.au), 1788407567, 2 weeks ago, message: added a signup page
+0a4ab79 was BrynMcCulloch (brynmcc00@gmail.com), 1788406745, 2 weeks ago, message: Added folder for user subclasses
+e030f79 was Aldin Aganovic (104433330+Strakic@users.noreply.github.com), 1788353767, 2 weeks ago, message: Merge pull request #6 from Strakic/ALDIN-DESKTOP-SPRINT3-BUY-ANIMALS
+6763fe5 was Strakic (aldin_aganovic1@hotmail.com), 1788353459, 2 weeks ago, message: Added trash-to-bucket collision detection and scoring DraggableMaker: add onRelease GameController: detect drops into buckets, remove sprite, increment score pom.xml: bump compiler release from 8 to 21
+9de1959 was Aldin Aganovic (104433330+Strakic@users.noreply.github.com), 1788352160, 2 weeks ago, message: Merge pull request #5 from Strakic/ALDIN-DESKTOP-SPRINT3-BUY-ANIMALS
+7015706 was Strakic (aldin_aganovic1@hotmail.com), 1788351678, 2 weeks ago, message: changed the directory of the sprites, made sprite loader, updated some stuff in TrashItem.java and Animal.java
+c169cd8 was BrynMcCulloch (brynmcc00@gmail.com), 1788350216, 2 weeks ago, message: Added soda sprite
+c006ff1 was BrynMcCulloch (brynmcc00@gmail.com), 1788350154, 2 weeks ago, message: added draggable sprites for soda cans.
+6a6615a was BrynMcCulloch (brynmcc00@gmail.com), 1788160268, 3 weeks ago, message: Fixed bugs, including adding dependency in pom, and null pointer on main menu animation starting before main menu was loaded
+b903b2f was BrynMcCulloch (brynmcc00@gmail.com), 1788159638, 3 weeks ago, message: Merge branch 'main' of https://github.com/Strakic/CAB302-Assignment
+dbebdf3 was BrynMcCulloch (brynmcc00@gmail.com), 1788159604, 3 weeks ago, message: Merge remote-tracking branch 'origin/alessia_sprint2_animals'
+f3b472c was BrynMcCulloch (brynmcc00@gmail.com), 1788159223, 3 weeks ago, message: Merge remote-tracking branch 'origin/Xavier_sprint2_DiffTiers'
+720076d was BrynMcCulloch (brynmcc00@gmail.com), 1788159214, 3 weeks ago, message: Merge remote-tracking branch 'origin/DragAndDrop'
+823efa3 was BrynMcCulloch (brynmcc00@gmail.com), 1788158958, 3 weeks ago, message: Merge remote-tracking branch 'origin/ArranAbraham_sprint2_loginuser'
+79786f9 was John Purcell (johnwpurcell33@gmail.com), 1788148203, 3 weeks ago, message: Merge pull request #4
+a730ea2 was Aldin (n11275723@qut.edu.au), 1788146973, 3 weeks ago, message: Merge remote-tracking branch 'origin/DragAndDrop' into DragAndDrop
+3e2964e was Aldin (n11275723@qut.edu.au), 1788146927, 3 weeks ago, message: Merge remote-tracking branch 'origin/main' into DragAndDrop
+7fc36ed was Aldin (n11275723@qut.edu.au), 1788146769, 3 weeks ago, message: Fixed Font Style
+c6ec638 was Aldin (n11275723@qut.edu.au), 1788146769, 3 weeks ago, message: Fixed Font Style
+6e81418 was XavierMelville-Git (xaviermelville06@gmail.com), 1788146582, 3 weeks ago, message: Implemented difficulty level select
+5ce703a was alessia_martini (n12362581@qut.edu.au), 1788145225, 3 weeks ago, message: moving_animals
+3b52ec9 was alessia_martini (n12362581@qut.edu.au), 1788144970, 3 weeks ago, message: moving_animals
+2f5f533 was John Purcell (johnwpurcell33@gmail.com), 1788087825, 3 weeks ago, message: Merge pull request #3 from Strakic/john_sprint2_scoring_system
+e2f8289 was John Purcell (johnwpurcell33@gmail.com), 1788087748, 3 weeks ago, message: minor doc improvement
+5fe6611 was John Purcell (johnwpurcell33@gmail.com), 1788086187, 3 weeks ago, message: Stop tracking Score.class
+08fb1ec was John Purcell (johnwpurcell33@gmail.com), 1788085843, 3 weeks ago, message: Merge remote-tracking branch 'origin/main' into john_sprint2_scoring_system
+94aa2da was BrynMcCulloch (brynmcc00@gmail.com), 1788085000, 3 weeks ago, message: Added database connector. started work on TrashItems into database
+7502e9e was Azocado (arranabraham@yahoo.com.au), 1788064888, 3 weeks ago, message: fixed package typo, restored files, cleaned build artifact from git tracking
+c8552ee was Azocado (arranabraham@yahoo.com.au), 1788061898, 3 weeks ago, message: Restore teammates files to correct merge
+a8ffaa7 was Azocado (arranabraham@yahoo.com.au), 1787972692, 3 weeks ago, message: merging back the user branch
+d47856e was John Purcell (johnwpurcell33@gmail.com), 1787822453, 3 weeks ago, message: unit testing for Score class
+294d405 was John Purcell (johnwpurcell33@gmail.com), 1787810972, 3 weeks ago, message: minor Score documentation improvement
+b43af46 was John Purcell (johnwpurcell33@gmail.com), 1787808596, 3 weeks ago, message: player score system
+f4d851f was BrynMcCulloch (brynmcc00@gmail.com), 1787568207, 4 weeks ago, message: merged with Aldins work earlier today
+2a7bdcc was BrynMcCulloch (brynmcc00@gmail.com), 1787567834, 4 weeks ago, message: Merge branch 'main' of https://github.com/Strakic/CAB302-Assignment
+ad72e04 was Aldin Aganovic (104433330+Strakic@users.noreply.github.com), 1787541545, 4 weeks ago, message: Merge pull request #2 from Strakic/DragAndDrop
+11b1ddc was Aldin (n11275723@qut.edu.au), 1787541468, 4 weeks ago, message: more bug fixes
+1ee95ec was Aldin (n11275723@qut.edu.au), 1787541254, 4 weeks ago, message: more bug fixes
+420833c was Aldin (n11275723@qut.edu.au), 1787540899, 4 weeks ago, message: changed it to circles so that the backgrounds arent draggable
+2e6af4e was Aldin (n11275723@qut.edu.au), 1787540494, 4 weeks ago, message: "added draggable functionality for objects and made the login screen be the same size as main menu"
+2bcd98c was alessia_martini (n12362581@qut.edu.au), 1787539341, 4 weeks ago, message: animal-enclosure-&-animal-info
+1bfe694 was Arran2 (n12422258@qut.edu.au), 1787477486, 4 weeks ago, message: created the base user class
+32b7b87 was Azocado (arranabraham@yahoo.com.au), 1787374442, 4 weeks ago, message: made annimations in the main menu screen. The play button pulses and the title shimmers.
+76b347a was Azocado (arranabraham@yahoo.com.au), 1787374177, 4 weeks ago, message: made annimations in the main menu screen. The play button pulses and the title shimmers.
+5cf4b67 was BrynMcCulloch (brynmcc00@gmail.com), 1787291179, 4 weeks ago, message: updated gameview to include nested view of 3 scenes at once. each with their own controller reference.
+95bc13c was BrynMcCulloch (brynmcc00@gmail.com), 1787287594, 4 weeks ago, message: wired play button to load game view
+01d2833 was BrynMcCulloch (59712866+BrynMcCulloch@users.noreply.github.com), 1786935538, 5 weeks ago, message: Added Alessia's FXML file
+1df16fa was Aldin Aganovic (104433330+Strakic@users.noreply.github.com), 1786935103, 5 weeks ago, message: Merge pull request #1 from main
+2d750ed was Arran2 (n12422258@qut.edu.au), 1786934908, 5 weeks ago, message: Merge remote-tracking branch 'origin/main'
+4794c3a was Arran2 (n12422258@qut.edu.au), 1786934887, 5 weeks ago, message: updated main menu screen
+895d8c6 was John Purcell (johnwpurcell33@gmail.com), 1786864994, 5 weeks ago, message: Add gameplay screen layout - HUD, bucket and trash placeholders
+1047fef was Strakic (aldin_aganovic1@hotmail.com), 1786851418, 5 weeks ago, message: updated the login screen to match arran's main screen just to keep the theme the same
+a9b8093 was Azocado (arranabraham@yahoo.com.au), 1786438516, 6 weeks ago, message: main menu scene builder update (login button works)
+7e05705 was Azocado (arranabraham@yahoo.com.au), 1786438516, 6 weeks ago, message: main menu scene builder update (login button works)
+c25c7f1 was Azocado (arranabraham@yahoo.com.au), 1786436590, 6 weeks ago, message: Merge branch 'main' of https://github.com/Strakic/CAB302-Assignment
+67742d2 was Azocado (arranabraham@yahoo.com.au), 1786436570, 6 weeks ago, message: main menu scene builder update
+c749383 was BrynMcCulloch (brynmcc00@gmail.com), 1786435285, 6 weeks ago, message: Merge branch 'main' of https://github.com/Strakic/CAB302-Assignment
+6ac869c was BrynMcCulloch (brynmcc00@gmail.com), 1786434929, 6 weeks ago, message: Changed pom file to fit project better, removed boilerplate from main method, set up code in main menu controller for connecting buttons.
+b480062 was Strakic (aldin_aganovic1@hotmail.com), 1786351186, 6 weeks ago, message: Add a bit of login functionality but hasnt been fully implemented
+c6e50c2 was Strakic (aldin_aganovic1@hotmail.com), 1786348236, 6 weeks ago, message: Added Login View
+7a8de06 was BrynMcCulloch (59712866+BrynMcCulloch@users.noreply.github.com), 1786330218, 6 weeks ago, message: changed project config
+2835601 was Strakic (aldin_aganovic1@hotmail.com), 1786279973, 6 weeks ago, message: Add Bin class and WasteType
+d623a93 was Strakic (aldin_aganovic1@hotmail.com), 1786279487, 6 weeks ago, message: Add sprites, Bin class, and WasteType
+2e9f899 was BrynMcCulloch (brynmcc00@gmail.com), 1786277911, 6 weeks ago, message: set up a pom file for converting to maven, built a very VERY simple login dummy page.
+0a594fc was BrynMcCulloch (brynmcc00@gmail.com), 1786276011, 6 weeks ago, message: added some basic code for setting up sign in test
+31aec2d was BrynMcCulloch (brynmcc00@gmail.com), 1786274134, 6 weeks ago, message: Had trouble with making JavaFX work. Made work around, will ask for more help tomorrow.
+9cb3d54 was BrynMcCulloch (brynmcc00@gmail.com), 1786272525, 6 weeks ago, message: Set up main to launch program, renamed in class example to main_EXAMPLE
+a5e4fbf was BrynMcCulloch (brynmcc00@gmail.com), 1786268981, 6 weeks ago, message: moved IAuthenticationService into utils folder
+ccabae4 was Azocado (arranabraham@yahoo.com.au), 1785938051, 6 weeks ago, message: screen manager for switching between screens and admin controller file added
+a773afe was Azocado (arranabraham@yahoo.com.au), 1785937264, 6 weeks ago, message: added main basic files for template.
+4db052e was Azocado (arranabraham@yahoo.com.au), 1785933697, 6 weeks ago, message: Merge remote-tracking branch 'origin/master'
+069343b was Azocado (arranabraham@yahoo.com.au), 1785933658, 6 weeks ago, message: created folders for code, JavaFX and recources such as images/sprites
+dc07c3c was alessia_martini (n12362581@qut.edu.au), 1785123498, 8 weeks ago, message: my commit
+a0a8350 was alessia_martini (n12362581@qut.edu.au), 1785123416, 8 weeks ago, message: Merge remote-tracking branch 'origin/master'
+7a7e1ea was alessia_martini (n12362581@qut.edu.au), 1785123388, 8 weeks ago, message: my commit
+39a88f5 was alessia_martini (n12362581@qut.edu.au), 1785123238, 8 weeks ago, message: test
+56aa5b9 was jwpurcell (johnwpurcell33@gmail.com), 1785123235, 8 weeks ago, message: Test Commit
+3fed8ee was alessia_martini (n12362581@qut.edu.au), 1785123087, 8 weeks ago, message: test
+e1c76b4 was Arran (n12422258@qut.edu.au), 1785122519, 8 weeks ago, message: First Commit
+4bf79fa was Strakic (n11275723@qut.edu.au), 1785122336, 8 weeks ago, message: Added ToDo
+ccfccd5 was BrynMcCulloch (59712866+BrynMcCulloch@users.noreply.github.com), 1785121375, 8 weeks ago, message: My Test Commit
+8ae3ccf was Strakic (n11275723@qut.edu.au), 1785120528, 8 weeks ago, message: Some message
+10f947c was Strakic (n11275723@qut.edu.au), 1785119499, 8 weeks ago, message: Initial commit

@@ -20,4 +20,9 @@ public class UserPremium extends User {
         return Role.PREMIUM;
     }
 
+    @Override
+    public int getPointMultiplyer() {
+        return 2;
+    }
+
 }

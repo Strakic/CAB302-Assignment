@@ -29,4 +29,11 @@ public final class Session {
     public static void clear() {
         currentUser = null;
     }
+
+    public static int getPointMultiplier() {
+        User user = getCurrentUser();
+        return (user == null) ? 1 : user.getPointMultiplyer();
+    }
+
+
 }

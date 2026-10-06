@@ -5,6 +5,7 @@ import com.trashslammers.model.usertype.Role;
 import com.trashslammers.service.AuthenticationService;
 import com.trashslammers.service.IAuthenticationService;
 import com.trashslammers.service.Session;
+import com.trashslammers.util.SceneFactory;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -78,12 +79,8 @@ public class OptionsController {
             URL fxmlUrl = getClass().getResource("/com/trashslammers/views/admin-view.fxml");
             Parent loginRoot = FXMLLoader.load(fxmlUrl);
 
-            //Get the current Stage (window) from the clicked button
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-
-            //Swap the scene on the current stage
-            stage.setScene(new Scene(loginRoot, 800, 600));
-            stage.setTitle("TrashSlammers - add animal");
+            //Get the current Stage (window) from the clicked button, swap the scene on the current stage
+            SceneFactory.swap(event.getSource(), loginRoot, "TrashSlammers - add animal");
 
         }
         catch (IOException e) {
@@ -109,13 +106,7 @@ public class OptionsController {
 
             Parent root = FXMLLoader.load(fxmlUrl);
 
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(new Scene(root, 800, 600));
-            stage.setWidth(800);
-            stage.setHeight(600);
-            stage.centerOnScreen();
-            stage.setTitle(title);
-
+            SceneFactory.swap(event.getSource(), root, title);
         } catch (IOException e) {
             e.printStackTrace();
             System.err.println("Could not load " + fxmlPath);

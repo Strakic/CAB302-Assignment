@@ -4,6 +4,7 @@ package com.trashslammers.controller;
 import com.trashslammers.service.AuthenticationService;
 import com.trashslammers.service.IAuthenticationService;
 
+import com.trashslammers.util.SceneFactory;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -48,9 +49,7 @@ public class SignupController {
             URL fxmlUrl = getClass().getResource("/com/trashslammers/views/main-menu-view.fxml");
             Parent mainMenuRoot = FXMLLoader.load(fxmlUrl);
 
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(new Scene(mainMenuRoot, 800, 600));
-            stage.setTitle("TrashSlammers");
+            SceneFactory.swap(event.getSource(), mainMenuRoot, "Trash Slammers");
         } catch (IOException e) {
             e.printStackTrace();
             System.err.println("Could not load main menu");

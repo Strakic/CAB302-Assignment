@@ -29,7 +29,7 @@ class ScoreTest {
     @Test
     void correctSortIncreasesScore(){
         Score score = new Score();
-        score.addForCorrectSort();
+        score.addForCorrectSort(1);
         assertEquals(Score.CORRECT_SORT_POINTS, score.getValue());
     }
 
@@ -56,9 +56,28 @@ class ScoreTest {
     @Test
     void scoreStaysConsistentAfterMixedActions(){
         Score score = new Score();
-        score.addForCorrectSort();
-        score.addForCorrectSort();
+        score.addForCorrectSort(1);
+        score.addForCorrectSort(1);
         assertTrue(score.spendOnAnimal(10));
         assertEquals(10, score.getValue());
+
+    }
+    @Test
+    void canAddArbitraryPoints(){
+        Score score = new Score();
+        score.add(37);
+        assertEquals(37, score.getValue());
+    }
+
+    @Test
+    void cannotAddNegativePoints(){
+        Score score = new Score();
+        assertThrows(IllegalArgumentException.class, () -> score.add(-1));
+    }
+    @Test
+    void multiplierScalesTheAward(){
+        Score score = new Score();
+        score.addForCorrectSort(3);
+        assertEquals(Score.CORRECT_SORT_POINTS * 3, score.getValue());
     }
 }

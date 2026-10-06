@@ -38,3 +38,4 @@ bin/
 
 target/
 .idea/
+database.db
