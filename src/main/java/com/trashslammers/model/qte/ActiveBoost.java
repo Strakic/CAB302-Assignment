@@ -6,10 +6,18 @@ package com.trashslammers.model.qte;
  */
 public class ActiveBoost {
 
+    private int multiplier = 1;
+
+    /** The factor to apply to points earned right now. */
     public int currentMultiplier() {
-        throw new UnsupportedOperationException("not implemented");
+        return multiplier;
     }
 
+    /** Starts a boost, replacing any that is already running. */
     public void activate(int multiplier, double durationSeconds) {
+        this.multiplier = multiplier;
+    }
+
+    public void tick(double deltaSeconds) {
     }
 }
