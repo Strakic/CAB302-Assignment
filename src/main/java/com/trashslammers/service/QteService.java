@@ -14,7 +14,7 @@ public class QteService {
 
     private final Random random;
     private final double spawnDelay = 12.0;
-    private final double windowSeconds = 4.0;
+    private final double windowSeconds = 5.0;
     private double timer = spawnDelay;
 
     public QteService(Random random) {

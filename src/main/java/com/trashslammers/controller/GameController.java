@@ -73,7 +73,7 @@ public class GameController implements Initializable {
     private final ActiveBoost boost = new ActiveBoost();
     private GoldenTrashEvent goldenEvent;
     private Node goldenSprite;
-    private final double goldenSpeed = 3.0;
+    private double goldenStep;
     private final int goldenBonus = 250;
     private final int boostMultiplier = 2;
     private final double boostSeconds = 10.0;
@@ -171,7 +171,7 @@ public class GameController implements Initializable {
         }
 
         goldenEvent.tick(0.02);
-        goldenSprite.setLayoutX(goldenSprite.getLayoutX() + goldenSpeed);
+        goldenSprite.setLayoutX(goldenSprite.getLayoutX() + goldenStep);
 
         // gone once the player runs out of time or it drifts off the right side
         if (!goldenEvent.isActive() || goldenSprite.getLayoutX() > fallZone.getWidth() + 60) {
@@ -180,7 +180,13 @@ public class GameController implements Initializable {
     }
 
     private void showGoldenTrash(GoldenTrashEvent event) {
+        double zoneWidth = fallZone.getWidth() > 0 ? fallZone.getWidth() : 600;
         double zoneHeight = fallZone.getHeight() > 0 ? fallZone.getHeight() : 400;
+
+        // pace it to clear the full width in exactly the time the player has,
+        // so missing it always looks like the item leaving rather than vanishing
+        double ticks = event.windowSeconds() / 0.02;
+        goldenStep = (zoneWidth + 60) / ticks;
 
         Circle golden = new Circle(30, Color.GOLD);
         golden.setStroke(Color.BLACK);
