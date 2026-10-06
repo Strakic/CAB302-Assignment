@@ -16,4 +16,22 @@ public class ActiveBoostTest {
         boost.activate(2, 10.0);
         assertEquals(2, boost.currentMultiplier());
     }
+
+    @Test
+    void boostExpiresAfterItsDuration() {
+        ActiveBoost boost = new ActiveBoost();
+        boost.activate(2, 10.0);
+        boost.tick(11.0);
+        assertEquals(1, boost.currentMultiplier());
+    }
+
+    @Test
+    void reactivatingRefreshesTheDuration() {
+        ActiveBoost boost = new ActiveBoost();
+        boost.activate(2, 10.0);
+        boost.tick(8.0);
+        boost.activate(2, 10.0);
+        boost.tick(5.0);
+        assertEquals(2, boost.currentMultiplier());
+    }
 }
