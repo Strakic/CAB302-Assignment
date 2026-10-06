@@ -6,6 +6,7 @@ import com.trashslammers.model.PlayerSession;
 import com.trashslammers.model.Score;
 import com.trashslammers.model.TrashItem;
 import com.trashslammers.model.gamestates.GameStateDAO;
+import com.trashslammers.model.qte.GoldenTrashEvent;
 import com.trashslammers.service.DraggableMaker;
 import com.trashslammers.service.SaveGameService;
 import com.trashslammers.service.Session;
@@ -25,6 +26,8 @@ import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
@@ -62,6 +65,14 @@ public class GameController implements Initializable {
     private Timeline spawner;
     private final double fallSpeed = 2.0;
 
+    private GoldenTrashEvent goldenEvent;
+    private Node goldenSprite;
+    private final double goldenSpeed = 3.0;
+    private final double goldenWindow = 4.0;
+    private final double goldenSpawnDelay = 12.0;
+    private final int goldenBonus = 250;
+    private double goldenTimer = goldenSpawnDelay;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         buckets = List.of(bucketOrganic, bucketGeneral, bucketRecycle);
@@ -83,7 +94,10 @@ public class GameController implements Initializable {
         spawner.setCycleCount(Timeline.INDEFINITE);
         spawner.play();
 
-        gameLoop = new Timeline(new KeyFrame(Duration.millis(20), e -> moveTrashDown()));
+        gameLoop = new Timeline(new KeyFrame(Duration.millis(20), e -> {
+            moveTrashDown();
+            moveGoldenTrash();
+        }));
         gameLoop.setCycleCount(Timeline.INDEFINITE);
         gameLoop.play();
     }
@@ -130,6 +144,53 @@ public class GameController implements Initializable {
             activeTrash.remove(trash);
             fallZone.getChildren().remove(trash);
         }
+    }
+
+    private void moveGoldenTrash() {
+        // count down to the next one while there is nothing on screen
+        if (goldenEvent == null) {
+            goldenTimer -= 0.02;
+            if (goldenTimer <= 0) {
+                spawnGoldenTrash();
+            }
+            return;
+        }
+
+        goldenEvent.tick(0.02);
+        goldenSprite.setLayoutX(goldenSprite.getLayoutX() + goldenSpeed);
+
+        // gone once the player runs out of time or it drifts off the right side
+        if (!goldenEvent.isActive() || goldenSprite.getLayoutX() > fallZone.getWidth() + 60) {
+            removeGoldenTrash();
+        }
+    }
+
+    private void spawnGoldenTrash() {
+        double zoneHeight = fallZone.getHeight() > 0 ? fallZone.getHeight() : 400;
+
+        Circle golden = new Circle(30, Color.GOLD);
+        golden.setStroke(Color.BLACK);
+        golden.setLayoutX(-30); // starts just off the left edge
+        golden.setLayoutY(60 + rand.nextDouble() * (zoneHeight / 2));
+        golden.setOnMouseClicked(e -> onGoldenClicked());
+
+        goldenEvent = new GoldenTrashEvent(goldenWindow);
+        goldenSprite = golden;
+        fallZone.getChildren().add(golden);
+    }
+
+    private void onGoldenClicked() {
+        if (goldenEvent.claim()) {
+            score.add(goldenBonus);
+        }
+        removeGoldenTrash();
+    }
+
+    private void removeGoldenTrash() {
+        fallZone.getChildren().remove(goldenSprite);
+        goldenSprite = null;
+        goldenEvent = null;
+        goldenTimer = goldenSpawnDelay;
     }
 
     private void onDropped(Node trash) {
