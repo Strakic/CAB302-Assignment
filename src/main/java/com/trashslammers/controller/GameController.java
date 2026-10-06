@@ -270,4 +270,16 @@ public class GameController implements Initializable {
             System.err.println("Could not load enclosure-view.fxml");
         }
     }
+
+    public void setAnimalContainer(VBox mockContainer) {
+    }
+
+    public void refreshAnimalList() {
+    }
+
+    public void setOnOpenEnclosure(Object o) {
+    }
+
+    public void handleEnclosureClick(OwnedAnimal koala) {
+    }
 }

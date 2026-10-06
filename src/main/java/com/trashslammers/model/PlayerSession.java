@@ -36,4 +36,7 @@ public final class PlayerSession {
     public AnimalShopService getShopService() {
         return shopService;
     }
+
+    public void setShopService(AnimalShopService shopService) {
+    }
 }
