@@ -23,7 +23,12 @@ public class GoldenTrashEvent {
         return elapsedSeconds < windowSeconds;
     }
 
+    /**
+     * Attempts to collect this event's reward.
+     *
+     * @return true if the player reacted in time
+     */
     public boolean claim() {
-        throw new UnsupportedOperationException("not implemented");
+        return isActive();
     }
 }
