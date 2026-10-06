@@ -20,6 +20,11 @@ public class ActiveBoost {
         this.remainingSeconds = durationSeconds;
     }
 
+    /** How long the current boost has left, for the HUD countdown. */
+    public double remainingSeconds() {
+        throw new UnsupportedOperationException("not implemented");
+    }
+
     /** Counts the boost down, dropping back to no bonus when it runs out. */
     public void tick(double deltaSeconds) {
         if (remainingSeconds <= 0) {
