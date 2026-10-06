@@ -25,7 +25,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class SaveGameServiceTest {
-
+    private IGameStateDAO gameStateDAO;
     private Connection connection;
     private SaveGameService saveGameService;
 
