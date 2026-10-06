@@ -1,6 +1,7 @@
-package com.trashslammers.service;
+package com.trashslammers.services;
 import com.trashslammers.model.qte.GoldenTrashEvent;
 import com.trashslammers.model.qte.QteReward;
+import com.trashslammers.service.QteService;
 import org.junit.jupiter.api.Test;
 import java.util.HashSet;
 import java.util.Optional;
