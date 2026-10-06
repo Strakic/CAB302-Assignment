@@ -1,6 +1,7 @@
 package com.trashslammers.service;
 
 import com.trashslammers.model.qte.GoldenTrashEvent;
+import com.trashslammers.model.qte.QteReward;
 
 import java.util.Optional;
 import java.util.Random;
@@ -33,5 +34,10 @@ public class QteService {
 
         timer = spawnDelay;
         return Optional.of(new GoldenTrashEvent(windowSeconds));
+    }
+
+    /** Picks the reward a successful claim pays out. */
+    public QteReward rollReward() {
+        throw new UnsupportedOperationException("not implemented");
     }
 }

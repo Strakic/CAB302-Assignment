@@ -1,8 +1,12 @@
 package com.trashslammers.service;
 import com.trashslammers.model.qte.GoldenTrashEvent;
+import com.trashslammers.model.qte.QteReward;
 import org.junit.jupiter.api.Test;
+import java.util.HashSet;
 import java.util.Optional;
 import java.util.Random;
+import java.util.Set;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class QteServiceTest {
@@ -19,5 +23,25 @@ public class QteServiceTest {
         QteService service = new QteService(new Random(42));
         Optional<GoldenTrashEvent> spawned = service.tick(13.0);
         assertTrue(spawned.isPresent());
+    }
+
+    @Test
+    void spawnsAgainAfterAnotherDelay() {
+        QteService service = new QteService(new Random(42));
+        service.tick(13.0);
+        Optional<GoldenTrashEvent> second = service.tick(13.0);
+        assertTrue(second.isPresent());
+    }
+
+    @Test
+    void rollingRewardsEventuallyGivesAllThreeTypes() {
+        QteService service = new QteService(new Random(42));
+        Set<QteReward> seen = new HashSet<>();
+
+        for (int i = 0; i < 100; i++) {
+            seen.add(service.rollReward());
+        }
+
+        assertEquals(3, seen.size());
     }
 }
