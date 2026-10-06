@@ -6,8 +6,11 @@ import com.trashslammers.model.PlayerSession;
 import com.trashslammers.model.Score;
 import com.trashslammers.model.TrashItem;
 import com.trashslammers.model.gamestates.GameStateDAO;
+import com.trashslammers.model.qte.ActiveBoost;
 import com.trashslammers.model.qte.GoldenTrashEvent;
+import com.trashslammers.model.qte.QteReward;
 import com.trashslammers.service.DraggableMaker;
+import com.trashslammers.service.QteService;
 import com.trashslammers.service.SaveGameService;
 import com.trashslammers.service.Session;
 import com.trashslammers.service.SpriteService;
@@ -65,13 +68,14 @@ public class GameController implements Initializable {
     private Timeline spawner;
     private final double fallSpeed = 2.0;
 
+    private final QteService qteService = new QteService(rand);
+    private final ActiveBoost boost = new ActiveBoost();
     private GoldenTrashEvent goldenEvent;
     private Node goldenSprite;
     private final double goldenSpeed = 3.0;
-    private final double goldenWindow = 4.0;
-    private final double goldenSpawnDelay = 12.0;
     private final int goldenBonus = 250;
-    private double goldenTimer = goldenSpawnDelay;
+    private final int boostMultiplier = 2;
+    private final double boostSeconds = 10.0;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -147,12 +151,11 @@ public class GameController implements Initializable {
     }
 
     private void moveGoldenTrash() {
-        // count down to the next one while there is nothing on screen
+        boost.tick(0.02);
+
+        // the service holds the spawn timer while there is nothing on screen
         if (goldenEvent == null) {
-            goldenTimer -= 0.02;
-            if (goldenTimer <= 0) {
-                spawnGoldenTrash();
-            }
+            qteService.tick(0.02).ifPresent(this::showGoldenTrash);
             return;
         }
 
@@ -165,7 +168,7 @@ public class GameController implements Initializable {
         }
     }
 
-    private void spawnGoldenTrash() {
+    private void showGoldenTrash(GoldenTrashEvent event) {
         double zoneHeight = fallZone.getHeight() > 0 ? fallZone.getHeight() : 400;
 
         Circle golden = new Circle(30, Color.GOLD);
@@ -174,23 +177,36 @@ public class GameController implements Initializable {
         golden.setLayoutY(60 + rand.nextDouble() * (zoneHeight / 2));
         golden.setOnMouseClicked(e -> onGoldenClicked());
 
-        goldenEvent = new GoldenTrashEvent(goldenWindow);
+        goldenEvent = event;
         goldenSprite = golden;
         fallZone.getChildren().add(golden);
     }
 
     private void onGoldenClicked() {
         if (goldenEvent.claim()) {
-            score.add(goldenBonus);
+            giveReward(qteService.rollReward());
         }
         removeGoldenTrash();
+    }
+
+    private void giveReward(QteReward reward) {
+        switch (reward) {
+            case CASH_BONUS -> score.add(goldenBonus);
+            case POINT_MULTIPLIER -> boost.activate(boostMultiplier, boostSeconds);
+            case TRASH_BURST -> spawnTrashBurst();
+        }
+    }
+
+    private void spawnTrashBurst() {
+        Timeline burst = new Timeline(new KeyFrame(Duration.millis(200), e -> spawnRandomTrashSprite()));
+        burst.setCycleCount(5);
+        burst.play();
     }
 
     private void removeGoldenTrash() {
         fallZone.getChildren().remove(goldenSprite);
         goldenSprite = null;
         goldenEvent = null;
-        goldenTimer = goldenSpawnDelay;
     }
 
     private void onDropped(Node trash) {
@@ -210,7 +226,7 @@ public class GameController implements Initializable {
                 || (bucket == bucketRecycle && itemBin == TrashItem.WasteType.RECYCLING);
 
         if (isCorrect) {
-            score.addForCorrectSort(Session.getPointMultiplier());
+            score.addForCorrectSort(Session.getPointMultiplier() * boost.currentMultiplier());
         }
     }
 
