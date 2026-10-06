@@ -40,7 +40,7 @@ public class SaveGameServiceTest {
                     "file_path TEXT NOT NULL)");
         }
 
-        saveGameService = new SaveGameService(connection, gameStateDAO);
+        saveGameService = new SaveGameService(connection, null);
     }
 
     @AfterEach
