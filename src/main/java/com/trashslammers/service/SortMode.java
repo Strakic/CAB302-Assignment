@@ -4,6 +4,10 @@ import com.trashslammers.model.Animal;
 
 import java.util.Comparator;
 
+/**
+ * The options in the animal shop's sort drop-down.
+ */
+
 public enum SortMode {
     CATALOG_ORDER("Catalog order", null),
     RARITY_LOW_TO_HIGH("Rarity: low to high", Comparator.comparing(Animal::getRarity)),
@@ -13,6 +17,11 @@ public enum SortMode {
     private final String displayName;
     private final Comparator<Animal> comparator;
 
+    /**
+     * Constructs a new SortMode with the specified display name and comparator.
+     * @param displayName The text shown in the drop-down
+     * @param comparator How to order the animals, or null to keep the catalog's order
+     */
     SortMode(String displayName, Comparator<Animal> comparator) {
         this.displayName = displayName;
         this.comparator = comparator;

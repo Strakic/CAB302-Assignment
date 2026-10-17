@@ -12,8 +12,14 @@ public final class EnclosureCatalog {
             new PlacementTarget("koala-habitat", "Koala Habitat", "Eucalypt Forest")
     );
 
+    /**
+     * Private constructor so the class can't be created, since every method is static.
+     */
     private EnclosureCatalog() {}
-
+    /**
+     * Gets every enclosure an animal can be placed in.
+     * @return A list of all enclosures
+     */
     public static List<PlacementTarget> all() {
         return TARGETS;
     }

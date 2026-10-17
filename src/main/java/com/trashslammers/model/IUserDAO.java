@@ -2,6 +2,9 @@ package com.trashslammers.model;
 
 import java.util.List;
 
+/**
+ * Saves, loads, updates and deletes user accounts.
+ */
 public interface IUserDAO {
     void addUser(User user);
     void updateUser(User user);

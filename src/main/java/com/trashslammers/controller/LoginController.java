@@ -18,7 +18,9 @@ import java.io.IOException;
 import java.net.URL;
 import com.trashslammers.util.SceneFactory;
 
-
+/**
+ * Controller for the login screen, which checks the user's details and logs them in.
+ */
 public class LoginController {
 
     @FXML
@@ -37,6 +39,12 @@ public class LoginController {
         navigateTo(event, "/com/trashslammers/views/main-menu-view.fxml", "Trash Slammers");
     }
 
+    /**
+     * Loads an FXML view and shows it in the current window.
+     * @param event The event that triggered the change
+     * @param fxmlPath The path of the FXML file to load
+     * @param title The new window title
+     */
     private void navigateTo(ActionEvent event, String fxmlPath, String title) {
         try {
             URL fxmlUrl = getClass().getResource(fxmlPath);
@@ -55,6 +63,10 @@ public class LoginController {
         }
     }
 
+    /**
+     * Logs the user in when the Log In button is clicked, or shows an error if the details are wrong.
+     * @param event The button click event
+     */
     @FXML
     private void logIn(ActionEvent event){
         String username = usernameField.getText();
@@ -85,9 +97,6 @@ public class LoginController {
         goToMainMenu(event);
 
 
-
-
-
     }
 
     private void showError(String message) {
@@ -103,6 +112,10 @@ public class LoginController {
         }
     }
 
+    /**
+     * Opens the main menu.
+     * @param event The event that triggered the change
+     */
     @FXML
     private void goToMainMenu(ActionEvent event) {
         try {
@@ -116,6 +129,10 @@ public class LoginController {
         }
     }
 
+    /**
+     * Opens the sign-up screen when the Sign Up button is clicked.
+     * @param event The button click event
+     */
     @FXML
     private void goToSignup(ActionEvent event) {
         try {

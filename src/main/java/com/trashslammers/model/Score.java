@@ -53,7 +53,10 @@ public class Score {
     }
 
 
-    /** Adds points for placing trash in the correct bin with a multiplier*/
+    /**
+     * Adds points for placing trash in the correct bin.
+     * @param multiplier The player's point multiplier
+     */
     public void addForCorrectSort(int multiplier) {
         add(CORRECT_SORT_POINTS * multiplier);
     }

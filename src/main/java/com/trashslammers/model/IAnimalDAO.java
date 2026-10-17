@@ -1,7 +1,9 @@
 package com.trashslammers.model;
 
 import java.util.List;
-
+/**
+ * Saves and loads the animals an admin adds to the shop.
+ */
 public interface IAnimalDAO {
 
 

@@ -16,11 +16,15 @@ public final class PlayerSession {
     private final AnimalRepository collection;
     private final AnimalShopService shopService;
 
+    /**
+     * Private constructor that starts the player with a score of 0 and no animals.
+     */
     private PlayerSession() {
         this.score = new Score();
         this.collection = new InMemoryAnimalRepository();
         this.shopService = new AnimalShopService(score, collection);
     }
+
 
     public static PlayerSession getInstance() {
         if (instance == null) {

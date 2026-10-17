@@ -15,8 +15,16 @@ import java.sql.Connection;
 import java.io.IOException;
 import java.net.URL;
 
+/**
+ * The main JavaFX application class, which starts Trash Slammers and opens the main menu.
+ */
 public class Main extends Application {
 
+    /**
+     * Loads the game's font and shows the main menu in a maximised window.
+     * @param primaryStage The main window of the application
+     * @throws Exception If the main menu view can't be loaded
+     */
     @Override
     public void start(Stage primaryStage) throws Exception {
         Font.loadFont(getClass().getResourceAsStream("/com/trashslammers/fonts/PIXY.ttf"), 16);
@@ -33,6 +41,10 @@ public class Main extends Application {
         primaryStage.show();
     }
 
+    /**
+     * Connects to the database and then launches the application.
+     * @param args The command line arguments
+     */
     public static void main(String[] args) {
         Connection connection = DatabaseConnection.getInstance();
         launch(args);

@@ -17,10 +17,18 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Saves and loads a player's score and animals using a CSV file.
+ */
 public class SaveGameService {
 
     private final Connection connection;
 
+    /**
+     * Constructs a new SaveGameService with the specified database connection.
+     * @param connection The connection used to store save file locations
+     * @param gameStateDAO The save file DAO (not currently used)
+     */
     public SaveGameService(Connection connection, IGameStateDAO gameStateDAO) {
         if (connection == null) {
             throw new IllegalArgumentException("Database connection cannot be null");
@@ -29,7 +37,11 @@ public class SaveGameService {
     }
 
     /**
-     * Writes the current score and owned animals to a CSV file and updates the file path in SQLite.
+     * Writes the score and owned animals to a CSV file and stores the file's location in the database.
+     * @param userId The id of the user
+     * @param saveFilePath The path of the CSV file to write
+     * @param score The player's score
+     * @param animals The animals the player owns
      */
     public void saveGame(int userId, Path saveFilePath, int score, List<OwnedAnimal> animals) {
         if (score < 0) {
@@ -70,7 +82,9 @@ public class SaveGameService {
     }
 
     /**
-     * Reads the file path from SQLite and loads the game state from the corresponding CSV.
+     * Reads a user's score and owned animals back from their saved CSV file.
+     * @param userId The id of the user
+     * @return The saved game state
      */
     public GameState loadGame(int userId) {
         String filePathStr = getSaveFilePath(userId);
@@ -112,6 +126,11 @@ public class SaveGameService {
         return new GameState(score, animals);
     }
 
+    /**
+     * Gets the location of a user's save file from the database.
+     * @param userId The id of the user
+     * @return The path of the save file, or null if the user has no save
+     */
     private String getSaveFilePath(int userId) {
         String sql = "SELECT file_path FROM save_files WHERE user_id = ?";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {

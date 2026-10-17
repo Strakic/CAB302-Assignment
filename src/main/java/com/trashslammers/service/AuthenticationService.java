@@ -8,6 +8,9 @@ import com.trashslammers.model.usertype.UserFactory;
 import com.trashslammers.util.EmailValidator;
 import com.trashslammers.util.PasswordUtil;
 
+/**
+ * Handles signing up, logging in and upgrading user accounts.
+ */
 public class AuthenticationService implements IAuthenticationService {
 
     private final IUserDAO userDAO;
@@ -17,11 +20,20 @@ public class AuthenticationService implements IAuthenticationService {
         this(new UserDAO());
     }
 
-
+    /**
+     * Constructs a new AuthenticationService with the specified user DAO.
+     * @param userDAO The DAO used to store user accounts
+     */
     public AuthenticationService(IUserDAO userDAO) {
         this.userDAO = userDAO;
     }
 
+    /**
+     * Creates a new account with a hashed password.
+     * @param username The email address of the new user
+     * @param password The password of the new user
+     * @return The new user
+     */
     @Override
     public User signUp(String username, String password) {
         if (!EmailValidator.isValid(username)) {
@@ -41,6 +53,12 @@ public class AuthenticationService implements IAuthenticationService {
         return newUser;
     }
 
+    /**
+     * Checks a username and password against the saved accounts.
+     * @param username The username entered
+     * @param password The password entered
+     * @return The matching user, or null if the details are wrong
+     */
     @Override
     public User logIn(String username, String password) {
         User existingUser = userDAO.getUserByUsername(username);
@@ -56,6 +74,11 @@ public class AuthenticationService implements IAuthenticationService {
         return existingUser;
     }
 
+    /**
+     * Upgrades a standard user to premium and saves the change.
+     * @param user The user to upgrade
+     * @return The upgraded user, or the same user if they weren't standard
+     */
     @Override
     public User upgradeToPremium(User user) {
         if (user == null) {

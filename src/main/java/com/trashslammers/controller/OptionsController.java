@@ -22,8 +22,9 @@ import java.net.URL;
 /**
  * options screen
  * Shows the ADD ANIMAL button only to admins, and lets a standard user
- * upgrade themselves to premium
+ * upgrade to premium
  */
+
 public class OptionsController {
 
     @FXML private Button addAnimalButton;

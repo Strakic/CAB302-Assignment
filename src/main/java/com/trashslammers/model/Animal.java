@@ -15,8 +15,15 @@ public class Animal {
     private final String fact;
 
     /**
-     * @param id   - key used for ownership lookups, never shown to the player
-     * @param fact - educational fact revealed when the animal is unlocked
+     * Constructs a new Animal with the specified details.
+     * @param id The id of the animal, used for ownership lookups and never shown to the player
+     * @param name The name of the animal
+     * @param species The species of the animal
+     * @param rarity The rarity of the animal
+     * @param cost The cost of the animal in points
+     * @param spriteFile The file name of the animal's sprite, or null if it doesn't have one
+     * @param habitat The habitat of the animal
+     * @param fact A fact about the animal, revealed when it is unlocked
      */
     public Animal(String id, String name, String species, Rarity rarity, int cost,
                   String spriteFile, String habitat, String fact) {

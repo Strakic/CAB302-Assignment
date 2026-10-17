@@ -4,12 +4,19 @@ import javafx.scene.Node;
 
 import java.util.function.Consumer;
 
+/**
+ * Makes nodes draggable with the mouse.
+ */
 public class DraggableMaker {
 
     public static void makeDraggable(Node node) {
         makeDraggable(node, n -> {});
     }
 
+    /**
+     * Makes a node draggable with the mouse.
+     * @param node The node to make draggable
+     */
     public static void makeDraggable(Node node, Consumer<Node> onRelease) {
         node.setOnMousePressed(event -> {
             node.getProperties().put("anchorX", event.getSceneX() - node.getLayoutX());

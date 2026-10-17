@@ -3,8 +3,7 @@ package com.trashslammers.service;
 import com.trashslammers.model.User;
 
 /**
- * Holds whoever is currently logged in
-
+ * Holds the user who is currently logged in.
  */
 public final class Session {
 

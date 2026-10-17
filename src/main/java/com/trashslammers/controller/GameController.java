@@ -41,6 +41,9 @@ import java.util.List;
 import java.util.Random;
 import java.util.ResourceBundle;
 
+/**
+ * Controller for the main game screen, where the player sorts falling trash into the right bins to earn points.
+ */
 public class GameController implements Initializable {
 
     @FXML private Pane fallZone;
@@ -63,6 +66,12 @@ public class GameController implements Initializable {
     private Timeline spawner;
     private final double fallSpeed = 2.0;
 
+
+    /**
+     * Sets up the play area and score label, then starts spawning and moving trash.
+     * @param url The location of the FXML file
+     * @param resourceBundle The resources for the FXML file
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         buckets = List.of(bucketOrganic, bucketGeneral, bucketRecycle);
@@ -89,6 +98,9 @@ public class GameController implements Initializable {
         gameLoop.play();
     }
 
+    /**
+     * Adds a random piece of draggable trash at the top of the play area.
+     */
     private void spawnRandomTrashSprite() {
         TrashItem randomItem = spriteService.getRandomTrashItem(trashPool);
 
@@ -106,6 +118,9 @@ public class GameController implements Initializable {
         fallZone.getChildren().add(sprite);
     }
 
+    /**
+     * Moves all trash down, scoring any that land on a bin and removing any that fall off the screen.
+     */
     private void moveTrashDown() {
         List<Node> toRemove = new ArrayList<>();
 
@@ -133,6 +148,10 @@ public class GameController implements Initializable {
         }
     }
 
+    /**
+     * Scores and removes a piece of trash if the player dropped it on a bin.
+     * @param trash The piece of trash that was dropped
+     */
     private void onDropped(Node trash) {
         Node droppedBucket = bucketUnder(trash);
         if (droppedBucket == null) return;
@@ -142,6 +161,11 @@ public class GameController implements Initializable {
         fallZone.getChildren().remove(trash);
     }
 
+    /**
+     * Adds points if a piece of trash reached the correct bin.
+     * @param trash The piece of trash that reached a bin
+     * @param bucket The bin it reached
+     */
     private void processBinCollision(Node trash, Node bucket) {
         TrashItem.WasteType itemBin = (TrashItem.WasteType) trash.getProperties().get("correctBin");
 
@@ -154,6 +178,11 @@ public class GameController implements Initializable {
         }
     }
 
+    /**
+     * Finds the bin that a piece of trash is over.
+     * @param trash The piece of trash to check
+     * @return The bin under the trash, or null if it isn't over one
+     */
     private Node bucketUnder(Node trash) {
         Bounds t = trash.localToScene(trash.getBoundsInLocal());
         double cx = t.getCenterX();
@@ -166,6 +195,10 @@ public class GameController implements Initializable {
         return null;
     }
 
+    /**
+     * Shows or hides the in-game menu when the Menu button is clicked.
+     * @param event The button click event
+     */
     @FXML
     private void handleMenuButtonClick(ActionEvent event) {
         if (gameMenu == null) {
@@ -179,6 +212,10 @@ public class GameController implements Initializable {
         }
     }
 
+    /**
+     * Builds the in-game menu with the Animal Shop, Enclosure, Resume and Save options.
+     * @return The in-game menu
+     */
     private ContextMenu buildGameMenu() {
         MenuItem shop = new MenuItem("Animal Shop");
         shop.setOnAction(event -> openAnimalShop());
@@ -194,6 +231,9 @@ public class GameController implements Initializable {
         return new ContextMenu(shop, enclosure, resume, save);
     }
 
+    /**
+     * Saves the player's score and animals to a CSV file the player chooses.
+     */
     private void saveGame() {
         try {
             // Open JavaFX FileChooser so user can select location
@@ -237,6 +277,10 @@ public class GameController implements Initializable {
         }
     }
 
+
+    /**
+     * Opens the animal shop in a new window.
+     */
     private void openAnimalShop() {
         try {
             URL fxmlUrl = getClass().getResource("/com/trashslammers/views/animal-shop-view.fxml");
@@ -257,6 +301,9 @@ public class GameController implements Initializable {
         }
     }
 
+    /**
+     * Switches the game window to the enclosure screen.
+     */
     private void openEnclosure() {
         try {
             URL fxmlUrl = getClass().getResource("/com/trashslammers/views/enclosure-view.fxml");

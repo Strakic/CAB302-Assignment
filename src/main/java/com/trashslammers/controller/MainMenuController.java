@@ -30,6 +30,9 @@ import java.awt.*;
 import java.io.IOException;
 import java.net.URL;
 
+/**
+ * Controller for the main menu, with the Play, Login, Options and Exit buttons.
+ */
 public class MainMenuController {
     @FXML
     StackPane rootContainer;
@@ -148,6 +151,9 @@ public class MainMenuController {
     @FXML
     private Text messageText;
 
+    /**
+     * Starts the menu animations and shows the welcome message when the screen loads.
+     */
     @FXML
     public void initialize() {
         if (playButton != null) {
@@ -171,6 +177,10 @@ public class MainMenuController {
         messageText.setText(user == null ? "" : "Hello " + user.getDisplayName());
     }
 
+    /**
+     * Makes a button grow and shrink over and over.
+     * @param button The button to animate
+     */
     private void pulse(Button button) {
         ScaleTransition st = new ScaleTransition(Duration.millis(600), button);
         st.setFromX(1);
@@ -185,6 +195,10 @@ public class MainMenuController {
     @FXML
     private Text titleText;
 
+    /**
+     * Sweeps a white shine across the title text over and over.
+     * @param title The title text to animate
+     */
     private void shimmer(Text title) {
         Color baseColor = Color.BLACK; // normal title colour
         Color shimmerColor = Color.WHITE; // colour shimmering

@@ -1,5 +1,8 @@
 package com.trashslammers.model;
 
+/**
+ * How rare an animal is, from most common to rarest.
+ */
 public enum Rarity {
     COMMON("Common"),
     UNCOMMON("Uncommon"),
