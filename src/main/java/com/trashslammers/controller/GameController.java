@@ -6,7 +6,11 @@ import com.trashslammers.model.PlayerSession;
 import com.trashslammers.model.Score;
 import com.trashslammers.model.TrashItem;
 import com.trashslammers.model.gamestates.GameStateDAO;
+import com.trashslammers.model.qte.ActiveBoost;
+import com.trashslammers.model.qte.GoldenTrashEvent;
+import com.trashslammers.model.qte.QteReward;
 import com.trashslammers.service.DraggableMaker;
+import com.trashslammers.service.QteService;
 import com.trashslammers.service.SaveGameService;
 import com.trashslammers.service.Session;
 import com.trashslammers.service.SpriteService;
@@ -26,6 +30,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
@@ -51,6 +57,7 @@ public class GameController implements Initializable {
     @FXML private VBox bucketGeneral;
     @FXML private VBox bucketRecycle;
     @FXML private Label scoreLabel;
+    @FXML private Label boostLabel;
     @FXML private Button menuButton;
 
     private final Score score = PlayerSession.getInstance().getScore();
@@ -66,6 +73,11 @@ public class GameController implements Initializable {
     private Timeline spawner;
     private final double fallSpeed = 2.0;
 
+    private final QteService qteService = new QteService(rand);
+    private final ActiveBoost boost = new ActiveBoost();
+    private GoldenTrashEvent goldenEvent;
+    private Node goldenSprite;
+    private double goldenStep;
 
     /**
      * Sets up the play area and score label, then starts spawning and moving trash.
@@ -93,7 +105,11 @@ public class GameController implements Initializable {
         spawner.setCycleCount(Timeline.INDEFINITE);
         spawner.play();
 
-        gameLoop = new Timeline(new KeyFrame(Duration.millis(20), e -> moveTrashDown()));
+        gameLoop = new Timeline(new KeyFrame(Duration.millis(20), e -> {
+            moveTrashDown();
+            moveGoldenTrash();
+            updateBoost();
+        }));
         gameLoop.setCycleCount(Timeline.INDEFINITE);
         gameLoop.play();
     }
@@ -148,6 +164,79 @@ public class GameController implements Initializable {
         }
     }
 
+    private void updateBoost() {
+        boost.tick(0.02);
+
+        // blank while nothing is running, so the hud only shows a live boost
+        if (boost.currentMultiplier() > 1) {
+            boostLabel.setText(String.format("x%d  %.1fs", boost.currentMultiplier(), boost.remainingSeconds()));
+        } else {
+            boostLabel.setText("");
+        }
+    }
+
+    private void moveGoldenTrash() {
+        // service holds spawn timer
+        if (goldenEvent == null) {
+            qteService.tick(0.02).ifPresent(this::showGoldenTrash);
+            return;
+        }
+
+        goldenEvent.tick(0.02);
+        goldenSprite.setLayoutX(goldenSprite.getLayoutX() + goldenStep);
+
+        // gone once the player runs out of time or it drifts off the right side
+        if (!goldenEvent.isActive() || goldenSprite.getLayoutX() > fallZone.getWidth() + 60) {
+            removeGoldenTrash();
+        }
+    }
+
+    private void showGoldenTrash(GoldenTrashEvent event) {
+        double zoneWidth = fallZone.getWidth() > 0 ? fallZone.getWidth() : 600;
+        double zoneHeight = fallZone.getHeight() > 0 ? fallZone.getHeight() : 400;
+
+        // pace it to clear the full width
+        double ticks = event.windowSeconds() / 0.02;
+        goldenStep = (zoneWidth + 60) / ticks;
+
+        Circle golden = new Circle(30, Color.GOLD);
+        golden.setStroke(Color.BLACK);
+        golden.setLayoutX(-30); // starts just off the left edge
+        golden.setLayoutY(60 + rand.nextDouble() * (zoneHeight / 2));
+        golden.setOnMouseClicked(e -> onGoldenClicked());
+
+        goldenEvent = event;
+        goldenSprite = golden;
+        fallZone.getChildren().add(golden);
+    }
+
+    private void onGoldenClicked() {
+        if (goldenEvent.claim()) {
+            giveReward(qteService.rollReward());
+        }
+        removeGoldenTrash();
+    }
+
+    private void giveReward(QteReward reward) {
+        switch (reward) {
+            case CASH_BONUS -> score.add(qteService.cashBonus());
+            case POINT_MULTIPLIER -> boost.activate(qteService.boostMultiplier(), qteService.boostSeconds());
+            case TRASH_BURST -> spawnTrashBurst();
+        }
+    }
+
+    private void spawnTrashBurst() {
+        Timeline burst = new Timeline(new KeyFrame(Duration.millis(200), e -> spawnRandomTrashSprite()));
+        burst.setCycleCount(qteService.burstSize());
+        burst.play();
+    }
+
+    private void removeGoldenTrash() {
+        fallZone.getChildren().remove(goldenSprite);
+        goldenSprite = null;
+        goldenEvent = null;
+    }
+
     /**
      * Scores and removes a piece of trash if the player dropped it on a bin.
      * @param trash The piece of trash that was dropped
@@ -174,7 +263,7 @@ public class GameController implements Initializable {
                 || (bucket == bucketRecycle && itemBin == TrashItem.WasteType.RECYCLING);
 
         if (isCorrect) {
-            score.addForCorrectSort(Session.getPointMultiplier());
+            score.addForCorrectSort(Session.getPointMultiplier() * boost.currentMultiplier());
         }
     }
 

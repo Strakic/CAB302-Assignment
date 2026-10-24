@@ -3,8 +3,7 @@ package com.trashslammers.model;
 import java.util.List;
 
 /**
- * The enclosures an animal can be sent to. Only the habitat already drawn on the
- * enclosure screen exists so far.
+ * The enclosures an animal can be sent to. Only the habitat already drawn on the enclosure screen exists so far.
  */
 public final class EnclosureCatalog {
 
