@@ -21,6 +21,9 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Random;
 
+/**
+ * Controller for the enclosure screen, where two koalas wander around and can be clicked for more info.
+ */
 public class EnclosureController {
 
     @FXML
@@ -38,6 +41,9 @@ public class EnclosureController {
     private static final double MIN_Y = 10;
     private static final double MAX_Y = 190;
 
+    /**
+     * Gives each koala a tooltip and starts them wandering when the screen loads.
+     */
     @FXML
     private void initialize() {
         setupTooltip(koala1, "Kai", "Australian Koala", "★★★☆☆");
@@ -48,7 +54,11 @@ public class EnclosureController {
     }
 
     /**
-     * Attaches a hover tooltip to a koala node showing its name, species, and rating.
+     * Attaches a hover tooltip to a koala showing its name, species and rating.
+     * @param koala The koala to attach the tooltip to
+     * @param name The name of the koala
+     * @param species The species of the koala
+     * @param rating The star rating of the koala
      */
     private void setupTooltip(VBox koala, String name, String species, String rating) {
         Tooltip tooltip = new Tooltip(name + " — " + species + " " + rating);
@@ -57,8 +67,9 @@ public class EnclosureController {
     }
 
     /**
-     * Repeatedly moves the given koala node to a random point inside the
-     * enclosure, waiting `periodSeconds` between moves.
+     * Repeatedly moves a koala to a random spot in the enclosure.
+     * @param koala The koala to move
+     * @param periodSeconds The number of seconds between moves
      */
     private void wander(VBox koala, double periodSeconds) {
         Timeline timeline = new Timeline(
@@ -68,6 +79,11 @@ public class EnclosureController {
         timeline.play();
     }
 
+
+    /**
+     * Slides a koala to a random spot inside the enclosure.
+     * @param koala The koala to move
+     */
     private void moveToRandomSpot(VBox koala) {
         double targetX = MIN_X + random.nextDouble() * (MAX_X - MIN_X);
         double targetY = MIN_Y + random.nextDouble() * (MAX_Y - MIN_Y);
@@ -101,6 +117,14 @@ public class EnclosureController {
     }
 
 
+    /**
+     * Opens the animal info screen with the given animal's details.
+     * @param source The node that was clicked
+     * @param name The name of the animal
+     * @param species The species of the animal
+     * @param rating The star rating of the animal
+     * @param description A short description of the animal
+     */
     private void openAnimalInfo(Object source, String name, String species, String rating, String description) {
         try {
             URL fxmlUrl = getClass().getResource("/com/trashslammers/views/animal-info-view.fxml");

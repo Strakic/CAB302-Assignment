@@ -1,7 +1,9 @@
 package com.trashslammers.model;
 
 import com.trashslammers.model.TrashItem.WasteType;
-
+/**
+ * A bin that accepts one type of waste.
+ */
 public class Bin {
     private final WasteType type;
 

@@ -9,6 +9,9 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Saves, loads, updates and deletes user accounts using the users table in the SQLite database.
+ */
 public class UserDAO implements IUserDAO {
     private final Connection connection;
 
@@ -89,8 +92,12 @@ public class UserDAO implements IUserDAO {
     }
 
 
-
+    /**
+     * Saves a new user to the database and sets their id.
+     * @param user The user to save
+     */
     // dont forget to use ? to parameterise SQL queries
+
     @Override
     public void addUser(User user) {
         String query = "INSERT INTO users (username, passwordHash, role) VALUES (?, ?, ?)";
@@ -177,8 +184,13 @@ public class UserDAO implements IUserDAO {
             System.err.println(ex);
         }
     }
-
-    /** Makes one row into the user subclass that its role column names */
+    
+    /**
+     * Turns the current row of a query result into a user of the right type for their role.
+     * @param rs The query result, positioned on the row to read
+     * @return The user stored in that row
+     * @throws SQLException If a column can't be read
+     */
     private User mapRow(ResultSet rs) throws SQLException {
         return UserFactory.create(
                 Role.fromDb(rs.getString("role")),

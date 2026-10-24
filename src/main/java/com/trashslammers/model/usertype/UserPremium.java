@@ -2,13 +2,14 @@ package com.trashslammers.model.usertype;
 
 import com.trashslammers.model.User;
 
+/**
+ * A premium user, who earns double points for sorting trash.
+ */
 public class UserPremium extends User {
     /**
-     * Creates a brand-new user that has not been persisted yet.
-     * The id is assigned later by whatever saves it (see UserRepository).
-     *
-     * @param username
-     * @param passwordHash
+     * Constructs a new UserPremium with the specified username and password hash.
+     * @param username The username of the user
+     * @param passwordHash The hashed password of the user
      */
 
     public UserPremium(String username, String passwordHash) {

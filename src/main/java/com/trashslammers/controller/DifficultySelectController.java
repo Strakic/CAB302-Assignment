@@ -1,7 +1,9 @@
 package com.trashslammers.controller;
 
 import javafx.fxml.FXML;
-
+/**
+ * Controller for the difficulty select screen, whose levels aren't built yet.
+ */
 public class DifficultySelectController {
 
     @FXML

@@ -6,8 +6,12 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Saves and loads trash items using the SQLite database (mostly not implemented yet).
+ */
 public class TrashItemDAO {
     private Connection connection;
+
 
     public TrashItemDAO() {
         connection = DatabaseConnection.getInstance();
@@ -28,6 +32,7 @@ public class TrashItemDAO {
         }
 
     }
+
 
     public void insert(TrashItem trashItem) {
         // Todo Later: Create a PreparedStatement to run the INSERT query

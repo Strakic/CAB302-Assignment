@@ -20,7 +20,9 @@ import com.trashslammers.service.Session;
 import java.io.IOException;
 import java.net.URL;
 
-
+/**
+ * Controller for the sign-up screen, which creates a new account and logs the user in.
+ */
 public class SignupController {
 
     private static final int MIN_PASSWORD_LENGTH = 8;
@@ -32,10 +34,16 @@ public class SignupController {
 
     private final IAuthenticationService authenticationService;
 
+    /**
+     * Constructs a new SignupController with an authentication service.
+     */
     public SignupController() {
         this.authenticationService = new AuthenticationService();
     }
 
+    /**
+     * Clears the error message when the screen loads.
+     */
     @FXML
     public void initialize() {
         if (errorLabel != null) {
@@ -56,6 +64,10 @@ public class SignupController {
         }
     }
 
+    /**
+     * Checks the details and creates the new account when the Sign Up button is clicked.
+     * @param event The button click event
+     */
     @FXML
     private void signup(ActionEvent event) {
         String username = usernameField.getText().trim();

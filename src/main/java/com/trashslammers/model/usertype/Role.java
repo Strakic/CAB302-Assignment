@@ -1,5 +1,8 @@
 package com.trashslammers.model.usertype;
 
+/**
+ * The type of account a user has, which decides what they can do in the game.
+ */
 public enum Role {
 
     STANDARD, PREMIUM, ADMIN;

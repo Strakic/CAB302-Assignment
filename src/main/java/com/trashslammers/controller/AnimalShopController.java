@@ -29,6 +29,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
+/**
+ * Controller for the animal shop, which shows every animal as a card that can be sorted and filtered.
+ */
 public class AnimalShopController {
 
     private static final String SPRITE_PATH = "/com/trashslammers/Sprites/Animal Sprites/";
@@ -47,6 +50,9 @@ public class AnimalShopController {
     @FXML
     private TilePane animalGrid;
 
+    /**
+     * Sets up the points label and the sort and filter drop-downs, then draws the cards.
+     */
     @FXML
     private void initialize() {
         pointsLabel.textProperty().bind(

@@ -10,18 +10,25 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-
+/**
+ * Saves and loads admin-added animals using the animals table in the SQLite database.
+ */
 public class AnimalDAO implements IAnimalDAO{
 
 
     private final Connection connection;
 
+    /**
+     * Constructs a new AnimalDAO and creates the animals table if needed.
+     */
     public AnimalDAO() {
         connection = DatabaseConnection.getInstance();
         createTable();
     }
 
-
+    /**
+     * Creates the animals table if it doesn't exist yet.
+     */
     private void createTable() {
 
         String sql = "CREATE TABLE IF NOT EXISTS animals ("
@@ -40,6 +47,11 @@ public class AnimalDAO implements IAnimalDAO{
         }
     }
 
+    /**
+     * Saves a new animal to the database.
+     * @param animal The animal to save
+     * @return true if the animal was saved, otherwise false
+     */
     @Override
     public boolean addAnimal(Animal animal) {
         String sql = "INSERT INTO animals "
@@ -62,6 +74,11 @@ public class AnimalDAO implements IAnimalDAO{
         }
     }
 
+    /**
+     * Checks whether a saved animal already has this name, ignoring case.
+     * @param name The name to check
+     * @return true if the name is taken, otherwise false
+     */
     @Override
     public boolean nameExists(String name) {
         String sql = "SELECT 1 FROM animals WHERE name = ? COLLATE NOCASE";
@@ -78,6 +95,11 @@ public class AnimalDAO implements IAnimalDAO{
     }
 
 
+    /**
+     * Loads a saved animal by its id.
+     * @param id The id of the animal
+     * @return The animal, or null if there isn't one with that id
+     */
     @Override
     public Animal getAnimalById(String id) {
         String sql = "SELECT * FROM animals WHERE id = ?";
@@ -93,6 +115,10 @@ public class AnimalDAO implements IAnimalDAO{
         }
     }
 
+    /**
+     * Loads every saved animal in the order they were added.
+     * @return A list of all saved animals
+     */
     @Override
     public List<Animal> getAllAnimals() {
         List<Animal> animals = new ArrayList<>();
@@ -110,6 +136,12 @@ public class AnimalDAO implements IAnimalDAO{
         return animals;
     }
 
+    /**
+     * Turns the current row of a query result into an Animal.
+     * @param rs The query result, positioned on the row to read
+     * @return The animal stored in that row
+     * @throws SQLException If a column can't be read
+     */
     private Animal mapRow(ResultSet rs) throws SQLException {
         return new Animal(
                 rs.getString("id"),
@@ -122,7 +154,11 @@ public class AnimalDAO implements IAnimalDAO{
                 rs.getString("fact"));
     }
 
-    /** Falls back to the first rarity for junk text */
+    /**
+     * Turns the rarity text stored in the database back into a Rarity.
+     * @param text The rarity text from the database
+     * @return The matching rarity, or COMMON if the text isn't recognised
+     */
     private static Rarity parseRarity(String text) {
         try {
             return Rarity.valueOf(text);

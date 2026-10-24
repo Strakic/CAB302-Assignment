@@ -7,6 +7,9 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
+/**
+ * Keeps the player's owned animals in memory while the game is running.
+ */
 public class InMemoryAnimalRepository implements AnimalRepository {
 
     private final Map<String, OwnedAnimal> ownedByAnimalId = new ConcurrentHashMap<>();

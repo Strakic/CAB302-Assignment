@@ -15,6 +15,9 @@ import javafx.stage.Stage;
 
 import java.util.Optional;
 
+/**
+ * Controller for the pop-up that places an owned animal into an enclosure.
+ */
 public class AnimalPlaceController implements AnimalDialogController {
 
     @FXML
@@ -38,6 +41,11 @@ public class AnimalPlaceController implements AnimalDialogController {
     private Animal animal;
     private AnimalShopService shopService;
 
+    /**
+     * Shows the animal's name and fact, fills the enclosure drop-down, and shows where the animal lives now.
+     * @param animal The animal to place
+     * @param shopService The shop service used to place the animal
+     */
     @Override
     public void setAnimal(Animal animal, AnimalShopService shopService) {
         this.animal = animal;
@@ -52,6 +60,9 @@ public class AnimalPlaceController implements AnimalDialogController {
         showCurrentPlacement();
     }
 
+    /**
+     * Shows whether the animal still needs to be bought, is waiting to be placed, or already lives in an enclosure.
+     */
     private void showCurrentPlacement() {
         Optional<OwnedAnimal> owned = shopService.findOwned(animal.getId());
         if (owned.isEmpty()) {
@@ -70,6 +81,10 @@ public class AnimalPlaceController implements AnimalDialogController {
         }
     }
 
+    /**
+     * Places the animal into the chosen enclosure when the Place button is clicked.
+     * @param event The button click event
+     */
     @FXML
     private void handlePlaceButtonClick(ActionEvent event) {
         PlacementTarget target = enclosureComboBox.getValue();
@@ -88,6 +103,11 @@ public class AnimalPlaceController implements AnimalDialogController {
         closeButton.setText("BACK TO SHOP");
     }
 
+    /**
+     * Finds the display name of an enclosure.
+     * @param enclosureId The id of the enclosure
+     * @return The enclosure's display name, or the id if no enclosure matches
+     */
     private String nameOf(String enclosureId) {
         return EnclosureCatalog.all().stream()
                 .filter(target -> target.getId().equals(enclosureId))
@@ -96,6 +116,10 @@ public class AnimalPlaceController implements AnimalDialogController {
                 .orElse(enclosureId);
     }
 
+    /**
+     * Closes the pop-up when the Close button is clicked.
+     * @param event The button click event
+     */
     @FXML
     private void handleCloseButtonClick(ActionEvent event) {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();

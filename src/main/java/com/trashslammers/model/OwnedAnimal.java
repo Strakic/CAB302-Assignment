@@ -11,10 +11,16 @@ public class OwnedAnimal {
     // null until the player places it, which leaves the animal owned but unplaced
     private String enclosureId;
 
+
     public OwnedAnimal(Animal animal) {
         this(animal, null);
     }
 
+    /**
+     * Constructs a new OwnedAnimal with the specified animal and enclosure.
+     * @param animal The animal the player owns
+     * @param enclosureId The id of the enclosure it lives in, or null if it hasn't been placed
+     */
     public OwnedAnimal(Animal animal, String enclosureId) {
         if (animal == null) {
             throw new IllegalArgumentException("Owned animal must wrap an animal");
@@ -39,6 +45,10 @@ public class OwnedAnimal {
         return enclosureId != null;
     }
 
+    /**
+     * Moves the animal into an enclosure.
+     * @param enclosureId The id of the enclosure
+     */
     public void placeIn(String enclosureId) {
         if (enclosureId == null || enclosureId.isBlank()) {
             throw new IllegalArgumentException("Enclosure id cannot be blank");

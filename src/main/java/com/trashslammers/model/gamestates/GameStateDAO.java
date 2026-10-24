@@ -3,13 +3,21 @@ package com.trashslammers.model.gamestates;
 import com.trashslammers.database.DatabaseConnection;
 
 import java.sql.*;
-
+/**
+ * Stores the location of each user's save file in the SQLite database.
+ */
 public class GameStateDAO implements IGameStateDAO {
 
+    /**
+     * Constructs a new GameStateDAO and creates the save_files table if needed.
+     */
     public GameStateDAO() {
         initializeTable();
     }
 
+    /**
+     * Creates the save_files table if it doesn't exist yet.
+     */
     @Override
     public void initializeTable() {
         String sql = "CREATE TABLE IF NOT EXISTS save_files (" +
@@ -24,6 +32,11 @@ public class GameStateDAO implements IGameStateDAO {
         }
     }
 
+    /**
+     * Saves the location of a user's save file, replacing any earlier one.
+     * @param userId The id of the user
+     * @param filePath The path of the save file
+     */
     @Override
     public void saveFilePath(int userId, String filePath) {
         String sql = "INSERT INTO save_files (user_id, file_path) VALUES (?, ?) " +
@@ -39,6 +52,11 @@ public class GameStateDAO implements IGameStateDAO {
         }
     }
 
+    /**
+     * Gets the location of a user's save file.
+     * @param userId The id of the user
+     * @return The path of the save file, or null if the user has no save
+     */
     @Override
     public String getFilePath(int userId) {
         String sql = "SELECT file_path FROM save_files WHERE user_id = ?";

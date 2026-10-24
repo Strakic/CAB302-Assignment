@@ -5,6 +5,7 @@ import com.trashslammers.model.OwnedAnimal;
 import com.trashslammers.model.Rarity;
 import com.trashslammers.model.gamestates.AnimalCatalog;
 import com.trashslammers.model.gamestates.GameState;
+import com.trashslammers.model.gamestates.IGameStateDAO;
 import com.trashslammers.service.SaveGameService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -24,7 +25,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class SaveGameServiceTest {
-
+    private IGameStateDAO gameStateDAO;
     private Connection connection;
     private SaveGameService saveGameService;
 

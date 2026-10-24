@@ -6,6 +6,9 @@ import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
+/**
+ * Keeps user accounts in memory; the login system now uses UserDAO instead.
+ */
 public class InMemoryUserRepository implements UserRepository {
 
     private final Map<String, User> usersByUsername = new ConcurrentHashMap<>();

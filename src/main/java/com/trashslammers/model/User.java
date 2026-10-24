@@ -3,10 +3,7 @@ package com.trashslammers.model;
 import com.trashslammers.model.usertype.Role;
 
 /**
- * base representation of an account
- *
- * password is only ever stored as a hashed value
- *
+ * A standard user account, which premium and admin users are built on.
  */
 
 
@@ -20,8 +17,9 @@ public class User {
     private String passwordHash;
 
     /**
-     * Creates a brand-new user that has not been persisted yet.
-     * The id is assigned later by whatever saves it (see UserRepository).
+     * Constructs a new User with the specified username and password hash.
+     * @param username The username of the user
+     * @param passwordHash The hashed password of the user
      */
     public User(String username, String passwordHash) {
 
@@ -58,7 +56,10 @@ public class User {
         this.username = username;
     }
 
-    /** Returns the stored hash value and never the plaintext password. */
+    /**
+     * Gets the hashed password of the user, never the plain text password.
+     * @return The hashed password of the user
+     */
     public String getPasswordHash() {
         return passwordHash;
     }

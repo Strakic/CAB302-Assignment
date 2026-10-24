@@ -5,6 +5,9 @@ import com.trashslammers.model.OwnedAnimal;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Stores the animals a player owns.
+ */
 public interface AnimalRepository {
 
     List<OwnedAnimal> findAll();

@@ -20,6 +20,11 @@ public class AnimalShopService {
     private final Score score;
     private final AnimalRepository collection;
 
+    /**
+     * Constructs a new AnimalShopService with the specified score and collection.
+     * @param score The player's score, used to pay for animals
+     * @param collection The animals the player owns
+     */
     public AnimalShopService(Score score, AnimalRepository collection) {
         if (score == null || collection == null) {
             throw new IllegalArgumentException("Shop service needs both a score and a collection");
@@ -28,6 +33,11 @@ public class AnimalShopService {
         this.collection = collection;
     }
 
+    /**
+     * Buys an animal if the player has enough points and doesn't already own it.
+     * @param animal The animal to buy
+     * @return SUCCESS, ALREADY_OWNED or INSUFFICIENT_POINTS
+     */
     public PurchaseResult purchase(Animal animal) {
         if (animal == null) {
             throw new IllegalArgumentException("Cannot purchase a null animal");
@@ -46,8 +56,9 @@ public class AnimalShopService {
 
     /**
      * Records that an owned animal now lives in the given enclosure.
-     *
-     * @return false if the animal is not owned, or the enclosure id is blank
+     * @param animalId The id of the animal
+     * @param enclosureId The id of the enclosure
+     * @return true if the animal was placed, false if it isn't owned or the enclosure id is blank
      */
     public boolean placeInEnclosure(String animalId, String enclosureId) {
         if (enclosureId == null || enclosureId.isBlank()) {
@@ -65,6 +76,12 @@ public class AnimalShopService {
         return true;
     }
 
+    /**
+     * Gets the animals to show in the shop, filtered and sorted.
+     * @param sortMode How to sort the animals
+     * @param filter Which animals to show
+     * @return The animals to show
+     */
     public List<Animal> listCatalog(SortMode sortMode, OwnershipFilter filter) {
         Stream<Animal> animals = AnimalCatalog.all().stream()
                 .filter(animal -> filter.matches(isOwned(animal.getId())));

@@ -42,6 +42,10 @@ public final class AnimalCatalog {
 
     private AnimalCatalog() {}
 
+    /**
+     * Gets the source of admin-added animals, creating it the first time it's needed.
+     * @return The source of admin-added animals
+     */
     private static IAnimalDAO customAnimals() {
         if (customAnimals == null) {
             customAnimals = new AnimalDAO();
@@ -53,7 +57,10 @@ public final class AnimalCatalog {
         customAnimals = source;
     }
 
-    /** ordered by the built in animals first followed by the admin added animals after */
+    /**
+     * Gets every animal in the shop, sorted from cheapest to most expensive.
+     * @return A list of all built-in and admin-added animals
+     */
     public static List<Animal> all() {
         List<Animal> animals = new ArrayList<>(BUILT_IN);
         animals.addAll(customAnimals().getAllAnimals());
@@ -61,18 +68,32 @@ public final class AnimalCatalog {
         return List.copyOf(animals);
     }
 
+    /**
+     * Finds an animal by its id.
+     * @param id The id of the animal
+     * @return The matching animal, or an empty Optional if there isn't one
+     */
     public static Optional<Animal> findById(String id) {
         return all().stream()
                 .filter(animal -> animal.getId().equals(id))
                 .findFirst();
     }
 
+    /**
+     * Checks whether an animal already has this name, ignoring case.
+     * @param name The name to check
+     * @return true if the name is already used, otherwise false
+     */
     public static boolean nameTaken(String name) {
         return all().stream()
                 .anyMatch(animal -> animal.getName().equalsIgnoreCase(name.trim()));
     }
 
-    /** @return true if saved. Rejects an id that is already in use. */
+    /**
+     * Saves a new admin-added animal.
+     * @param animal The animal to add
+     * @return true if the animal was saved, false if its id is already used or the save failed
+     */
     public static boolean add(Animal animal) {
         if (findById(animal.getId()).isPresent()) {
             return false;

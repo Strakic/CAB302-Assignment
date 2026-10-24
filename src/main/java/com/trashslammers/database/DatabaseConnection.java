@@ -4,6 +4,9 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+/**
+ * Provides the single shared connection to the game's SQLite database.
+ */
 public class DatabaseConnection {
     private static final String URL = "jdbc:sqlite:database.db";
     private static Connection instance = null;
@@ -11,6 +14,10 @@ public class DatabaseConnection {
     // Private constructor prevents direct instantiation
     private DatabaseConnection() {}
 
+    /**
+     * Gets the shared database connection, opening a new one if needed.
+     * @return The connection to the SQLite database
+     */
     public static synchronized Connection getInstance() {
         try {
             // Reopen if instance is null OR if the connection was previously closed

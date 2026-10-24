@@ -10,6 +10,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
+/**
+ * Controller for the pop-up that lets the player buy an animal with their points.
+ */
 public class AnimalPurchaseController implements AnimalDialogController {
 
     @FXML
@@ -42,6 +45,11 @@ public class AnimalPurchaseController implements AnimalDialogController {
     private Animal animal;
     private AnimalShopService shopService;
 
+    /**
+     * Shows the animal's details and cost, along with the player's points.
+     * @param animal The animal to buy
+     * @param shopService The shop service used to buy the animal
+     */
     @Override
     public void setAnimal(Animal animal, AnimalShopService shopService) {
         this.animal = animal;
@@ -56,6 +64,9 @@ public class AnimalPurchaseController implements AnimalDialogController {
         showBalance();
     }
 
+    /**
+     * Shows the player's points and disables the Buy button if they can't afford the animal.
+     */
     private void showBalance() {
         int balance = shopService.getPointBalance();
         balanceLabel.setText("You have: " + balance + " pts");
@@ -67,6 +78,10 @@ public class AnimalPurchaseController implements AnimalDialogController {
         }
     }
 
+    /**
+     * Tries to buy the animal when the Buy button is clicked and shows the result.
+     * @param event The button click event
+     */
     @FXML
     private void handleBuyButtonClick(ActionEvent event) {
         PurchaseResult result = shopService.purchase(animal);
@@ -78,6 +93,9 @@ public class AnimalPurchaseController implements AnimalDialogController {
         }
     }
 
+    /**
+     * Updates the pop-up after the animal is bought, showing the new balance and the animal's fact.
+     */
     private void showUnlocked() {
         balanceLabel.setText("You have: " + shopService.getPointBalance() + " pts");
         messageLabel.setText("Unlocked! " + animal.getFact());
@@ -87,6 +105,10 @@ public class AnimalPurchaseController implements AnimalDialogController {
         closeButton.setText("BACK TO SHOP");
     }
 
+    /**
+     * Closes the pop-up when the Close button is clicked.
+     * @param event The button click event
+     */
     @FXML
     private void handleCloseButtonClick(ActionEvent event) {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
