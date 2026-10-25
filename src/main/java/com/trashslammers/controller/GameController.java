@@ -2,6 +2,7 @@ package com.trashslammers.controller;
 
 import com.trashslammers.database.DatabaseConnection;
 import com.trashslammers.model.*;
+import com.trashslammers.model.gamestates.AnimalCatalog;
 import com.trashslammers.model.gamestates.GameStateDAO;
 import com.trashslammers.service.DraggableMaker;
 import com.trashslammers.service.SaveGameService;
@@ -34,10 +35,7 @@ import javafx.util.Duration;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class GameController implements Initializable {
 
@@ -62,7 +60,7 @@ public class GameController implements Initializable {
     private Timeline gameLoop;
     private Timeline spawner;
     private final double fallSpeed = 2.0;
-
+    private Timeline passiveIncomeTimeline;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -91,6 +89,30 @@ public class GameController implements Initializable {
         gameLoop = new Timeline(new KeyFrame(Duration.millis(20), e -> moveTrashDown()));
         gameLoop.setCycleCount(Timeline.INDEFINITE);
         gameLoop.play();
+
+        passiveIncomeTimeline = new Timeline(new KeyFrame(Duration.seconds(1.0), e -> applyPassiveIncome()));
+        passiveIncomeTimeline.setCycleCount(Timeline.INDEFINITE);
+        passiveIncomeTimeline.play();
+    }
+
+    private void applyPassiveIncome() {
+        int totalPassiveIncome = calculateTotalPassiveIncome();
+        if (totalPassiveIncome > 0) {
+            score.add(totalPassiveIncome);
+        }
+    }
+
+    public int calculateTotalPassiveIncome() {
+        List<OwnedAnimal> ownedList = PlayerSession.getInstance().getShopService().ownedAnimals();
+        int totalPps = 0;
+
+        for (OwnedAnimal owned : ownedList) {
+            Optional<Animal> animalOpt = AnimalCatalog.findById(owned.getAnimalId());
+            if (animalOpt.isPresent()) {
+                totalPps += animalOpt.get().getBasePointsPerSecond();
+            }
+        }
+        return totalPps;
     }
 
     private void spawnRandomTrashSprite() {
@@ -215,6 +237,7 @@ public class GameController implements Initializable {
     private void stopTimers() {
         if (spawner != null) spawner.stop();
         if (gameLoop != null) gameLoop.stop();
+        if (passiveIncomeTimeline != null) passiveIncomeTimeline.stop();
     }
 
     private void saveGame() {

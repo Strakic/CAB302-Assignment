@@ -23,13 +23,13 @@ public class AnimalDAO implements IAnimalDAO{
 
 
     private void createTable() {
-
         String sql = "CREATE TABLE IF NOT EXISTS animals ("
                 + "id VARCHAR PRIMARY KEY,"
                 + "name VARCHAR NOT NULL UNIQUE COLLATE NOCASE,"
                 + "species VARCHAR, "
                 + "rarity VARCHAR NOT NULL,"
                 + "cost INTEGER NOT NULL,"
+                + "basePointsPerSecond INTEGER NOT NULL DEFAULT 0,"
                 + "spriteFile VARCHAR,"
                 + "habitat VARCHAR,"
                 + "fact VARCHAR)";
@@ -43,17 +43,18 @@ public class AnimalDAO implements IAnimalDAO{
     @Override
     public boolean addAnimal(Animal animal) {
         String sql = "INSERT INTO animals "
-                + "(id, name, species, rarity, cost, spriteFile, habitat, fact) "
-                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+                + "(id, name, species, rarity, cost, basePointsPerSecond, spriteFile, habitat, fact) "
+                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setString(1, animal.getId());
             ps.setString(2, animal.getName());
             ps.setString(3, animal.getSpecies());
             ps.setString(4, animal.getRarity().name());
             ps.setInt(5, animal.getCost());
-            ps.setString(6, animal.getSpriteFile());
-            ps.setString(7, animal.getHabitat());
-            ps.setString(8, animal.getFact());
+            ps.setInt(6, animal.getBasePointsPerSecond());
+            ps.setString(7, animal.getSpriteFile());
+            ps.setString(8, animal.getHabitat());
+            ps.setString(9, animal.getFact());
             ps.executeUpdate();
             return true;
         } catch (SQLException e) {
@@ -117,6 +118,7 @@ public class AnimalDAO implements IAnimalDAO{
                 rs.getString("species"),
                 parseRarity(rs.getString("rarity")),
                 rs.getInt("cost"),
+                rs.getInt("basePointsPerSecond"),
                 rs.getString("spriteFile"),
                 rs.getString("habitat"),
                 rs.getString("fact"));

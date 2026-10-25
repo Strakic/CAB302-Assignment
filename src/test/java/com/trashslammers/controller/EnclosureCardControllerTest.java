@@ -27,6 +27,7 @@ public class EnclosureCardControllerTest {
                 "Phascolarctos cinereus",
                 Rarity.COMMON,
                 100,
+                1,
                 "/sprites/koala.png",
                 "Eucalypt Forest",
                 "Sleeps up to 20 hours a day."

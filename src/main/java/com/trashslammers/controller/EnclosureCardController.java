@@ -16,6 +16,7 @@ public class EnclosureCardController {
     @FXML private Label statsLabel;
     @FXML private Button viewButton;
     @FXML private ImageView animalIcon;
+    @FXML private Label multiplierLabel;
 
     private String titleText;
     private String statsText;
@@ -45,6 +46,10 @@ public class EnclosureCardController {
             statsLabel.setText(this.statsText);
         }
 
+        if (multiplierLabel != null) {
+            multiplierLabel.setText("Score/s: +" + animal.getBasePointsPerSecond());
+        }
+
         if (viewButton != null) {
             viewButton.setOnAction(e -> handleViewAction());
         }
@@ -59,13 +64,16 @@ public class EnclosureCardController {
     }
 
     String getTitleText() {
-        return null;
+        return this.titleText;
     }
 
     String getStatsText() {
-        return null;
+        return this.statsText;
     }
 
     void handleViewAction() {
+        if (onViewAction != null && currentOwnedAnimal != null) {
+            onViewAction.accept(currentOwnedAnimal);
+        }
     }
 }
