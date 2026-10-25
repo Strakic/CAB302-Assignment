@@ -55,4 +55,12 @@ public class OwnedAnimal {
         }
         this.enclosureId = enclosureId;
     }
+
+    public void setEnclosureId(String enclosureId) {
+        if (enclosureId != null && !enclosureId.isBlank()) {
+            placeIn(enclosureId);
+        } else {
+            this.enclosureId = null;
+        }
+    }
 }

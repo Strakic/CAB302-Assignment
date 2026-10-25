@@ -1,10 +1,8 @@
 package com.trashslammers.controller;
 
 import com.trashslammers.database.DatabaseConnection;
-import com.trashslammers.model.OwnedAnimal;
-import com.trashslammers.model.PlayerSession;
-import com.trashslammers.model.Score;
-import com.trashslammers.model.TrashItem;
+import com.trashslammers.model.*;
+import com.trashslammers.model.gamestates.AnimalCatalog;
 import com.trashslammers.model.gamestates.GameStateDAO;
 import com.trashslammers.model.qte.ActiveBoost;
 import com.trashslammers.model.qte.GoldenTrashEvent;
@@ -28,6 +26,7 @@ import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -42,10 +41,7 @@ import javafx.util.Duration;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-import java.util.ResourceBundle;
+import java.util.*;
 
 /**
  * Controller for the main game screen, where the player sorts falling trash into the right bins to earn points.
@@ -59,6 +55,8 @@ public class GameController implements Initializable {
     @FXML private Label scoreLabel;
     @FXML private Label boostLabel;
     @FXML private Button menuButton;
+    @FXML private VBox animalContainer;
+
 
     private final Score score = PlayerSession.getInstance().getScore();
     private final SpriteService spriteService = new SpriteService();
@@ -72,6 +70,7 @@ public class GameController implements Initializable {
     private Timeline gameLoop;
     private Timeline spawner;
     private final double fallSpeed = 2.0;
+    private Timeline passiveIncomeTimeline;
 
     private final QteService qteService = new QteService(rand);
     private final ActiveBoost boost = new ActiveBoost();
@@ -87,6 +86,9 @@ public class GameController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         buckets = List.of(bucketOrganic, bucketGeneral, bucketRecycle);
+
+        // grabs animal list owned
+        refreshAnimalList();
 
         // stop sprites painting outside the play area and over the HUD
         Rectangle clip = new Rectangle();
@@ -112,6 +114,30 @@ public class GameController implements Initializable {
         }));
         gameLoop.setCycleCount(Timeline.INDEFINITE);
         gameLoop.play();
+
+        passiveIncomeTimeline = new Timeline(new KeyFrame(Duration.seconds(1.0), e -> applyPassiveIncome()));
+        passiveIncomeTimeline.setCycleCount(Timeline.INDEFINITE);
+        passiveIncomeTimeline.play();
+    }
+
+    private void applyPassiveIncome() {
+        int totalPassiveIncome = calculateTotalPassiveIncome();
+        if (totalPassiveIncome > 0) {
+            score.add(totalPassiveIncome);
+        }
+    }
+
+    public int calculateTotalPassiveIncome() {
+        List<OwnedAnimal> ownedList = PlayerSession.getInstance().getShopService().ownedAnimals();
+        int totalPps = 0;
+
+        for (OwnedAnimal owned : ownedList) {
+            Optional<Animal> animalOpt = AnimalCatalog.findById(owned.getAnimalId());
+            if (animalOpt.isPresent()) {
+                totalPps += animalOpt.get().getBasePointsPerSecond();
+            }
+        }
+        return totalPps;
     }
 
     /**
@@ -312,12 +338,32 @@ public class GameController implements Initializable {
         MenuItem enclosure = new MenuItem("Enclosure");
         enclosure.setOnAction(event -> openEnclosure());
 
-        MenuItem resume = new MenuItem("Resume");
+        MenuItem menu = new MenuItem("Main Menu");
+        menu.setOnAction(event -> returnToMainMenu());
 
         MenuItem save = new MenuItem("Save");
         save.setOnAction(event -> saveGame());
 
-        return new ContextMenu(shop, enclosure, resume, save);
+        return new ContextMenu(shop, enclosure, menu, save);
+    }
+
+    private void returnToMainMenu() {
+        stopTimers();
+        try {
+            URL fxmlUrl = getClass().getResource("/com/trashslammers/views/main-menu-view.fxml");
+            if (fxmlUrl == null) return;
+            Parent root = FXMLLoader.load(fxmlUrl);
+            SceneFactory.swap(menuButton, root, "Trash Slammers");
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.err.println("Could not load main-menu-view.fxml");
+        }
+    }
+
+    private void stopTimers() {
+        if (spawner != null) spawner.stop();
+        if (gameLoop != null) gameLoop.stop();
+        if (passiveIncomeTimeline != null) passiveIncomeTimeline.stop();
     }
 
     /**
@@ -382,7 +428,10 @@ public class GameController implements Initializable {
             shop.setTitle("Trash Slammers - Animal Shop");
             shop.setScene(SceneFactory.styled(shopRoot));
             shop.setMaximized(true);
+
             shop.showAndWait();
+            // catch this moment to refresh animal list for game
+            refreshAnimalList();
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -404,6 +453,45 @@ public class GameController implements Initializable {
         } catch (IOException e) {
             e.printStackTrace();
             System.err.println("Could not load enclosure-view.fxml");
+        }
+    }
+
+    void setAnimalContainer(VBox container) {
+        this.animalContainer = container;
+    }
+
+    void refreshAnimalList() {
+        if (animalContainer == null) {
+            return;
+        }
+
+        animalContainer.getChildren().clear();
+
+        List<OwnedAnimal> ownedAnimals = PlayerSession.getInstance().getShopService().ownedAnimals();
+
+        for (OwnedAnimal owned : ownedAnimals) {
+            com.trashslammers.model.gamestates.AnimalCatalog.findById(owned.getAnimalId()).ifPresent(animal -> {
+                Node cardNode = loadEnclosureCard(animal, owned);
+                if (cardNode != null) {
+                    animalContainer.getChildren().add(cardNode);
+                }
+            });
+        }
+    }
+
+    private Node loadEnclosureCard(Animal animal, OwnedAnimal owned) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/trashslammers/views/enclosure-card-format.fxml"));
+            Node cardNode = loader.load();
+
+            EnclosureCardController cardController = loader.getController();
+            cardController.setCardData(animal, owned, target -> openEnclosure());
+
+            return cardNode;
+        } catch (Throwable e) {
+            HBox mockCard = new HBox();
+            mockCard.setUserData(owned);
+            return mockCard;
         }
     }
 }

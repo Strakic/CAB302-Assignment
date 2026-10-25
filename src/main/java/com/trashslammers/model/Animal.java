@@ -13,6 +13,7 @@ public class Animal {
     private final String spriteFile;
     private final String habitat;
     private final String fact;
+    private final int basePointsPerSecond;
 
     /**
      * Constructs a new Animal with the specified details.
@@ -26,7 +27,7 @@ public class Animal {
      * @param fact A fact about the animal, revealed when it is unlocked
      */
     public Animal(String id, String name, String species, Rarity rarity, int cost,
-                  String spriteFile, String habitat, String fact) {
+                  int basePointsPerSecond, String spriteFile, String habitat, String fact) {
         if (id == null || id.isBlank()) {
             throw new IllegalArgumentException("Animal id cannot be blank");
         }
@@ -39,12 +40,16 @@ public class Animal {
         if (cost < 0) {
             throw new IllegalArgumentException("Cost cannot be negative");
         }
+        if (basePointsPerSecond < 0) {
+            throw new IllegalArgumentException("Base points per second cannot be negative");
+        }
 
         this.id = id;
         this.name = name;
         this.species = species;
         this.rarity = rarity;
         this.cost = cost;
+        this.basePointsPerSecond = basePointsPerSecond;
         this.spriteFile = spriteFile;
         this.habitat = habitat;
         this.fact = fact;
@@ -58,4 +63,5 @@ public class Animal {
     public String getSpriteFile() { return spriteFile; }
     public String getHabitat() { return habitat; }
     public String getFact() { return fact; }
+    public int getBasePointsPerSecond() { return basePointsPerSecond; }
 }

@@ -63,7 +63,7 @@ public class AddAnimalController {
 
             @Override
             public Rarity fromString(String text) {
-                // the box is not editable so this will never be called
+
                 return null;
             }
         });
@@ -76,7 +76,6 @@ public class AddAnimalController {
      */
     @FXML
     private void handleAddAnimal() {
-        // Re-check here, not just when showing the screen, same as OptionsController
         User user = Session.getCurrentUser();
         if (user == null || !user.canManageAnimals()) {
             showError("Only admins can add animals");
@@ -109,17 +108,28 @@ public class AddAnimalController {
             showError("Cost cannot be negative");
             return;
         }
-        if (AnimalCatalog.nameTaken(name)) {   // checks built-in animals too
+        if (AnimalCatalog.nameTaken(name)) {
             showError("An animal called " + name + " already exists");
             return;
         }
 
+        int basePointsPerSecond = Math.max(1, cost / 100);
+
         Animal animal;
         try {
-            animal = new Animal(makeId(name), name, species, rarity, cost,
-                    null, habitat, fact);   // no sprite yet, same as the built-in animals
+            animal = new Animal(
+                    makeId(name),
+                    name,
+                    species,
+                    rarity,
+                    cost,
+                    basePointsPerSecond,
+                    null,
+                    habitat,
+                    fact
+            );
         } catch (IllegalArgumentException e) {
-            showError(e.getMessage()); // Animal's own validation is the final safety net
+            showError(e.getMessage());
             return;
         }
 
@@ -138,7 +148,7 @@ public class AddAnimalController {
      */
     @FXML
     private void handleBack(ActionEvent event) throws IOException {
-        // ASSUMPTION: the admin reached this screen from the options view
+
         Parent root = FXMLLoader.load(getClass().getResource("/com/trashslammers/views/options-view.fxml"));
         ((Node) event.getSource()).getScene().setRoot(root);
     }
@@ -186,13 +196,5 @@ public class AddAnimalController {
         statusText.setFill(Color.web("#2e7d32"));
         statusText.setText(message);
     }
-
-
-
-
-
-
-
-
 
 }

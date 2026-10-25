@@ -18,23 +18,23 @@ public final class AnimalCatalog {
 
     private static final List<Animal> BUILT_IN = List.of(
             new Animal("galapagos-penguin", "Galapagos Penguin", "Spheniscus mendiculus",
-                    Rarity.COMMON, 100, null, "Galapagos Islands",
+                    Rarity.COMMON, 100, 1, "/sprites/penguin.png", "Galapagos Islands",
                     "One of the smallest penguins, they pant like dogs and stretch their flippers to stay cool."),
 
             new Animal("hawksbill-turtle", "Hawksbill Turtle", "Eretmochelys imbricata",
-                    Rarity.UNCOMMON, 300, null, "Coral Reef",
+                    Rarity.UNCOMMON, 300, 3, "/sprites/turtle.png", "Coral Reef",
                     "Named for their hawk-like beak, they eat sea sponges that are toxic to most other animals."),
 
             new Animal("orangutan", "Orangutan", "Pongo pygmaeus",
-                    Rarity.RARE, 700, null, "Lowland Forest",
+                    Rarity.RARE, 700, 8, "/sprites/orangutan.png", "Lowland Forest",
                     "The name orangutan means man of the forest in Malay, and they live mostly solitary lives."),
 
             new Animal("african-forest-elephant", "African Forest Elephant", "Loxodonta cyclotis",
-                    Rarity.EPIC, 1600, null, "Rainforest",
+                    Rarity.EPIC, 1600, 20, "/sprites/elephant.png", "Rainforest",
                     "Nicknamed the mega-gardener of the forest because they spread so many tree seeds."),
 
             new Animal("blue-whale", "Blue Whale", "Balaenoptera musculus",
-                    Rarity.LEGENDARY, 3750, null, "Open Ocean",
+                    Rarity.LEGENDARY, 3750, 50, "/sprites/whale.png", "Open Ocean",
                     "The largest animal to have ever lived, a blue whale's heart can weigh as much as a small car.")
     );
 

@@ -4,27 +4,19 @@ import com.trashslammers.database.AnimalRepository;
 import com.trashslammers.database.InMemoryAnimalRepository;
 import com.trashslammers.service.AnimalShopService;
 
-/**
- * The score and animal collection belonging to whoever is playing now.
- * Screens share one instance so points earned in the game can be spent in the shop.
- */
 public final class PlayerSession {
 
     private static PlayerSession instance;
 
     private final Score score;
     private final AnimalRepository collection;
-    private final AnimalShopService shopService;
+    private AnimalShopService shopService;
 
-    /**
-     * Private constructor that starts the player with a score of 0 and no animals.
-     */
     private PlayerSession() {
         this.score = new Score();
         this.collection = new InMemoryAnimalRepository();
         this.shopService = new AnimalShopService(score, collection);
     }
-
 
     public static PlayerSession getInstance() {
         if (instance == null) {
@@ -39,5 +31,9 @@ public final class PlayerSession {
 
     public AnimalShopService getShopService() {
         return shopService;
+    }
+
+    public void setShopService(AnimalShopService shopService) {
+        this.shopService = shopService;
     }
 }
