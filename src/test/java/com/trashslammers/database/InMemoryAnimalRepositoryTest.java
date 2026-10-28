@@ -16,10 +16,10 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class InMemoryAnimalRepositoryTest {
 
     private static final Animal KOALA = new Animal("koala", "Koala", "Phascolarctos cinereus",
-            Rarity.COMMON, 100, null, "Eucalypt Forest", "Sleeps up to 20 hours a day.");
+            Rarity.COMMON, 100, 5, null, "Eucalypt Forest", "Sleeps up to 20 hours a day.");
 
     private static final Animal PENGUIN = new Animal("little-penguin", "Little Penguin", "Eudyptula minor",
-            Rarity.RARE, 850, null, "Rocky Coastline", "Only comes ashore after dark.");
+            Rarity.RARE, 850, 15, null, "Rocky Coastline", "Only comes ashore after dark.");
 
     private AnimalRepository repository;
 

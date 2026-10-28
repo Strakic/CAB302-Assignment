@@ -27,10 +27,10 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class AnimalShopServiceTest {
 
     private static final Animal KOALA = new Animal("koala", "Koala", "Phascolarctos cinereus",
-            Rarity.COMMON, 100, null, "Eucalypt Forest", "Sleeps up to 20 hours a day.");
+            Rarity.COMMON, 100, 5, "", "Eucalypt Forest", "Sleeps up to 20 hours a day.");
 
     private static final Animal CROC = new Animal("croc", "Saltwater Crocodile", "Crocodylus porosus",
-            Rarity.LEGENDARY, 3000, null, "Mangrove Wetland", "Can go months between meals.");
+            Rarity.LEGENDARY, 3000, 50, "", "Mangrove Wetland", "Can go months between meals.");
 
     private Score score;
     private AnimalRepository collection;

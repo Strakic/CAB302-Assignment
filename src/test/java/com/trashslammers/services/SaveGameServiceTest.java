@@ -89,7 +89,8 @@ public class SaveGameServiceTest {
         int userId = 2;
         int score = 500;
         List<OwnedAnimal> animals = List.of(
-                new OwnedAnimal(new Animal("blue-whale", "Blue Whale", "Balaenoptera musculus", Rarity.LEGENDARY, 3750, null, "Open Ocean", "Fact 3"))
+                new OwnedAnimal(new Animal("blue-whale", "Blue Whale", "Balaenoptera musculus",
+                        Rarity.LEGENDARY, 3750, 50, "", "Open Ocean", "Fact 3"))
         );
 
         saveGameService.saveGame(userId, saveFilePath, score, animals);
