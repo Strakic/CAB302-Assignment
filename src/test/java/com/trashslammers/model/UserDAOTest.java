@@ -1,12 +1,13 @@
 package com.trashslammers.model;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.UUID;
+
 import static org.junit.jupiter.api.Assertions.*;
 
-
-// may be totally superfluous
-public class UserTest {
+public class UserDAOTest {
     private IUserDAO userDAO;
 
     @BeforeEach
@@ -15,8 +16,9 @@ public class UserTest {
     }
 
     @Test
-    void testAddUserandSetID() {
-        String uniqueUsername = "bryn1";
+    void testAddUserAndSetID() {
+        // Appends current epoch timestamp to guarantee a unique username every run
+        String uniqueUsername = "bryn_" + UUID.randomUUID().toString().substring(0, 8);
         User newUser = new User(uniqueUsername, "password123");
 
         assertEquals(-1, newUser.getId());
@@ -27,6 +29,5 @@ public class UserTest {
         assertNotNull(retrievedUser);
         assertEquals(uniqueUsername, retrievedUser.getUsername());
         assertEquals("password123", retrievedUser.getPasswordHash());
-
     }
 }
