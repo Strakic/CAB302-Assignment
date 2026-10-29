@@ -1,0 +1,11 @@
+unnamed package
+com.trashslammers
+com.trashslammers.controller
+com.trashslammers.database
+com.trashslammers.model
+com.trashslammers.model.gamestates
+com.trashslammers.model.qte
+com.trashslammers.model.usertype
+com.trashslammers.service
+com.trashslammers.services
+com.trashslammers.util
